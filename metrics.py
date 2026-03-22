@@ -5,18 +5,34 @@ from typing import List, Dict, Union
 # ==========================================
 # ASR METRICS
 # ==========================================
-try:
-    import jiwer
-except ImportError:
-    pass
+import jiwer
+
+# Create a standardizer that makes everything lowercase and removes punctuation
+transforms = jiwer.Compose([
+    jiwer.ToLowerCase(),
+    jiwer.RemovePunctuation(),
+    jiwer.RemoveMultipleSpaces(),
+    jiwer.Strip(),
+    jiwer.ExpandCommonEnglishContractions()
+])
 
 def compute_wer(hyp: str, ref: str) -> float:
     """Lower is better"""
-    return jiwer.wer(ref, hyp)
+    return jiwer.wer(
+        ref, 
+        hyp, 
+        reference_transform=transforms, 
+        hypothesis_transform=transforms
+    )
 
 def compute_cer(hyp: str, ref: str) -> float:
     """Lower is better"""
-    return jiwer.cer(ref, hyp)
+    return jiwer.cer(
+        ref, 
+        hyp, 
+        reference_transform=transforms, 
+        hypothesis_transform=transforms
+    )
 
 class SemaScoreWrapper:
     def __init__(self, device="cuda" if torch.cuda.is_available() else "cpu"):

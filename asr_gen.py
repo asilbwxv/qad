@@ -28,14 +28,18 @@ def load_audio(path: str) -> Tuple[object, int]:
 # ==========================================
 def load_whisper(ckpt: str):
     from transformers import WhisperProcessor, WhisperForConditionalGeneration
+    import torch
     proc = WhisperProcessor.from_pretrained(ckpt)
-    model = WhisperForConditionalGeneration.from_pretrained(ckpt).to(DEVICE).eval()
+    # Load in FP16 to save massive amounts of VRAM
+    model = WhisperForConditionalGeneration.from_pretrained(
+        ckpt, torch_dtype=torch.float16
+    ).to(DEVICE).eval()
     return proc, model
 
 def generate_whisper_candidates(audio, sr, proc, model, config) -> List[Candidate]:
     """Generates a diverse set of candidates using Whisper."""
     inputs = proc(audio, sampling_rate=sr, return_tensors="pt")
-    input_features = inputs["input_features"].to(DEVICE)
+    input_features = inputs["input_features"].to(DEVICE, dtype=torch.float16)
     forced_decoder_ids = proc.get_decoder_prompt_ids(language=config.lang, task=config.task)
     
     candidates = []
@@ -119,6 +123,7 @@ def main():
     parser.add_argument("--n_samples", type=int, default=10)
     parser.add_argument("--top_p", type=float, default=0.95)
     parser.add_argument("--temperature", type=float, default=0.8)
+    parser.add_argument("--limit", type=int, default=0, help="Max files to process")
     args = parser.parse_args()
 
     audio_files = glob.glob(os.path.join(args.dir, "**", "*.*"), recursive=True)
@@ -133,7 +138,9 @@ def main():
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     
     with open(args.out, "w", encoding="utf-8") as fout:
-        for path in audio_files:
+        for i, path in enumerate(audio_files):
+            if args.limit > 0 and i >= args.limit:
+                break
             uid = os.path.splitext(os.path.basename(path))[0]
             try:
                 if args.model_type == "whisper":

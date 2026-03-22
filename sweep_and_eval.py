@@ -5,7 +5,7 @@ import argparse
 import itertools
 from metrics import compute_wer # Assuming this is in your metrics.py
 
-def run_pipeline_step(task, input_dir, output_dir, gen_algos, beam_size, rerank_algo, mbr_metric):
+def run_pipeline_step(task, input_dir, output_dir, gen_algos, beam_size, rerank_algo, mbr_metric, limit): 
     """Calls the run_pipeline.py master script with specific parameters."""
     cmd = [
         "python", "run_pipeline.py",
@@ -15,7 +15,8 @@ def run_pipeline_step(task, input_dir, output_dir, gen_algos, beam_size, rerank_
         "--gen_algos", gen_algos,
         "--beam_size", str(beam_size),
         "--rerank_algo", rerank_algo,
-        "--mbr_metric", mbr_metric
+        "--mbr_metric", mbr_metric,
+        "--limit", str(limit)
     ]
     print(f"\n=> Running Sweep Configuration: Beam={beam_size}, Rerank={rerank_algo}, Metric={mbr_metric}")
     subprocess.run(cmd, check=True)
@@ -53,20 +54,47 @@ def evaluate_caption(final_jsonl, refs_jsonl):
         print("❌ pycocoevalcap not found. Please install it (pip install pycocoevalcap) to evaluate captioning.")
         return 0.0
 
-    # Load references (Ground Truth - gts)
+    # 1. Load Ground Truths (gts)
     gts = {}
-    with open(refs_jsonl, "r") as f:
+    with open(refs_jsonl, "r", encoding="utf-8") as f:
         for line in f:
             data = json.loads(line)
-            # COCO references are a list of strings; format them for pycocoevalcap
-            gts[str(data["image_id"])] = [{"caption": ref} for ref in data["refs"]]
+            raw_id = str(data.get("image_id", ""))
+            
+            # Clean ID extraction
+            if "_" in raw_id:
+                clean_id = str(int(raw_id.split("_")[-1]))
+            else:
+                clean_id = ''.join(filter(str.isdigit, raw_id))
+                clean_id = str(int(clean_id)) if clean_id else raw_id
+                
+            # Extract the actual text sentence
+            caption_text = str(data["refs"]["raw"])
+            
+            # Group all captions under the same image ID (don't overwrite!)
+            if clean_id not in gts:
+                gts[clean_id] = []
+            gts[clean_id].append(caption_text)
 
-    # Load predictions (Results - res)
+    # 2. Load Predictions (res)
     res = {}
-    with open(final_jsonl, "r") as f:
+    with open(final_jsonl, "r", encoding="utf-8") as f:
         for line in f:
             data = json.loads(line)
-            res[str(data["image_id"])] = [{"caption": data["final"]}]
+            raw_id = str(data["image_id"])
+            
+            # Clean ID extraction
+            if "_" in raw_id:
+                clean_id = str(int(raw_id.split("_")[-1]))
+            else:
+                clean_id = ''.join(filter(str.isdigit, raw_id))
+                clean_id = str(int(clean_id)) if clean_id else raw_id
+                
+            # THE FIX: Pass just the string, NOT [{"caption": ...}]
+            res[clean_id] = [str(data["final"])]
+
+    # 3. Filter ground truths to only include the images we actually predicted
+    gts = {k: v for k, v in gts.items() if k in res}
 
     # Initialize scorers
     scorers = [
@@ -102,6 +130,7 @@ def main():
     parser.add_argument("--input_dir", required=True, help="Path to audio or image files")
     parser.add_argument("--refs", required=True, help="Path to references.jsonl")
     parser.add_argument("--results_dir", default="./sweep_results", help="Where to save sweep data")
+    parser.add_argument("--limit", type=int, default=0, help="Limit number of files for quick sweep testing") 
     args = parser.parse_args()
 
     os.makedirs(args.results_dir, exist_ok=True)
@@ -138,7 +167,8 @@ def main():
             gen_algos=exp["gen_algos"],
             beam_size=exp["beam_sizes"],
             rerank_algo=exp["rerank_algos"],
-            mbr_metric=exp["mbr_metrics"]
+            mbr_metric=exp["mbr_metrics"],
+            limit=args.limit
         )
         
         # 2. Evaluate the output

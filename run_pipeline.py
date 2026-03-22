@@ -33,7 +33,8 @@ def main():
     # Tuning arguments (if tuned_rr is selected)
     parser.add_argument("--val_refs", type=str, help="Path to validation references (Required if algo=tuned_rr)")
     parser.add_argument("--tune_features", type=str, default="logprob,norefer", help="Features to tune")
-    
+    parser.add_argument("--limit", type=int, default=0, help="Max files to process for quick testing")
+
     args = parser.parse_args()
 
     # Setup paths
@@ -55,7 +56,8 @@ def main():
         "--dir", args.input_dir,
         "--out", candidates_jsonl,
         "--algos", args.gen_algos,
-        "--beam_size", args.beam_size
+        "--beam_size", args.beam_size,
+        "--limit", str(args.limit)
     ]
     
     # Add ASR specific model flag if needed

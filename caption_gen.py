@@ -73,8 +73,9 @@ def main():
     parser.add_argument("--algos", default="beam,sample", help="Comma-separated: beam,sample")
     parser.add_argument("--beam_size", type=int, default=5)
     parser.add_argument("--samples_per_param", type=int, default=3, help="Samples generated per temp/top_p pairing")
+    parser.add_argument("--limit", type=int, default=0, help="Max files to process")
     args = parser.parse_args()
-
+    
     img_files = glob.glob(os.path.join(args.dir, "**", "*.*"), recursive=True)
     img_files = [f for f in img_files if f.lower().endswith(IMG_EXTS)]
     
@@ -82,7 +83,9 @@ def main():
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
 
     with open(args.out, "w", encoding="utf-8") as fout:
-        for path in img_files:
+        for i, path in enumerate(img_files):
+            if args.limit > 0 and i >= args.limit:
+                break
             uid = os.path.splitext(os.path.basename(path))[0]
             try:
                 img = Image.open(path).convert("RGB")
