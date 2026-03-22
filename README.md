@@ -1,151 +1,86 @@
-# Quality-Aware Decoding (QAD) Beyond Translation
+# Quality-Aware Decoding (QAD) Pipeline
 
-This repository implements a modular pipeline for **Quality-Aware Decoding (QAD)** and **Minimum Bayes Risk (MBR)** decoding, focusing on Automatic Speech Recognition (ASR) and Image Captioning. 
+This repository implements a robust, modular pipeline for **Quality-Aware Decoding (QAD)** and **Minimum Bayes Risk (MBR)** decoding. It is designed to prove that likelihood-first decoding (MAP/Beam Search) is often misaligned with human-perceived quality in generative AI.
 
-Standard decoding methods, such as beam search, rely on Maximum A-Posteriori (MAP) estimation to find the most probable sequence according to the model. However, likelihood is often misaligned with human-perceived quality. This project shifts from a likelihood-first approach to a quality-first approach: it generates a diverse pool of candidates and then selects the final output using task-aligned utility functions (like WER/SeMaScore for ASR, and CIDEr/CLIPScore for Image Captioning).
-
-## 📂 Repository Structure
-
-The project is broken down into modular scripts to separate candidate generation, metric evaluation, and reranking logic:
-
-* **`download_datasets.py`**: Automatically fetches the LibriSpeech and MS COCO (Karpathy split) datasets.
-* **`metrics.py`**: A centralized wrapper for all scoring libraries (WER, CIDEr, CLIPScore, NoRefER, SeMaScore).
-* **`asr_gen.py` & `caption_gen.py`**: Generates diverse candidate pools using temperature sweeps, nucleus sampling, and beam search variations.
-* **`tune_weights.py`**: Uses continuous optimization to find the best linear combination of metric weights for Tuned Reranking (T-RR).
-* **`asr_rerank.py` & `caption_rerank.py`**: Executes the decision rules: MAP, Fixed Reranking, MBR, and Two-Stage MBR.
-* **`run_pipeline.py`**: A cross-platform orchestrator that strings generation and reranking together in one command.
-* **`sweep_and_eval.py`**: Automates parameter combinations and calculates corpus-level benchmarks.
-* **`visualize_results.py`**: Turns JSON sweep summaries into publication-ready graphs.
+The pipeline currently supports:
+1. **Automatic Speech Recognition (ASR)** using Whisper / NeMo.
+2. **Image Captioning** using BLIP.
 
 ---
 
-## 🛠️ Installation & Requirements
+## Installation
 
-Ensure you have Python 3.8+ installed. Install the required dependencies:
-
+**1. Create a virtual environment (Recommended):**
 ```bash
-pip install torch torchvision torchaudio
-pip install transformers datasets soundfile pillow requests numpy pandas matplotlib seaborn scipy
-pip install jiwer torchmetrics
+python -m venv qad_env
+source qad_env/bin/activate  # On Windows: qad_env\Scripts\activate
 ```
 
-**For Image Captioning evaluation (CIDEr, SPICE, METEOR, BLEU):**
+**2. Install Python dependencies:**
 ```bash
-pip install pycocoevalcap
+pip install -r requirements.txt
 ```
-*(Note: Java is required on your system for pycocoevalcap's METEOR/SPICE to work properly).*
+*Note: We strictly use `datasets==2.19.0` to bypass underlying FFmpeg/torchcodec environment issues on Windows.*
+
+**3. Install System Dependencies:**
+* **Java:** Required by `pycocoevalcap` to compute SPICE and METEOR metrics for image captioning. Ensure Java is in your system PATH.
 
 ---
 
-## 🚀 Step-by-Step Guide
+## Quick Start Guide
 
-### Step 1: Download Datasets
-Before running experiments, download the necessary data. The script will automatically format the references into `references.jsonl` files for evaluation.
-
-**For ASR (LibriSpeech test-clean):**
-```bash
-python download_datasets.py --task asr --out ./data
-```
-
-**For Image Captioning (MS COCO Karpathy split):**
-```bash
-python download_datasets.py --task caption --out ./data
-```
-
-### Step 2: Run a Single End-to-End Pipeline
-If you want to test a specific configuration on your data, use the `run_pipeline.py` orchestrator. 
-
-**ASR Example:** Generating candidates with beam search and nucleus sampling, then using Two-Stage MBR (pruning with NoRefER, finalizing with SeMaScore).
-```bash
-python run_pipeline.py \
-    --task asr \
-    --input_dir ./data/librispeech/audio \
-    --output_dir ./results/asr_test \
-    --gen_algos beam,nucleus \
-    --beam_size 5 \
-    --rerank_algo two_stage_mbr \
-    --mbr_metric semascore
-```
-
-**Captioning Example:** Generating a diverse pool of captions, then using Multi-Reference MBR (optimizing for CIDEr).
-```bash
-python run_pipeline.py \
-    --task caption \
-    --input_dir ./data/coco/images \
-    --output_dir ./results/caption_test \
-    --gen_algos beam,sample \
-    --rerank_algo mbr \
-    --mbr_metric cider
-```
-
-### Step 3: Sweep Parameters and Evaluate (The Research Workflow)
-To compare algorithms (e.g., MAP vs MBR) across different beam sizes and candidate counts, use the sweeper. It will run the full pipeline for multiple configurations and compute the corpus-level metrics (WER for ASR, CIDEr for Captioning).
-
-**Sweep ASR:**
-```bash
-python sweep_and_eval.py \
-    --task asr \
-    --input_dir ./data/librispeech/audio \
-    --refs ./data/librispeech/references.jsonl \
-    --results_dir ./sweep_results/asr
-```
-
-**Sweep Image Captioning:**
-```bash
-python sweep_and_eval.py \
-    --task caption \
-    --input_dir ./data/coco/images \
-    --refs ./data/coco/references.jsonl \
-    --results_dir ./sweep_results/caption
-```
-
-### Step 4: Visualizing Results
-Convert the `sweep_summary.json` generated in Step 3 into bar charts to analyze the quality-compute trade-off.
+### Step 1: Download the Datasets
+This script will automatically download the LibriSpeech (ASR) and MS COCO Karpathy splits (Captioning) and format their ground-truth references.
 
 ```bash
-# Visualize ASR Sweep (Plots WER)
-python visualize_results.py \
-    --task asr \
-    --summary ./sweep_results/asr/asr_sweep_summary.json \
-    --out ./plots
-
-# Visualize Captioning Sweep (Plots CIDEr)
-python visualize_results.py \
-    --task caption \
-    --summary ./sweep_results/caption/caption_sweep_summary.json \
-    --out ./plots
+python download_datasets.py --task all --out ./data
 ```
 
-### Step 5: (Optional) Tuning Weights for QAD
-If you wish to use **Tuned Reranking (`tuned_rr`)**, you can optimize the weights of different features (e.g., log-probability and NoRefER) against a target metric (like WER) on a validation set.
+### Step 2: Run a "Smoke Test" Example
+Before running a massive computation, verify your GPU and Java environment are working by running a tiny, 2-file sweep. 
 
-1. Generate candidates on a validation set.
-2. Run the tuner:
+**Test ASR (Whisper):**
 ```bash
-python tune_weights.py \
-    --candidates ./results/asr_test/asr_candidates.jsonl \
-    --refs ./data/librispeech/references.jsonl \
-    --features logprob,norefer \
-    --target wer
+python sweep_and_eval.py --task asr --input_dir ./data/librispeech/audio --refs ./data/librispeech/references.jsonl --results_dir ./results/asr_test --limit 2
 ```
-3. Pass the resulting weights to `run_pipeline.py` using `--tune_weights`.
+
+**Test Image Captioning (BLIP & Java Metrics):**
+```bash
+python sweep_and_eval.py --task caption --input_dir ./data/coco/images --refs ./data/coco/references.jsonl --results_dir ./results/caption_test --limit 2
+```
+
+### Step 3: Run the Full Experiments
+Once the tests pass, you can drop the `--limit` flag and run the full dataset sweeps. *(Warning: Running O(N²) MBR over thousands of files is computationally heavy).*
+
 
 ---
 
-## 🧠 Algorithms Explained
+## The Architecture & Pipeline Potential
 
-* **`map` (Maximum A-Posteriori):** The standard baseline. Selects the candidate with the highest model probability (usually the top beam search result).
-* **`fixed_rr` (Fixed Reranking):** Uses a single Quality Estimation (QE) metric to rank candidates (e.g., NoRefER for ASR, or CLIPScore for visual grounding in captioning).
-* **`tuned_rr` (Tuned Reranking):** Uses a tuned linear combination of features (e.g., `w1 * logprob + w2 * QE_score`).
-* **`mbr` (Minimum Bayes Risk):** Computes expected utility across the candidate pool. For ASR, it minimizes expected error (WER/CER). For Captioning, it maximizes expected consensus (CIDEr) against the other candidates. *Complexity: O(N^2).*
-* **`two_stage_mbr`:** Fuses fast Quality Estimators with heavy MBR. First, scores all candidates with a fast QE (e.g., NoRefER/CLIPScore) to prune the list to the Top-K. Then, it runs the expensive O(K^2) MBR algorithm on the pruned subset.
+This repository is built modularly. You do not have to rely on the master orchestrator scripts; you can chain the individual tools together to test highly specific decoding behaviors.
 
-## 📏 Supported Metrics
-**ASR:**
-* **WER/CER:** Word/Character Error Rate (Edit-distance).
-* **NoRefER:** Referenceless Quality Estimation via LLM.
-* **SeMaScore:** Meaning preservation and semantic utility.
+### 1. The Generators (`asr_gen.py`, `caption_gen.py`)
+Standard generation scripts usually just output the single best prediction. These generators are built to create **diverse candidate pools** by forcing the models to explore alternative hypotheses.
 
-**Image Captioning:**
-* **CIDEr / SPICE / BLEU / METEOR:** Reference-based n-gram and semantic consensus metrics.
-* **CLIPScore:** Referenceless visual-semantic grounding.
+* **Algorithms available (`--algos`):** * `beam`: Standard beam search. Acts as the mode-seeking baseline.
+  * `nucleus` (ASR) / `sample` (Captioning): Triggers temperature sweeping and top-p sampling to force diverse, risky candidates.
+* **Tuning generation:** You can control candidate density using `--beam_size`, `--n_samples` (ASR), or `--samples_per_param` (Captioning). 
+
+### 2. The Rerankers (`asr_rerank.py`, `caption_rerank.py`)
+Once a diverse pool of candidates is generated, the rerankers act as decision rules to select the final output. 
+
+* **`map` (Maximum A-Posteriori):** The standard baseline. It selects the candidate the model thinks is most probable (highest log-likelihood).
+* **`mbr` (Minimum Bayes Risk):** Computes pairwise expected utility across the entire candidate pool. It finds the "consensus" candidate. *Highly accurate, but scales quadratically $O(N^2)$*.
+* **`fixed_rr` (Reference-Free Quality Estimation):** Uses a fast, referenceless metric to ground the text (e.g., NoRefER for ASR, or CLIPScore for Image-Text alignment).
+* **`two_stage_mbr` (The QAD Fusion):** Solves the $O(N^2)$ bottleneck of MBR. It first uses a fast Quality Estimator to prune the massive candidate pool down to the `--prune_k` best options, and then runs heavy MBR consensus on that pruned subset.
+* **`tuned_rr`:** Uses continuous optimization to combine multiple features (e.g., $w_1 \times \text{logprob} + w_2 \times \text{CLIPScore}$). Weights can be optimized using `tune_weights.py`.
+
+### 3. The Supported Metrics
+The pipeline relies on a unified wrapper (`metrics.py`) to handle complex evaluations safely.
+* **ASR Utilities:** Word Error Rate (WER), Character Error Rate (CER), SeMaScore (Semantic Meaning Preservation), NoRefER.
+* **Vision Utilities:** CIDEr (Consensus), SPICE (Semantic Graphing), BLEU, METEOR, CLIPScore (Visual Grounding).
+
+### 4. Extras
+To make experimentation seamless, the repository includes these additiona scripts:
+* **`run_pipeline.py`**: Runs generation and reranking for a *single* specific configuration.
+* **`sweep_and_eval.py`**: Takes a parameter grid (e.g., sweeping beam sizes from 4 to 16, comparing MAP vs MBR) and calculates the corpus-level metrics for all combinations.
