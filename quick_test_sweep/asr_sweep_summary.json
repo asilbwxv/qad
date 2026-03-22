@@ -1,0 +1,30 @@
+[
+    {
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "wer": 31.25
+    },
+    {
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "wer": 27.67857142857143
+    },
+    {
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "wer": 31.25
+    },
+    {
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "wer": 25.89285714285714
+    }
+]

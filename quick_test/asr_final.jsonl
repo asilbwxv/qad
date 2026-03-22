@@ -1,0 +1,2 @@
+{"utt_id": "1089-134686-0000", "audio_path": "./data/librispeech/audio\\1089-134686-0000.wav", "final": "He hoped there would be stew for dinner, turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick, peppered, flour-fattened sauce.", "meta": {"chosen_index": 0, "algo_used": "mbr"}}
+{"utt_id": "1089-134686-0001", "audio_path": "./data/librispeech/audio\\1089-134686-0001.wav", "final": "\"'Stuff it into you,' his belly counselled him.", "meta": {"chosen_index": 0, "algo_used": "mbr"}}

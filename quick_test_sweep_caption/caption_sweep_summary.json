@@ -1,0 +1,23 @@
+[
+    {
+        "gen_algos": "beam,sample",
+        "beam_sizes": 5,
+        "rerank_algos": "map",
+        "mbr_metrics": "cider",
+        "cider": 1.2166808577140957
+    },
+    {
+        "gen_algos": "beam,sample",
+        "beam_sizes": 5,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "cider",
+        "cider": 1.2166808577140957
+    },
+    {
+        "gen_algos": "beam,sample",
+        "beam_sizes": 5,
+        "rerank_algos": "fixed_rr",
+        "mbr_metrics": "cider",
+        "cider": 1.1922858437971264
+    }
+]

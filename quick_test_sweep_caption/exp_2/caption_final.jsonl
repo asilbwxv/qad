@@ -1,0 +1,2 @@
+{"image_id": "102912", "image_path": "./data/coco/images\\102912.jpg", "final": "there are two elephants that are standing next to each other", "meta": {"chosen_index": 0, "algo_used": "fixed_rr"}}
+{"image_id": "103579", "image_path": "./data/coco/images\\103579.jpg", "final": "they are two woman and one child playing frisbee in the park", "meta": {"chosen_index": 19, "algo_used": "fixed_rr"}}
