@@ -55,22 +55,47 @@ def main():
     cap_images = os.path.join(args.data_dir, "coco", "images")
     cap_refs = os.path.join(args.data_dir, "coco", "references.jsonl")
 
+# Paths for Noisy English
+    asr_audio_noisy = os.path.join(args.data_dir, "librispeech_noisy", "audio")
+    asr_refs_noisy = os.path.join(args.data_dir, "librispeech_noisy", "references.jsonl")
+    
+    # Paths for Portuguese
+    asr_audio_pt = os.path.join(args.data_dir, "fleurs_pt", "audio")
+    asr_refs_pt = os.path.join(args.data_dir, "fleurs_pt", "references.jsonl")
+
     # ==========================================================
-    # PHASES 1-3: ASR EXPERIMENTS
+    # PHASES 1-3: ASR EXPERIMENTS (NOISY ENGLISH)
     # ==========================================================
-    if os.path.exists(asr_audio):
+    if os.path.exists(asr_audio_noisy):
         run_experiment(
             task="asr",
-            input_dir=asr_audio,
-            refs=asr_refs,
-            results_dir=os.path.join(args.results_dir, "asr"),
+            input_dir=asr_audio_noisy,
+            refs=asr_refs_noisy,
+            results_dir=os.path.join(args.results_dir, "asr_noisy_english"),
             gen_algos="beam,nucleus",
-            beam_sizes=[5, 10], # MAP Baseline vs diversity
+            beam_sizes=[5, 10], 
             rerank_algos=["map", "mbr", "fixed_rr", "two_stage_mbr"],
-            mbr_metrics=["wer", "semascore"]
+            mbr_metrics=["wer"] # Can add semascore if installed
         )
     else:
-        print("⚠️ ASR data not found. Skipping ASR experiments.")
+        print("⚠️ Noisy ASR data not found. Skipping.")
+
+    # ==========================================================
+    # PHASES 1-3: ASR EXPERIMENTS (PORTUGUESE FLEURS)
+    # ==========================================================
+    if os.path.exists(asr_audio_pt):
+        run_experiment(
+            task="asr",
+            input_dir=asr_audio_pt,
+            refs=asr_refs_pt,
+            results_dir=os.path.join(args.results_dir, "asr_portuguese"),
+            gen_algos="beam,nucleus",
+            beam_sizes=[5, 10], 
+            rerank_algos=["map", "mbr", "fixed_rr", "two_stage_mbr"],
+            mbr_metrics=["wer"]
+        )
+    else:
+        print("⚠️ Portuguese ASR data not found. Skipping.")
 
     # ==========================================================
     # PHASE 4: IMAGE CAPTIONING EXPERIMENTS
