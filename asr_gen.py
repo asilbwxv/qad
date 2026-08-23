@@ -115,7 +115,7 @@ def main():
     parser.add_argument("--dir", required=True, help="Folder with audio files")
     parser.add_argument("--out", required=True, help="Output JSONL path")
     parser.add_argument("--model_type", choices=["whisper", "nemo"], default="whisper")
-    parser.add_argument("--ckpt", default="openai/whisper-large-v3")
+    parser.add_argument("--ckpt", default="openai/whisper-small")
     parser.add_argument("--lang", default="en")
     parser.add_argument("--task", default="transcribe")
     parser.add_argument("--algos", default="beam,nucleus", help="Comma-separated: beam,nucleus")

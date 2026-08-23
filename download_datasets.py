@@ -10,6 +10,7 @@ def download_librispeech(output_dir, split="test"):
     print(f"Downloading LibriSpeech ({split}.other) - Noisy Speech ...")
     ds = load_dataset("librispeech_asr", "other", split=split)
     
+    # FIX: Changed "librispeech" to "librispeech_noisy"
     audio_dir = os.path.join(output_dir, "librispeech_noisy", "audio")
     os.makedirs(audio_dir, exist_ok=True)
     refs_path = os.path.join(output_dir, "librispeech_noisy", "references.jsonl")

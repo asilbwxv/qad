@@ -1,0 +1,70 @@
+=== ASR SWEEP SUMMARY ===
+[
+    {
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "wer": 3.3050319324750985
+    },
+    {
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "wer": 3.578533874447963
+    },
+    {
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "wer": 3.2982079676358667
+    },
+    {
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "wer": 3.637296602689814
+    }
+]
+
+=== DETAILED EXPERIMENT COMPARISON (First 3 Utterances) ===
+
+--- Utterance ID: 5142-36586-0000 ---
+GENERATED CANDIDATES:
+  [0] It is manifest that man is now subject to much variability. (Algo: beam)
+  [1] it is manifest that man is now subject to much variability (Algo: nucleus)
+  [2] It is manifest that man is now subject to much variability, (Algo: nucleus)
+
+WHAT EACH EXPERIMENT CHOSE:
+  exp_0 (map): Picked Index [0] -> It is manifest that man is now subject to much variability.
+  exp_1 (mbr): Picked Index [0] -> It is manifest that man is now subject to much variability.
+  exp_2 (map): Picked Index [0] -> It is manifest that man is now subject to much variability.
+  exp_3 (mbr): Picked Index [0] -> It is manifest that man is now subject to much variability.
+
+--- Utterance ID: 7729-102255-0042 ---
+GENERATED CANDIDATES:
+  [0] relocated footnote governor robinson being on his way east the steamboat on which he was traveling stopped at lexington mo (Algo: beam)
+  [1] relocated footnote governor robinson being on his way east the steamboat on which he was traveling stopped at lexington missouri (Algo: nucleus)
+  [2] relocated footnote governor robinson being on his way east the steamboat on which he was traveling stopped at lexington miss (Algo: nucleus)
+  [3] relocated footnote governor robinson being on his way east the steamboat on which he was travelling stopped at lexington missouri (Algo: nucleus)
+
+WHAT EACH EXPERIMENT CHOSE:
+  exp_0 (map): Picked Index [0] -> relocated footnote governor robinson being on his way east the steamboat on which he was traveling stopped at lexington mo
+  exp_1 (mbr): Picked Index [0] -> relocated footnote governor robinson being on his way east the steamboat on which he was traveling stopped at lexington mo
+  exp_2 (map): Picked Index [0] -> relocated footnote governor robinson being on his way east the steamboat on which he was traveling stopped at lexington mo
+  exp_3 (mbr): Picked Index [0] -> relocated footnote governor robinson being on his way east the steamboat on which he was traveling stopped at lexington mo
+
+--- Utterance ID: 8230-279154-0027 ---
+GENERATED CANDIDATES:
+  [0] A gramophone, by the help of suitable records, might relate to us the incidents of its past, and people are not so different from gramophones as they like to believe. (Algo: beam)
+  [1] a gramophone by the help of suitable records might relate to us the incidents of its past and people are not so different from gramophones as they like to believe (Algo: nucleus)
+  [2] A gramophone, by the help of suitable records, might relate to us the incidence of its past, and people are not so different from gramophones as they like to believe. (Algo: nucleus)
+
+WHAT EACH EXPERIMENT CHOSE:
+  exp_0 (map): Picked Index [0] -> A gramophone, by the help of suitable records, might relate to us the incidents of its past, and people are not so different from gramophones as they like to believe.
+  exp_1 (mbr): Picked Index [0] -> A gramophone, by the help of suitable records, might relate to us the incidents of its past, and people are not so different from gramophones as they like to believe.
+  exp_2 (map): Picked Index [0] -> A gramophone, by the help of suitable records, might relate to us the incidents of its past, and people are not so different from gramophones as they like to believe.
+  exp_3 (mbr): Picked Index [0] -> A gramophone, by the help of suitable records, might relate to us the incidents of its past, and people are not so different from gramophones as they like to believe.

@@ -56,8 +56,8 @@ def main():
     cap_refs = os.path.join(args.data_dir, "coco", "references.jsonl")
 
 # Paths for Noisy English
-    asr_audio_noisy = os.path.join(args.data_dir, "librispeech_noisy", "audio")
-    asr_refs_noisy = os.path.join(args.data_dir, "librispeech_noisy", "references.jsonl")
+    asr_audio_noisy = os.path.join(args.data_dir, "librispeech", "audio")
+    asr_refs_noisy = os.path.join(args.data_dir, "librispeech", "references.jsonl")
     
     # Paths for Portuguese
     asr_audio_pt = os.path.join(args.data_dir, "fleurs_pt", "audio")
@@ -66,8 +66,8 @@ def main():
     # ==========================================================
     # PHASES 1-3: ASR EXPERIMENTS (NOISY ENGLISH)
     # ==========================================================
-    asr_audio_noisy = os.path.join(args.data_dir, "librispeech_noisy", "audio")
-    asr_refs_noisy = os.path.join(args.data_dir, "librispeech_noisy", "references.jsonl")
+    asr_audio_noisy = os.path.join(args.data_dir, "librispeech", "audio")
+    asr_refs_noisy = os.path.join(args.data_dir, "librispeech", "references.jsonl")
 
     if os.path.exists(asr_audio_noisy):
         run_experiment(

@@ -1,0 +1,64 @@
+==> ./exp_2/asr_final.jsonl <==
+{"utt_id": "1089-134686-0000", "audio_path": "./data/librispeech/audio\\1089-134686-0000.wav", "final": "He hoped there would be stew for dinner, turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick, peppered, flour-fattened sauce.", "meta": {"chosen_index": 0, "algo_used": "map"}}
+{"utt_id": "1089-134686-0001", "audio_path": "./data/librispeech/audio\\1089-134686-0001.wav", "final": "\"'Stuff it into you,' his belly counselled him.", "meta": {"chosen_index": 0, "algo_used": "map"}}
+
+==> ./exp_2/asr_candidates.jsonl <==
+{"utt_id": "1089-134686-0000", "audio_path": "./data/librispeech/audio\\1089-134686-0000.wav", "candidates": [{"text": "He hoped there would be stew for dinner, turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick, peppered, flour-fattened sauce.", "meta": {"algo": "beam", "logprob": -0.029156936332583427}}, {"text": "he hoped there would be stew for dinner turnips and carrots and bruised potatoes and fat mutton-pieces to be ladled out in thick peppered flour fattened sauce", "meta": {"algo": "nucleus"}}, {"text": "he hoped there would be stew for dinner turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick peppered flour fattened sauce", "meta": {"algo": "nucleus"}}]}
+{"utt_id": "1089-134686-0001", "audio_path": "./data/librispeech/audio\\1089-134686-0001.wav", "candidates": [{"text": "\"'Stuff it into you,' his belly counselled him.", "meta": {"algo": "beam", "logprob": -0.11584419012069702}}, {"text": "\"'Stuff it into you,' his belly counseled him.", "meta": {"algo": "nucleus"}}, {"text": "Stuff it into you, his belly counseled him.", "meta": {"algo": "nucleus"}}, {"text": "Stuff it into you, his belly counselled him.", "meta": {"algo": "nucleus"}}]}
+
+==> ./all_contents.txt <==
+
+==> ./exp_1/asr_final.jsonl <==
+{"utt_id": "1089-134686-0000", "audio_path": "./data/librispeech/audio\\1089-134686-0000.wav", "final": "He hoped there would be stew for dinner, turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick peppered flour-fattened sauce.", "meta": {"chosen_index": 3, "algo_used": "mbr"}}
+{"utt_id": "1089-134686-0001", "audio_path": "./data/librispeech/audio\\1089-134686-0001.wav", "final": "\"'Stuff it into you,' his belly counselled him.", "meta": {"chosen_index": 0, "algo_used": "mbr"}}
+
+==> ./exp_1/asr_candidates.jsonl <==
+{"utt_id": "1089-134686-0000", "audio_path": "./data/librispeech/audio\\1089-134686-0000.wav", "candidates": [{"text": "He hoped there would be stew for dinner, turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick, peppered, flour-fattened sauce.", "meta": {"algo": "beam", "logprob": -0.02918742224574089}}, {"text": "he hoped there would be stew for dinner turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick peppered flour fattened sauce", "meta": {"algo": "nucleus"}}, {"text": "he hoped there would be stew for dinner turnips and carrots and bruised potatoes and fat mutton-pieces to be ladled out in thick peppered flour fattened sauce", "meta": {"algo": "nucleus"}}, {"text": "He hoped there would be stew for dinner, turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick peppered flour-fattened sauce.", "meta": {"algo": "nucleus"}}]}
+{"utt_id": "1089-134686-0001", "audio_path": "./data/librispeech/audio\\1089-134686-0001.wav", "candidates": [{"text": "\"'Stuff it into you,' his belly counselled him.", "meta": {"algo": "beam", "logprob": -0.11589545756578445}}, {"text": "\"'stuff it into you,' his belly counselled him.", "meta": {"algo": "nucleus"}}, {"text": "\"'Stuff it into you,' his belly counseled him.", "meta": {"algo": "nucleus"}}, {"text": "Stuff it into you, his belly counseled him.", "meta": {"algo": "nucleus"}}, {"text": "Stuff it into you, his belly counselled him.", "meta": {"algo": "nucleus"}}, {"text": "Stuff it into you. His belly counselled him.", "meta": {"algo": "nucleus"}}]}
+
+==> ./asr_sweep_summary.json <==
+[
+    {
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "wer": 31.25
+    },
+    {
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "wer": 27.67857142857143
+    },
+    {
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "wer": 31.25
+    },
+    {
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "wer": 25.89285714285714
+    }
+]
+==> ./exp_0/asr_final.jsonl <==
+{"utt_id": "1089-134686-0000", "audio_path": "./data/librispeech/audio\\1089-134686-0000.wav", "final": "He hoped there would be stew for dinner, turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick, peppered, flour-fattened sauce.", "meta": {"chosen_index": 0, "algo_used": "map"}}
+{"utt_id": "1089-134686-0001", "audio_path": "./data/librispeech/audio\\1089-134686-0001.wav", "final": "\"'Stuff it into you,' his belly counselled him.", "meta": {"chosen_index": 0, "algo_used": "map"}}
+
+==> ./exp_0/asr_candidates.jsonl <==
+{"utt_id": "1089-134686-0000", "audio_path": "./data/librispeech/audio\\1089-134686-0000.wav", "candidates": [{"text": "He hoped there would be stew for dinner, turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick, peppered, flour-fattened sauce.", "meta": {"algo": "beam", "logprob": -0.02918742224574089}}, {"text": "he hoped there would be stew for dinner turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick peppered flour fattened sauce", "meta": {"algo": "nucleus"}}, {"text": "he hoped there would be stew for dinner turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick peppered flour-fattened sauce", "meta": {"algo": "nucleus"}}]}
+{"utt_id": "1089-134686-0001", "audio_path": "./data/librispeech/audio\\1089-134686-0001.wav", "candidates": [{"text": "\"'Stuff it into you,' his belly counselled him.", "meta": {"algo": "beam", "logprob": -0.11589545756578445}}, {"text": "Stuff it into you, his belly counseled him.", "meta": {"algo": "nucleus"}}, {"text": "\"'Stuff it into you,' his belly counseled him.", "meta": {"algo": "nucleus"}}]}
+
+==> ./exp_3/asr_final.jsonl <==
+{"utt_id": "1089-134686-0000", "audio_path": "./data/librispeech/audio\\1089-134686-0000.wav", "final": "he hoped there would be stew for dinner turnips and carrots and bruised potatoes and fat mutton-pieces to be ladled out in thick peppered flour-fattened sauce", "meta": {"chosen_index": 2, "algo_used": "mbr"}}
+{"utt_id": "1089-134686-0001", "audio_path": "./data/librispeech/audio\\1089-134686-0001.wav", "final": "\"'Stuff it into you,' his belly counselled him.", "meta": {"chosen_index": 0, "algo_used": "mbr"}}
+
+==> ./exp_3/asr_candidates.jsonl <==
+{"utt_id": "1089-134686-0000", "audio_path": "./data/librispeech/audio\\1089-134686-0000.wav", "candidates": [{"text": "He hoped there would be stew for dinner, turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick, peppered, flour-fattened sauce.", "meta": {"algo": "beam", "logprob": -0.029156936332583427}}, {"text": "he hoped there would be stew for dinner turnips and carrots and bruised potatoes and fat mutton pieces to be ladled out in thick peppered flour fattened sauce", "meta": {"algo": "nucleus"}}, {"text": "he hoped there would be stew for dinner turnips and carrots and bruised potatoes and fat mutton-pieces to be ladled out in thick peppered flour-fattened sauce", "meta": {"algo": "nucleus"}}]}
+{"utt_id": "1089-134686-0001", "audio_path": "./data/librispeech/audio\\1089-134686-0001.wav", "candidates": [{"text": "\"'Stuff it into you,' his belly counselled him.", "meta": {"algo": "beam", "logprob": -0.11584419012069702}}, {"text": "\"'Stuff it into you,' his belly counseled him.", "meta": {"algo": "nucleus"}}, {"text": "\"'Stuff it into you.' His belly counselled him.", "meta": {"algo": "nucleus"}}, {"text": "Stuff it into you, his belly counselled him.", "meta": {"algo": "nucleus"}}, {"text": "Stuff it into you, his belly counseled him.", "meta": {"algo": "nucleus"}}]}

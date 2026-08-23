@@ -13,7 +13,8 @@ transforms = jiwer.Compose([
     jiwer.RemovePunctuation(),
     jiwer.RemoveMultipleSpaces(),
     jiwer.Strip(),
-    jiwer.ExpandCommonEnglishContractions()
+    jiwer.ExpandCommonEnglishContractions(),
+    jiwer.ReduceToListOfListOfWords()
 ])
 
 def compute_wer(hyp: str, ref: str) -> float:
