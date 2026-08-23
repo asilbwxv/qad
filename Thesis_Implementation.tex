@@ -1,0 +1,88 @@
+
+\chapter{Related Work}
+\label{chapter:related_work}
+This chapter surveys prior work that motivates and contextualizes quality-aware decoding and Minimum Bayes Risk (MBR) reranking. It begins by introducing the general generate--then--choose view that unifies classical $n$-best reranking with decision-theoretic decoding. It then reviews how MBR has been instantiated in three domains relevant to this thesis---machine translation, automatic speech recognition, and image captioning---highlighting the utilities, candidate-generation strategies, and practical trade-offs that recur across modalities.
+
+\section{Quality-Aware Decoding}
+\gls{qad} reframes decoding as an explicitly quality-driven \emph{generate--then--choose} procedure. Instead of committing to the  hypothesis under model likelihood, a conditional generator \(p_{\theta}(y\!\mid\!x)\) first produces a candidate set \(Y=\{y_1,\dots,y_N\}\) via beam search or stochastic sampling, and a second-stage decision rule selects the candidate that is best under a task-aligned utility. In practice, the utility is chosen to reflect the evaluation target: for \gls{mt}, learned metrics such as COMET or BLEURT; for \gls{asr}, losses derived from \gls{wer} or learned referenceless measures; and for captioning, relevance- and semantics-sensitive metrics. 
+
+The aforementioned two-stage view unifies classical reranking and decision-theoretic decoding. In traditional \(n\)-best reranking, the system generates an \(n\)-best list and then reorders or selects among candidates using an additional model or feature-rich scorer that would be too expensive to apply inside the base decoder \cite{och2003mert,duh2008boosted,quan2005integratednbest,shen2004drmt}. The key conceptual shift in \gls{qad} is to interpret the second stage not merely as an engineering add-on, but as the place where the system can explicitly optimize for what is ultimately valued.
+
+A principled instantiation of this idea is \gls{mbr} decoding, which replaces MAP with a decision rule that maximizes expected utility (equivalently, minimizes expected loss) under a reference distribution. Given candidates \(Y\), a utility \(u(\cdot,\cdot)\), and a reference distribution \(q(\cdot\mid x)\), \gls{mbr} selects
+\[
+\hat{y} \;=\; \arg\max_{y \in Y}\; \mathbb{E}_{\,y' \sim q(\cdot \mid x)}\!\left[u\!\left(y, y'\right)\right].
+\]
+
+In practice, \(q\) is typically taken to be the empirical distribution induced by the candidate set itself (e.g., an \(N\)-best list or samples from \(p_\theta\)), and \(u\) is a task utility derived from an evaluation metric or a learned proxy. In \gls{asr}, for example, choosing \(u\) as a negated error such as \gls{wer} favors transcripts that agree with many other plausible hypotheses, yielding a consensus-like selection. \gls{mbr} has a long history in speech and translation,\cite{kumar_byrne_mbr_smt_2004,tromble_lattice_mbr_2008} and modern treatments emphasize that it provides a single lens on many contemporary decoding heuristics\cite{bertsch_mbr_2023}.
+
+The key benefit in \gls{qad} is that likelihood is not a reliable surrogate for end-task quality: tokenwise probability maximization can prefer outputs that are locally probable yet globally suboptimal under the evaluation criterion. By selecting \(\hat{y}\) to optimize a task utility over complete sequences, \gls{qad}/\gls{mbr} directly target what is actually measured, and when the utility is well aligned with human judgment, they consistently outperform MAP-oriented decoding across text generation tasks \cite{qad_nmt_2022,mbr_neural_metrics_2021,bertsch_mbr_2023}. Because the decision depends on the candidate set, performance can further improve as \(N\) increases and candidates become more diverse, since the pool is more likely to contain high-quality options and provides better evidence for consensus selection \cite{bertsch_mbr_2023}.
+
+The main practical limitation is computational cost: naïvely scoring many hypotheses against many evidence items can make utility evaluation the bottleneck, especially when \(u\) is a neural network. Recent acceleration methods reduce the number of expensive utility calls by pruning unlikely winners and incrementally expanding the evidence used for risk estimation, often preserving quality while substantially lowering computation\cite{cheng_vlachos_faster_mbr_2023}.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.5\textwidth]{figures/qad.png}
+  \caption{Quality-aware decoding (QAD) / MBR re-ranking as a two-stage process. \textbf{Left:} candidate generation from \(p_\theta(y\!\mid\!x)\) via beam search or sampling. \textbf{Right:} selection by either \(n\)-best reranking with quality estimators \(\{\mathcal{M}_i^{\mathrm{QE}}\}\) or \gls{mbr} with a utility \(\mathcal{M}\) (reference-based or referenceless). The chosen \(\hat y\) is the quality-optimal output among candidates. Taken from \cite{qad_nmt_2022}}
+  \label{fig:qad-pipeline}
+\end{figure*}
+
+\section{MBR in Machine Translation}
+
+In \gls{mt}, \gls{mbr} decoding has seen a resurgence in recent years. While early statistical \gls{mt} explored \gls{mbr} to optimize overlap metrics such as BLEU, the approach was less common in practice due to complexity. Neural \gls{mt} renewed interest because MAP/beam search targets the \emph{mode} of the model distribution, which need not be representative of the probability mass \cite{eikema2021beyondbeam}. Eikema \& Aziz (2020)\cite{eikema2021beyondbeam} show that for Transformer \gls{nmt} system, the highest-probability translation can be unrepresentative when probability mass is spread across many acceptable paraphrases. They demonstrate that sampling multiple candidates and selecting via \gls{mbr} yields outputs that are often slightly lower in model likelihood yet better under downstream quality measures and perceived naturalness\cite{eikema2021beyondbeam}.
+
+Traditional \gls{mbr} in \gls{mt} used $n$-gram overlap metrics as utilities (equivalently, negative losses). For instance, \textsc{MBR-BLEU} treats $1-\text{BLEU}$ as a loss and selects the hypothesis with maximal expected BLEU under a sample-based approximation of the model distribution. Recent work extends this paradigm to learned metrics including \textsc{MBR-COMET}, \textsc{MBR-BERTScore}, where the utility function is a learned quality metric \cite{mbr_neural_metrics_2021,rei2020comet}. Freitag et al.\ \cite{mbr_neural_metrics_2021} show that using neural metrics as utilities can substantially improve translation quality compared to likelihood-oriented decoding, particularly when the metric correlates well with human judgments.
+
+A practical requirement for \gls{mbr} is a \emph{diverse} candidate set. Common strategies include Monte Carlo sampling from the model (possibly with temperature), or constrained variants such as $\epsilon$-sampling to avoid low-quality outliers\cite{eikema2021beyondbeam}. Nucleus (top-$p$) sampling is often used as a compromise between diversity and fluency\cite{holtzman2019curious}. Diversity can also be encouraged via diverse beam search or multi-run decoding with different seeds, though $n$-best lists produced by standard beam search may remain relatively homogeneous.
+
+A key insight is that \gls{mbr} benefits most when uncertainty is high: if the model is very peaky, samples collapse to near-identical outputs and \gls{mbr} has little room to improve. When many plausible translations exist (e.g., paraphrastic regions or free-order phenomena), sampling reveals alternatives and \gls{mbr} can select a robust “central” translation. Empirically, \gls{mbr} with lexical utilities tends to produce slightly safer, more consensus-like outputs, while neural/semantic utilities can drive larger changes toward adequacy and faithfulness \cite{mueller2021understanding_mbr,mbr_neural_metrics_2021}. Müller \& Sennrich (2021) \cite{mueller2021understanding_mbr} further analyze \gls{mbr}’s effect on output distributions, observing reduced variance and more consistent length/lexical choices relative to beam search.
+
+\gls{mbr} has also been extended beyond sentence-level settings. Jinnai (2025) proposes an optimal-transport variant (MBR-OT) for document-level generation, showing gains over standard \gls{mbr} in document-level \gls{mt} and related tasks \cite{jinnai-2025-document}.
+
+
+
+\section{MBR in Automatic Speech Recognition}
+
+In \gls{asr}, decoding historically optimized MAP criteria (such as in Viterbi decoding in \gls{hmm}-based systems), even though the evaluation target is typically \gls{wer}. Classic work introduced risk-based and consensus-style decoding that can be interpreted through an \gls{mbr} lens: confusion-network/consensus decoding aligns multiple hypotheses and minimizes expected word error by selecting consensus words\cite{mangu2000confusion}.
+
+
+With modern sequence-to-sequence \gls{asr}, sample-based \gls{mbr} is again practical. Recent results re-evaluate \gls{mbr} for contemporary neural \gls{asr} systems (including Whisper-family models), finding that \gls{mbr} often outperforms beam search on \gls{wer} across a range of settings \cite{jinnai2025mbr_asr,radford2022whisper}. Intuitively, \textsc{MBR-WER} selects the candidate transcript that best agrees with other plausible transcripts:
+\[
+\mathbb{E}[\mathrm{WER}(y, z)] \approx \frac{1}{N}\sum_{i=1}^N \mathrm{WER}(y, z_i),
+\]
+which encourages majority-consistent word choices and reduces the impact of low-probability but high-error hypotheses.
+
+Computationally, pairwise \gls{wer} over tens of hypotheses is typically feasible for offline/batch transcription, though it is less suitable for low-latency streaming settings. Sample diversity is also more limited than in \gls{mt} because outputs must stay consistent with the acoustic evidence; nevertheless, the remaining ambiguity (homophones, short function words, segmentation/punctuation) is often exactly where consensus selection can help \cite{jinnai2025mbr_asr}.
+
+The same idea extends to speech translation (speech-to-text translation), where \gls{mbr} can be applied with translation utilities (e.g., BLEU/COMET) over sampled translation hypotheses, combining uncertainty from both recognition and translation \cite{jinnai2025mbr_asr}.
+
+
+
+\section{MBR in Image Captioning}
+
+Applying \gls{mbr} to image captioning is conceptually similar to \gls{mt}, but captioning exhibits greater intrinsic ambiguity with many distinct captions being simultaneously correct for a given image. This makes captioning a natural candidate for \gls{mbr}-style selection, provided the utility captures what “good” means in context.
+
+A common choice is to use reference-based caption metrics such as CIDEr or SPICE \cite{vedantam2015cider,anderson2016spice}. These utilities can be used in classical \gls{mbr} (loss between captions), encouraging a consensus-like caption that overlaps well with other likely captions. A limitation is conservatism: rare-but-correct fine-grained details (e.g., a specific breed) may be suppressed if not consistently produced across samples.
+
+Reference-free utilities are also appealing in captioning because they directly score image--text alignment. CLIPScore evaluates a caption by cosine similarity between image and text embeddings from CLIP, making it suitable for reranking sampled captions without ground-truth references \cite{hessel-etal-2021-clipscore,radford2021clip}. While this is not “classical” \gls{mbr} over pairwise caption losses, it fits the broader quality-aware decoding view: generate diverse candidates, then select using an image-grounded quality estimator.
+
+
+
+\iffalse
+If we had a table: say on COCO Karpathy test, a baseline transformer might get CIDEr 125 with beam search. If we do MBR (CIDEr) on 100 samples, maybe it would get CIDEr a bit higher (since it optimizes that metric). Indeed, self-critical training (which approximates MBR in training) raised CIDEr from ~117 to ~127 in some papers by directly optimizing it. So decoding-time MBR could likely do a similar boost without retraining. However, we must check if humans find the MBR output better or just tuned to metric. Often with CIDEr optimization, captions became wordy and sometimes redundant (“a dog is running on grass in a park area” – stuffing synonyms to hit all references). If MBR yields that, metric goes up, but human preference might not.
+
+A practical scenario: generate many captions for an image via an LLM, then use CLIPScore to pick one. This might produce a nicer caption than a single pass because the LLM might in one sample be too verbose, in another too terse, and one is just right. This is a heuristic many might use (and CLIPScore is basically using the model’s knowledge of image-text similarity to judge). If the user specifically wants a certain style (e.g. a brief caption vs a story-like caption), the utility could be adjusted or constraints added.
+
+MBR for diversity vs accuracy: Interestingly, one can also invert the process: pick the hypothesis that on average has lowest similarity to others to get something different (that would be Maximum Bayes Risk actually). That’s not standard MBR (it’s more like find an outlier). Not useful for best quality, but if one wanted a diverse caption that still plausible, one could perhaps do that.
+
+If we consider evaluating captioning models, one could use an MBR procedure to produce an “MBR consensus caption” from multiple systems and treat that as a pseudo-reference, or as a metric in itself (some metrics tried to do similar – e.g. HUSE metric did human caption vs model consensus comparison). But that’s beyond decoding – it’s more metric design.
+
+\fi
+\iffalse
+\subsection{MBR for Speech-to-Text}
+Although \gls{mbr} is well established in text-to-text generation, its role in speech-to-text has been comparatively underexplored. Jinnai~\cite{jinnai2024mbr_asr} reevaluates sample-based \gls{mbr} for contemporary \gls{asr}/\gls{st} and reports several findings that speak directly to this work. First, across Whisper-family models of varying sizes and across multiple English and Japanese datasets, \gls{mbr} consistently outperforms beam search on \gls{wer}/\gls{cer} and semantic metrics. Notably, gains already appear with as few as 4–8 samples, indicating a practical operating point when latency budgets are modest. Second, the advantage persists under additive noise: measured over a range of \gls{snr} values, \gls{mbr} maintains lower error rates than beam search, suggesting robustness in degraded conditions. Third, improvements generalize beyond English/Japanese, with consistent gains on additional languages drawn from Common Voice. 
+
+Jinnai also examines design choices that matter for \gls{mbr} in \gls{asr}. Using BLEU as the utility yields strong results, but, as cautioned in prior work, utilities used during selection can inflate the same metric at evaluation time; alternative utilities (e.g., sentence-embedding similarities or \gls{bleurt}) show similarly robust improvements while mitigating metric coupling. The study further observes that sampling details affect performance but \gls{mbr} is reasonably robust to small changes (e.g., \(\epsilon\)-sampling settings). There are limitations: compute scales with the number of candidates and utility calls, and \gls{mbr} brings less benefit for very short utterances (e.g., backchannels), making beam search competitive in that regime. Overall, the evidence positions \gls{mbr} as a strong, easily adopted baseline for \emph{offline} \gls{asr}/\gls{st} where accuracy is paramount, complementing this work's broader, cross-modal exploration of \gls{qad}.
+
+\subsection{Connections to Other Reranking and Post-Decoding Methods}
+Beyond \gls{mbr}, reranking in \gls{asr} has leveraged quality estimation, perplexity-based scoring, deliberation models, \glspl{llm}, and speech–text foundation models. Such methods either rescore \(n\)-best hypotheses or generate revised transcripts in a second pass. Model fusion and ensembling—combining multiple acoustic/language models or systems—can also be interpreted through a risk-minimization lens and are complementary to \gls{mbr}: fusion strengthens the candidate generator, while \gls{mbr} improves selection. Post-editing/error-correction approaches refine outputs after decoding rather than choosing among diverse candidates; these can be stacked with \gls{qad} to further improve final quality. The practical appeal of \gls{mbr}/\gls{qad} is that it requires no additional model training, transfers across modalities (including captioning and, with suitable utilities, \gls{tts}), and directly optimizes for human-aligned objectives.
+\fi

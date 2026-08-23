@@ -1,0 +1,151 @@
+\chapter{Foundational Concepts and Theoretical Framework}
+\label{chapter:background}
+
+This chapter introduces concepts that will be used throughout the remainder of this thesis in order to lay out decoding as a decision problem. It begins with the sequence-to-sequence Transformer framework and its underlying attention mechanism. It then surveys likelihood-driven decoding strategies, with particular emphasis on how they can be configured to produce diverse candidate sets, which are a prerequisite for reranking and Minimum Bayes Risk style decisions. Finally, it summarizes evaluation metrics, generation and scoring models, and the benchmark datasets used across machine translation, speech recognition, and image captioning, in order to make explicit what “quality” means in each setting and how it can be operationalized.
+
+
+\section{Transformers}
+
+Machine translation problems (and many other sequence prediction tasks) are commonly addresses with sequence-to-sequence models that learn the conditional distribution \(p(y \mid \theta, x)\) over an output token sequence \(y\) given a sequence input \(x\) \cite{sutskever2014seq2seq,bahdanau2015nmt,vaswani2017attention}. In \gls{nmt}, \(x\) is a source sentence and \(y\) is its translation: this means that the model uses its learned parameters $\theta$ to assign higher probability to the output sentences that are most plausible translations of the input \(x\). In automatic speech recognition (ASR), \(x\) is an audio signal (typically represented as acoustic features) and \(y\) is the text transcript. While ASR architectures vary, such as models with attention \cite{chan2016las}, models using \gls{ctc} \cite{graves2006ctc}, or RNN-Transducer models \cite{graves2012rnnt}—they ultimately generate a discrete sequence of tokens (characters, subwords, or words) \cite{sennrich2016bpe,schuster2012wordpiece,kudo2018sentencepiece}.
+
+Transformers, which are currently the most common modelling choice, implement sequence-to-sequence modeling via an encoder--decoder architecture. The encoder builds contextual representations of the input using self-attention, which computes context-dependent representations by letting each position attend to all positions in the same sequence. In a Transformer encoder, this enables each source token to incorporate information from the full source sentence \cite{vaswani2017attention}. The decoder then generates output tokens autoregressively while conditioning on both its previously generated tokens and the encoder’s representations through cross-attention (also called encoder--decoder attention, and which lets the decoder attend to the encoder’s output sequence). 
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.9\linewidth]{figures/very_simple_mt_encoder_decoder.png}
+  \caption{A simplified view on the encoder--decoder translation pipeline. Raw source text is tokenized into discrete units, and then the encoder reads the full source token sequence to produce contextual representations and the decoder generates target tokens autoregressively starting from a begin-of-sequence token (\texttt{<BOS>}) and until an end-of-sequence token (\texttt{<EOS>}) is produced. The final step detokenizes target tokens back into readable text.}
+  \label{fig:mt-encdec-flow}
+\end{figure}
+
+Figure~\ref{fig:mt-encdec-flow} highlights two practical details that are often implicit in the shorthand \(p(y \mid x)\). First, modern NMT systems operate on \emph{tokens} rather than raw strings: a tokenizer maps text to token IDs, and a detokenizer converts predicted IDs back into readable text. Second, generation is typically \emph{autoregressive}: starting from \texttt{<BOS>}, the decoder predicts one token at a time conditioned on the encoder context (via cross-attention in Transformers) and the previously generated target tokens, terminating when \texttt{<EOS>} is emitted. During decoding, the encoder states serve as a fixed source-side memory that the decoder consults at each step through encoder--decoder (cross-)attention.
+
+Rather than processing tokens strictly in a sequential computation chain, a Transformer builds representations by repeatedly applying attention-based mixing operations to all positions in parallel. In a self-attention layer, each token representation is compared to the representations of all other tokens in the same sequence to produce a set of attention weights; these weights form a distribution over positions and are used to compute a weighted average of the token vectors. The result is a new, context-aware vector for each position, where relevant information can be drawn directly from distant tokens in a single layer, instead of being propagated through many recurrent steps. Multi-head attention repeats this operation several times in parallel with different learned projections, so that different heads can focus on different kinds of relations and the resulting views are then combined.
+
+Because attention alone does not encode order, Transformers add positional information to the token embeddings so that the model can distinguish, for instance, ``dog bites man'' from ``man bites dog''. In the encoder, self-attention can attend to the full input sequence, producing a sequence of contextual representations of the source. In the decoder, generation remains autoregressive by masking self-attention so that each position can only attend to earlier generated tokens. In addition, each decoder layer includes an encoder--decoder attention sublayer that allows the partially generated output to attend over the entire encoded input, effectively producing a soft, content-dependent alignment that highlights which source tokens are most relevant for predicting the next target token. Stacking these components yields an encoder that summarizes the input and a decoder that generates the output while repeatedly consulting that summary through attention.
+
+
+
+
+\section{Decoding Strategies}
+
+Decoding specifies how a model that outputs \(p(y \mid x)\) can be used to produce a single output sequence.
+In principle, the most direct objective is \gls{map} decoding, which selects the complete output sequence with the highest conditional probability:
+\[
+y^{*} \;=\; \arg\max_{y} p(y \mid x)
+\;=\; \arg\max_{y} \sum_{t=1}^{T} \log p(y_t \mid y_{<t}, x).
+\]
+In principle, the most direct objective is \gls{map} decoding, even though \(p(y\mid x)\) is typically a direct parameterization of the conditional likelihood rather than a posterior obtained one by combining a prior and likelihood via Bayes’ rule \cite{eikema2021beyondbeam}. However, exact MAP decoding is infeasible in practice because it requires searching over an exponentially large set of candidate sequences. A common approximation is \emph{greedy decoding}, which chooses the locally most probable next token at each step,
+\(\;y_t = \arg\max_v p(v \mid y_{<t}, x)\).
+Greedy decoding is fast and often yields reasonable outputs, but it can be short-sighted: locally optimal token choices may lead to globally suboptimal sequences \cite{qad_nmt_2022}. 
+
+\emph{Beam search} mitigates this limitation of greedy decoding by maintaining the top-\(B\) partial hypotheses at each step, expanding them in parallel, and keeping the \(B\) best continuations. Beam search more closely approximates the MAP objective without exhaustive enumeration, though it remains likelihood-driven and may still diverge from human judgments \cite{qad_nmt_2022}. In practice, length and coverage penalties are often added to reduce known biases, such as a preference for shorter outputs \cite{wu2016gnmt}. 
+
+To generate a richer set of candidates than standard beam search, several techniques modify decoding to explicitly promote diversity. For instance, \gls{dbs} partitions the beam into groups and adds a diversity penalty so that different groups are encouraged to make different token choices \cite{diverse_beam_search_2016,dbs_complex_scenes_aaai}.
+\iffalse
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/dbs_beam_vs_diverse.png}
+  \caption{Example comparing image captioning outputs decoded by beam search (top) and Diverse Beam Search (middle). Beam search
+  produces near-duplicate captions that share most of the same search-tree path, differing only in small end variations.
+  In contrast, \gls{dbs} yields substantially more varied captions, closer to the diversity observed in human
+  reference captions (bottom). Taken from \cite{dbs_complex_scenes_aaai}.}
+  \label{fig:bs_vs_dbs_captioning}
+\end{figure}
+\fi
+
+
+Regarding parameters controlling the outputs of beam search decoding, beam width/size is the number of parallel hypotheses maintained during beam search. A larger beam width allows exploring more possible outputs simultaneously: for instance, beam size 5 would expand to 5 partial hypotheses per step instead of 1. Larger beams
+often improve quality up to a point, but with diminishing returns and increased computation \cite{britz2017massive,wu2016gnmt}. In turn, the length penalty is a factor applied to scores during beam search to avoid favoring shorter outputs. Without a length penalty,
+the decoder may prefer unnaturally short sequences because terminating early can avoid accumulating additional low-probability
+tokens. Length normalization (or related penalties) reduces this bias and can better match expected output length
+\cite{wu2016gnmt}. 
+
+Beyond deterministic diversity penalties, \emph{stochastic beam search} introduces principled randomness to combine sampling
+with beam-style exploration. One approach uses \emph{Gumbel-top-\(k\)} sampling without replacement, so that the decoder can
+draw multiple high-probability continuations while avoiding duplicates \cite{kool2019stochastic}. Intuitively, Gumbel noise perturbs the probabilities, and selecting the top-\(k\) perturbed scores yields a diverse set of candidates that remainsstrongly guided by model likelihood.
+
+Sampling-based decoding is another widely used way to increase candidate variety. \emph{Top-\(k\) sampling} restricts each next-token choice to the \(k\) most likely tokens \cite{fan2018story}; \emph{nucleus sampling} (top-\(p\)) instead samples from the smallest set of tokens whose cumulative probability exceeds a threshold \(p\) set by the user \cite{holtzman2019curious}. 
+A smaller \(k\) or lower \(p\) typically increases diversity in some cases at the cost of reducing quality, while larger values behave more like greedy decoding. 
+A \emph{temperature} parameter can be used to rescale the probabilities, with \(T<1\) sharpening the distribution (more
+conservative) and \(T>1\) flattening it (more random) \cite{holtzman2019curious}. 
+
+
+In practice, the forementioned controls (such as beam size, diversity penalties, top-\(p\), temperature, etc.) are configured to produce an
+\(N\)-best list of candidate outputs for each input, which can then be reranked by external criteria.
+Also, in terms of parameters containing generation outputs, the number of returned sequences (\(N\)-best) defines how many complete hypotheses the decoder outputs for each input. Producing multiple candidates enables reranking by secondary objectives, though benefits typically saturate, as \(N\) grows and additional
+hypotheses become low quality or near-duplicates \cite{och2003mert}.
+
+
+
+
+\section{Evaluation Metrics}
+Evaluation metrics operationalize an otherwise subjective notion of output quality, enabling reproducible comparisons across systems and ablations. In all three domains considered here---\gls{mt}, \gls{asr}, and image captioning---the central difficulty is that there are typically many acceptable outputs for a given input. This creates a gap between the true target (human preference or task success) and what can be computed automatically at scale. As a result, modern evaluation practice relies on \emph{metric suites} rather than a single number, and interprets results in light of each metric's biases and failure modes.
+
+A first distinction is whether evaluation is \emph{reference-based} or \emph{reference-free}. Reference-based metrics compare a system hypothesis to one or more human references. This is standard in MT and classical captioning benchmarks, and it is also common in ASR where verbatim correctness is frequently the goal. The number of references matters: with multiple references, for instance five captions per image in COCO-style evaluation, overlap-based metrics become more stable because they can reward alternative phrasings that appear in at least one reference. With single references, purely lexical metrics are brittle, often under-scoring correct paraphrases. Reference-free metrics, by contrast, avoid gold references and instead score outputs using other signals. Examples include the use of multimodal models that measure image--text compatibility in captioning \cite{hessel-etal-2021-clipscore}. In MT, a related but distinct setup is \gls{qe}, where a learned model predicts translation quality without a target reference, sometimes using the source sentence as context. Independently of the task, reference-free evaluation is particularly attractive when references are incomplete or expensive.
+
+A second distinction concerns \emph{what} is being measured. Some metrics primarily capture surface similarity (lexical overlap), while others model error-editing effort (edit distance), and others aim for semantic adequacy via embeddings or learned regressors. 
+
+A third distinction is \emph{granularity}, in the sense that many metrics are more reliable at the corpus/system level than at the sentence/instance level, because variance is large for short texts and because single-sentence evaluation exacerbates sparsity and paraphrase effects. 
+
+Finally, metrics depend on preprocessing decisions (such as tokenization, casing, punctuation normalization, etc.) and on whether the outputs are constrained to a fixed style. For BLEU in particular, inconsistent reporting historically made scores hard to compare across papers, motivating standardized computation and reporting conventions such as SacreBLEU \cite{post-2018-sacrebleu}.
+
+Historically dominant metrics in MT and captioning are overlap-based. For instance, BLEU measures modified $n$-gram precision of a hypothesis against references, typically aggregating $1$- to $4$-grams and applying a brevity penalty to discourage overly short outputs \cite{papineni-etal-2002-bleu}. BLEU remains popular because it is simple, language-agnostic, and relatively stable at the corpus level, but it is well known to under-reward legitimate paraphrases and synonyms and to be noisy at sentence level. Two common responses to these limitations are reporting BLEU with careful standardization, such as SacreBLEU, to ensure comparability \cite{post-2018-sacrebleu}, and complementing BLEU with alternatives that are less sensitive to token-level mismatch. One such alternative is chrF, which computes character $n$-gram precision and recall and combines them via an $F$-score, often yielding better behavior for morphologically rich languages and for tokenization-sensitive settings \cite{popovic-2015-chrf}.
+
+
+Captioning benchmarks often rely on metrics specialized to multi-reference descriptions. CIDEr, for instance, was designed for image captioning to reward \emph{consensus} with multiple human captions by computing TF--IDF-weighted $n$-gram similarity, emphasizing informative content words and down-weighting ubiquitous function words \cite{vedantam-etal-2015-cider}. This makes CIDEr particularly effective when several references are available and when the evaluation goal is to match what humans commonly mention about the image. SPICE takes a more explicitly semantic approach: it parses captions into scene-graph-like structures of objects, attributes, and relations, and then scores overlap in that semantic proposition space \cite{anderson-etal-2016-spice}. This shifts emphasis from lexical form to whether the caption captures the right entities and relationships, but it also introduces dependency on parsing accuracy and does not directly reward fluency.
+
+
+For ASR, the dominant evaluation paradigm is edit distance. Word error rate (WER) measures the minimum number of word-level edits required to transform a hypothesis transcript into the reference transcript, normalized by reference length. If $S$, $D$, and $I$ denote the counts of substitutions, deletions, and insertions, and $N$ is the number of reference words, then
+\begin{equation}
+\mathrm{WER} = \frac{S + D + I}{N}.
+\end{equation}
+The WER metric is intuitive and directly reflects transcription accuracy, but it treats all word errors uniformly and does not encode semantic severity (e.g., negation errors vs. minor function-word errors). In languages without clear word boundaries or in settings where orthography is central, \gls{cer} is often used as a complementary variant. In MT, a related edit-distance family is \gls{ter}, which counts the edits required to convert a hypothesis into a reference while additionally permitting block shifts, making it more reflective of certain reordering phenomena and post-editing effort \cite{snover-etal-2006-ter}.
+
+Despite its wide adoption, WER has well-known limitations: it treats all errors equally and is insensitive to semantic correctness (for instance, swapping two words yields the same penalty as a completely wrong word). WER also struggles to reflect intelligibility in the presence of synonyms or paraphrases, and it does not account for meaning preservation -- only exact word matching. To address WER's shortcomings, many researchers have proposed semantic-sensitive metrics. One recent example is \emph{SeMaScore}, i.e. a metric that blends word error rate with semantic similarity measures \cite{semascore_2024}. The idea is to penalize errors while also rewarding the hypothesis for retaining the meaning of the reference. SeMaScore has been shown to correlate better with human judgments under noisy or accented speech conditions compared to plain WER, and it can be computed efficiently
+
+Another important class of metrics is reference-free metrics, which do not require a ground-truth transcript at evaluation time. For example, \emph{NoRefER} is a recently proposed referenceless ASR metric that fine-tunes a language model to predict transcription quality. It uses a contrastive learning approach to rank ASR hypotheses by quality without a reference, and correlates highly with reference-based metrics like WER with human preferences\cite{norefer_2023_arxiv}. Metrics like NoRefER enable on-the-fly reranking of ASR outputs even when a reference is not available.
+
+
+
+Because overlap- and edit-distance metrics can fail to reflect meaning preservation, a major modern trend is embedding-based and learned semantic evaluation. BERTScore compares contextual token embeddings from a pretrained transformer for hypothesis and reference texts, performing soft alignment via similarity (commonly with the cosine similarity) and reporting precision/recall/$F_1$ in embedding space, rather than exact token matching \cite{zhang-etal-2019-bertscore}. This enables high scores for paraphrases that preserve meaning while using different surface forms. BLEURT goes further by training a regression model to predict human judgments, using synthetic perturbations and human-rated data to learn what humans consider good or bad generations \cite{sellam-etal-2020-bleurt}. 
+
+In MT, COMET models predict translation quality using multilingual pretrained encoders and can incorporate the source sentence in addition to reference and hypothesis, improving sensitivity to adequacy and faithfulness beyond text--text overlap \cite{rei-etal-2020-comet}.
+
+Image captioning has also seen a strong push toward reference-free evaluation. For instance, CLIPScore uses a vision--language model pretrained on large-scale image--text pairs to compute similarity between an image embedding and a caption embedding, using that alignment as a proxy for whether the caption matches the image \cite{hessel-etal-2021-clipscore}. This is appealing when references are sparse, incomplete, or absent, and it partially mirrors how humans judge captions (by checking grounding in the image). 
+
+A practical consequence of learned metrics is that they are often stronger correlates of human judgments than lexical metrics in many settings, but they are also more expensive to compute, less transparent, and can be susceptible to distribution shift or metric gaming when systems are optimized directly against them.
+Similarly, reference-free scorers inherit the biases and blind spots of the underlying pretrained models and may under-penalize subtle hallucinations or over-general captions that remain broadly compatible.
+
+
+
+
+
+
+\section{Models for Scoring and Generation}
+
+Advances in generative models underlie the performance improvements in MT, ASR, and image captioning. Recent MT efforts involve single models covering many languages, with examples including Facebook/Meta’s M2M-100 (1.2B parameters, 100 languages) and NLLB-200 (up to 54B parameters covering 200 languages) \cite{fan2021m2m100,nllb2022}. These models use a single Transformer with a shared vocabulary and are trained on a combination of many bilingual corpora. They often employ techniques like language tags and balancing to cope with data imbalance, and can translate between covered languages, sometimes even supporting zero-shot combinations \cite{fan2021m2m100,nllb2022}.
+
+The emergence of large \gls{llm}'s, such as GPT-3, GPT-4, PaLM and LLaMA, has enabled strong translation via prompting, even without explicit supervised training on parallel data \cite{brown2020gpt3,openai2023gpt4,chowdhery2022palm,touvron2023llama}. For example, GPT-4 can produce high-quality translations when prompted in the right format \cite{openai2023gpt4}. Instruction-tuned variants (e.g., ChatGPT or LLaMA-2-Chat) can follow user instructions and perform style adaptations \cite{touvron2023llama2}. However, being closed-source or requiring heavy compute, they are not typically deployed MT systems.
+
+A prevalent architecture for end-to-end ASR in production is RNN-T, which consists of an audio encoder and a prediction network that together produce a probability over output tokens at each time step \cite{graves2012rnnt}. This architecture is streamable (processes audio frame by frame) and jointly learns alignment and transcription, and WER is computed on its output.
+
+Whisper is a family of transformer-based ASR models trained on 680k hours of multilingual supervised data \cite{radford2023whisper}. It is an encoder--decoder Transformer, with released sizes from Tiny (39M) to Large (1.55B parameters) \cite{radford2023whisper}. Whisper supports multilingual ASR and speech translation via task tokens, and is widely used to generate transcriptions \cite{radford2023whisper}. In practice, WER remains the main metric to minimize, and while internal model scores can be used as confidence signals, evaluation is typically performed against human references.
+
+The Conformer is a variant of the Transformer encoder that includes convolution modules for better local modeling and has become a standard building block in ASR architectures \cite{gulati2020conformer}. In the Canary model by Nvidia, a FastConformer encoder is paired with a Transformer decoder in an attention-based encoder--decoder design \cite{nvidia2024lessismore}. Canary is notable as an open model that challenges Whisper in several settings, and sequence-to-sequence ASR models in general commonly use beam search and can output multiple hypotheses with probabilities \cite{nvidia2024lessismore}.
+
+Meta’s SeamlessM4T is a universal model that supports speech-to-text and speech-to-speech translation for around 100 languages \cite{seamlessm4t2023}. It combines an audio encoder with multiple decoders and is trained using large-scale speech data \cite{seamless2023}. Such models further motivate evaluation and selection procedures that account for both recognition and translation quality, rather than relying on a single likelihood score.
+
+In image captioning, pretrained multimodal models provide both generators and scorers. CLIP learns a joint image--text embedding space and is widely used for retrieval and scoring, rather than generation \cite{radford2021clip}. Models such as SimVLM and BLIP, trained on large image--text corpora, produce strong captioning performance after pretraining and fine-tuning \cite{wang2021simvlm,li2022blip}. More recent multimodal assistants such as LLaVA connect a CLIP image encoder to a language model and can generate fluent, instruction-following descriptions of images \cite{liu2023llava,radford2021clip,touvron2023llama}.
+
+Because CLIP provides an image-conditioned similarity score, it can also be used at decoding time: generate multiple caption candidates and choose the one with highest CLIP similarity to the image, a practical reranking approach when references are unavailable \cite{radford2021clip}.
+
+\section{Datasets}
+The Workshop on Machine Translation (WMT) releases parallel corpora and annual test sets for many language pairs \cite{bojar2014wmt}. For example, WMT14 English--German provides roughly 4.5 million parallel sentence pairs for training, while WMT14 English--French is substantially larger (around 36M pairs) \cite{vaswani2017attention}. These benchmarks are largely drawn from the news domain and are widely used for reporting MT performance (e.g., newstest2014 for En--De). WMT also runs evaluation tracks that release human judgments of system outputs, which are often used to develop and validate learned metrics such as COMET.
+
+In ASR, LibriSpeech is one of the most widely used open benchmarks. It contains about 1,000 hours of 16 kHz read English speech derived from public-domain audiobooks \cite{panayotov2015librispeech}. The standard setup includes 960 hours of training data (split into “clean” and “other” subsets) and matched development and test sets (each with “clean” and “other” partitions). Because of its standardized splits and long history in the community, LibriSpeech remains a common reference point for word error rate (WER) reporting, particularly on test-clean and test-other \cite{openslr12}.
+
+Some datasets bridge ASR and MT through speech translation. MuST-C (Multilingual Speech Translation Corpus) provides TED talk audio paired with transcriptions and translations, enabling speech-to-text translation evaluation \cite{diagangi2019mustc}. For instance, MuST-C En$\rightarrow$De includes on the order of 400 hours of English speech with German translations \cite{diagangi2019mustc}. Such resources are useful when discussing multitask or joint training setups that combine ASR and speech translation objectives \cite{radford2023whisper,nvidia2024lessismore}.
+
+For image captioning, MS COCO is the primary benchmark \cite{lin2014coco}. It contains over 120,000 images with multiple human-written captions per image (commonly five), supporting both training and robust automatic evaluation \cite{chen2015cococaptions}. A widely used configuration is the Karpathy split (approximately 113k training images, 5k validation, 5k test) \cite{karpathy2015deep}. COCO underpins much of the standard captioning evaluation ecosystem, including leaderboard-style testing where metrics such as BLEU and CIDEr are computed on held-out test data \cite{chen2015cococaptions}.
+
+Conceptual Captions is a large-scale alternative designed primarily for training at web scale. Released by Google, it contains about 3.3 million image--caption pairs collected from web alt-text, with a validation split of roughly 17k examples \cite{sharma2018conceptual,conceptualcaptionsgithub}. Compared to COCO, captions are typically noisier and often single-reference, but the dataset provides far more coverage and diversity, reflecting the breadth of web imagery and writing styles \cite{sharma2018conceptual}.

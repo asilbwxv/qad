@@ -1,0 +1,111 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                      %
+%     File: Thesis_Glossary.tex                                        %
+%     Tex Master: Thesis.tex                                           %
+%                                                                      %
+%     Author: Andre C. Marta                                           %
+%     Last modified : 27 Feb 2024                                      %
+%                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% The definitions can be placed anywhere in the document body
+% and their order is sorted by <key> automatically when
+% calling makeindex in the makefile
+%
+% ----------------------------------------------------------------------
+% To create a glossary entry, use the following syntax:
+%
+% \newglossaryentry{<label>}{name={<key>}, description={<value>}}
+%
+% where the parameters are:
+% <label> is the label of the entry,
+% <key> is the acronym to be defined by the glossary entry (in lowercase, preferably)
+% <value> is the actual definition of the current term
+%
+% To produce the desired term in the document, that will be replaced by
+% the user-defined in the output, use the following syntax:
+%
+% \gls{<label>}
+%
+% ----------------------------------------------------------------------
+% To create a acronym entry, use the following syntax:
+%
+% \newacronym{⟨label⟩}{⟨abbrv⟩}{⟨full⟩}
+%
+% where the parameters are:
+% <label> is the label of the entry,
+% <abbrv> is the acronym,
+% <full> is the definition of the acronym
+%
+% To produce the desired term in the document, that will be replaced by
+% the user-defined in the output, use one of the following syntaxes:
+%
+% \acrlong{<label>}
+% \acrshort{<label>}
+% \acrfull{<label>}
+%
+% ----------------------------------------------------------------------
+% By default, only those entries defined in the main document using the
+% commands above will be displayed in the glossary (list of acronyms),
+% unless the command \glsaddall is used,
+% ----------------------------------------------------------------------
+
+% The order of the definitions below is irrelevant
+% since the glossary is automatically ordered alphabetically
+
+\newacronym{mdo}{MDO}{Multidisciplinary Design Optimization}
+\newacronym{xdsm}{XDSM}{eXtended Design Structure Matrix}
+\newacronym{csm}{CSM}{Computational Structural Mechanics}
+\newacronym{cfd}{CFD}{Computational Fluid Dynamics}
+\newacronym{hmm}{HMM}{Hidden Markov Model}
+
+\newacronym{st}{ST}{Speech Translation}
+\newacronym{cer}{CER}{Character Error Rate}
+\newacronym{snr}{SNR}{Signal-to-Noise Ratio}
+\newacronym{bleurt}{BLEURT}{Bilingual Evaluation Understudy with Representations from Transformers}
+\newacronym{mt}{MT}{Machine Translation}
+\newacronym{nmt}{NMT}{Neural Machine Translation}
+\newacronym{asr}{ASR}{Automatic Speech Recognition}
+\newacronym{tts}{TTS}{Text-To-Speech}
+\newacronym{map}{MAP}{Maximum A Posteriori}
+\newacronym{mbr}{MBR}{Minimum Bayes Risk}
+\newacronym{qad}{QAD}{Quality-Aware Decoding}
+\newacronym{wer}{WER}{Word Error Rate}
+\newacronym{mos}{MOS}{Mean Opinion Score}
+\newacronym{rnn}{RNN}{Recurrent Neural Network}
+\newacronym{cnn}{CNN}{Convolutional Neural Network}
+\newacronym{ctc}{CTC}{Connectionist Temporal Classification}
+\newacronym{las}{LAS}{Listen, Attend and Spell}
+\newacronym{rnnt}{RNN-T}{Recurrent Neural Network Transducer}
+\newacronym{dbs}{DBS}{Diverse Beam Search}
+\newacronym{qe}{QE}{Quality Estimation}
+\newacronym{lm}{LM}{Language Model}
+\newacronym{nat}{NAT}{Non-Autoregressive Translation}
+\newacronym{llm}{LLM}{Large Language Model}
+\newacronym{palm}{PaLM}{Pathways Language Model}
+\newacronym{gptfour}{GPT-4}{Generative Pretrained Transformer 4}
+\newacronym{wmt}{WMT}{Conference on Machine Translation}
+\newacronym{cider}{CIDEr}{Consensus-based Image Description Evaluation}
+\newacronym{spice}{SPICE}{Semantic Propositional Image Caption Evaluation}
+\newacronym{clip}{CLIP}{Contrastive Language--Image Pretraining}
+\newacronym{ast}{AST}{Automatic Speech translation}
+\newacronym{mcv}{MCV}{Mozilla Common Voice}
+\newacronym{bleu}{BLEU}{Bilingual Evaluation Understudy}
+\newacronym{meteor}{METEOR}{Metric for Evaluation of Translation with Explicit ORdering}
+\newacronym{ter}{TER}{Translation Edit Rate}
+\newacronym{bpe}{BPE}{Byte-pair Encoding}
+\newacronym{chrf}{chrF}{Character $n$-gram F-score}
+
+%\newacronym{⟨label⟩}{⟨abbrv⟩}{⟨full⟩}
+%\newacronym{⟨label⟩}{⟨abbrv⟩}{⟨full⟩}
+%\newacronym{⟨label⟩}{⟨abbrv⟩}{⟨full⟩}
+
+% ----------------------------------------------------------------------
+% displays all entries (even those unused with commands \acrlong/short/full)
+\glsaddall
+
+% ----------------------------------------------------------------------
+% vertical aligment of acronyms' long names
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\setlength\glsdescwidth{1.0\hsize}
