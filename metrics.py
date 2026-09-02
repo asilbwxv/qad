@@ -76,21 +76,26 @@ except ImportError:
 
 class CLIPScoreWrapper:
     def __init__(self, device="cuda" if torch.cuda.is_available() else "cpu"):
-        from torchmetrics.multimodal.clip_score import CLIPScore
+        from transformers import CLIPProcessor, CLIPModel
         self.device = device
-        self.metric = CLIPScore(model_name_or_path="openai/clip-vit-base-patch16").to(self.device)
+        # Use native HuggingFace CLIP to avoid torchmetrics compatibility crashes
+        self.model = CLIPModel.from_pretrained("openai/clip-vit-base-patch16").to(self.device)
+        self.processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch16")
 
-    def score(self, images, texts: List[str]) -> List[float]:
-        """Higher is better. `images` can be PIL images or tensors."""
-        # Note: Depending on input, you might need torchvision transforms here.
-        # This assumes images are pre-processed tensors matching the text count.
-        scores = []
+    def score(self, image, texts: List[str]) -> List[float]:
+        # processor handles all the image normalization and text tokenization natively
+        inputs = self.processor(text=texts, images=image, return_tensors="pt", padding=True).to(self.device)
+        
         with torch.inference_mode():
-            for text in texts:
-                # In practice, you'd batch this. Keeping simple for interface.
-                score = self.metric(images, text)
-                scores.append(score.item())
+            outputs = self.model(**inputs)
+            # logits_per_image is the cosine similarity between the image and the texts
+            logits_per_image = outputs.logits_per_image 
+            scores = logits_per_image.squeeze(0).cpu().numpy().tolist()
+            
         return scores
+
+
+
 
 def caption_mbr_multiref(candidates: List[str], metric_name="cider") -> List[float]:
     """

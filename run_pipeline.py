@@ -60,11 +60,20 @@ def main():
         "--limit", str(args.limit)
     ]
     
-    # Add ASR specific model flag if needed
+      # Catch environment variable for sweeps (Model scaling test)
+    if os.environ.get("WHISPER_CKPT"):
+        gen_cmd.extend(["--ckpt", os.environ["WHISPER_CKPT"]])
+
     if args.task == "asr" and args.model in ["whisper", "nemo"]:
         gen_cmd.extend(["--model_type", args.model])
         
-    run_command(gen_cmd)
+    # THE FIX: Actually skip generation if candidates were cached!
+    if os.path.exists(candidates_jsonl) and os.path.getsize(candidates_jsonl) > 0:
+        print(f"\n--- STAGE 1: SKIPPED (Candidates already exist at {candidates_jsonl}) ---")
+    else:
+        run_command(gen_cmd)
+
+
 
     # ==========================================================
     # STAGE 2: TUNING (OPTIONAL)

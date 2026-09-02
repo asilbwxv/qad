@@ -1,0 +1,43 @@
+\chapter{Experimental Setup and Implementation}
+\label{chapter:experimental_setup}
+
+This chapter details the hardware infrastructure, model checkpoints, dataset formulations, and algorithmic constraints utilized to evaluate the Quality-Aware Decoding (QAD) pipelines formulated in Chapter \ref{chapter:methodology}.
+
+\section{Hardware and Compute Infrastructure}
+\label{sec:hardware_setup}
+
+All generative decoding and pairwise metric evaluations were executed on a dedicated compute node equipped with a single NVIDIA RTX A6000 Graphic Processing Unit (GPU) featuring 48 GB of GDDR6 VRAM. The massive memory bandwidth of the A6000 facilitated large-scale test-time compute scaling, permitting the simultaneous retention of wide beam search trees and KV-caches without requiring aggressive quantization or offloading. Models were instantiated in PyTorch using 16-bit floating-point precision (FP16) to maximize throughput while preserving mathematical stability.
+
+\section{Datasets and Benchmarks}
+\label{sec:datasets}
+
+The experiments span both acoustic and visual modalities to evaluate the generalizability of the reranking frameworks.
+
+\subsection{Automatic Speech Recognition}
+ASR evaluation utilized the LibriSpeech corpus, a benchmark derived from public-domain audiobooks. To thoroughly evaluate the vulnerability of decoding algorithms to the ``hallucination trap'' under distributional shifts[cite: 8], the experiments target two distinct test splits:
+\begin{itemize}
+    \item \textbf{test-clean:} High-signal, noise-free acoustic environments.
+    \item \textbf{test-other:} Degraded, highly noisy environments with pronounced speaker accents, designed to force the autoregressive engine to rely heavily on its internal language priors.
+\end{itemize}
+
+\subsection{Image Captioning}
+Vision-language evaluation utilized the MS COCO dataset, specifically the Karpathy test split comprising 5,000 images. Unlike ASR, which typically features a one-to-one mapping, MS COCO provides five distinct human-annotated reference strings per image. This multi-reference format is critical for computing robust CIDEr scores and ensuring that MBR consensus utilities evaluate a broad spectrum of acceptable human semantic abstraction.
+
+\section{Model Architectures}
+\label{sec:models}
+
+To isolate the impact of Test-Time Compute (TTC) from raw parameter scaling, experiments were conducted across contrasting model sizes.
+For ASR, the Whisper family of encoder-decoder Transformers was selected. To evaluate whether algorithmic search at inference can bridge the capability gap between architectures[cite: 10], both \texttt{whisper-small} (244M parameters) and \texttt{whisper-large-v3} (1.55B parameters) were swept.
+For Image Captioning, candidate generation was driven by BLIP (\texttt{Salesforce/blip-image-captioning-large}), a state-of-the-art multimodal vision-language model optimized for conditional text generation.
+
+\section{Hyperparameter Grid and Caching Protocol}
+\label{sec:hyperparameter_grid}
+
+The execution matrix was designed to systematically isolate the variables of generation diversity, candidate volume ($N$), and decision rule efficiency.
+\begin{itemize}
+    \item \textbf{Generation Algorithms:} Standard \texttt{beam} search was contrasted against Diverse Beam Search (\texttt{dbs}) and \texttt{nucleus} sampling.
+    \item \textbf{Candidate Pool Scaling ($N$):} Pool sizes were expanded incrementally ($N \in \{4, 5, 8, 10\}$) to track the exponentiated power law of test-time scaling and identify the threshold where candidate redundancy induces diminishing returns[cite: 10].
+    \item \textbf{Decision Rules:} \texttt{map}, \texttt{mbr}, \texttt{fixed\_rr}, and \texttt{two\_stage\_mbr}.
+\end{itemize}
+
+Because generating thousands of parallel candidate sequences dominates inference latency relative to post-hoc reranking[cite: 10], a strict file-based caching protocol was implemented. Candidate JSONL pools generated during the initial MAP baseline sweeps were cached and subsequently injected directly into the MBR and Fixed Reranking evaluation stages. This algorithmic isolation ensures that execution time measurements (`exec_time_seconds`) for the reranking phases reflect pure mathematical sorting and metric evaluation latency, unpolluted by the overhead of autoregressive neural generation.

@@ -1,0 +1,906 @@
+🚀 Started logging to ./results/asr_noisy_test/asr_sweep_log.txt
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=map | Metric=wer
+
+Loading weights:   0%|          | 0/479 [00:00<?, ?it/s]
+Loading weights:   0%|          | 2/479 [00:00<01:17,  6.15it/s]
+Loading weights:   5%|▍         | 22/479 [00:00<00:11, 41.19it/s]
+Loading weights:   9%|▊         | 41/479 [00:01<00:10, 41.88it/s]
+Loading weights:  11%|█▏        | 55/479 [00:01<00:08, 49.06it/s]
+Loading weights:  13%|█▎        | 63/479 [00:01<00:07, 52.38it/s]
+Loading weights:  17%|█▋        | 81/479 [00:01<00:08, 49.25it/s]
+Loading weights:  22%|██▏       | 107/479 [00:02<00:06, 60.90it/s]
+Loading weights:  25%|██▌       | 121/479 [00:02<00:05, 60.21it/s]
+Loading weights:  29%|██▉       | 140/479 [00:02<00:05, 56.99it/s]
+Loading weights:  34%|███▍      | 164/479 [00:02<00:03, 78.78it/s]
+Loading weights:  37%|███▋      | 175/479 [00:03<00:04, 65.11it/s]
+Loading weights:  39%|███▉      | 188/479 [00:03<00:05, 55.48it/s]
+Loading weights:  44%|████▎     | 209/479 [00:03<00:04, 58.96it/s]
+Loading weights:  53%|█████▎    | 255/479 [00:04<00:02, 77.25it/s]
+Loading weights:  61%|██████▏   | 294/479 [00:04<00:02, 86.54it/s]
+Loading weights:  65%|██████▍   | 310/479 [00:04<00:02, 81.44it/s]
+Loading weights:  68%|██████▊   | 324/479 [00:05<00:02, 57.32it/s]
+Loading weights:  70%|██████▉   | 334/479 [00:05<00:02, 61.55it/s]
+Loading weights:  72%|███████▏  | 343/479 [00:05<00:02, 51.12it/s]
+Loading weights:  76%|███████▋  | 366/479 [00:06<00:01, 56.56it/s]
+Loading weights:  78%|███████▊  | 374/479 [00:06<00:02, 47.15it/s]
+Loading weights:  84%|████████▎ | 400/479 [00:06<00:01, 58.56it/s]
+Loading weights:  87%|████████▋ | 415/479 [00:06<00:00, 65.63it/s]
+Loading weights:  89%|████████▉ | 426/479 [00:07<00:00, 61.38it/s]
+Loading weights:  96%|█████████▌| 460/479 [00:07<00:00, 93.92it/s]
+Loading weights: 100%|██████████| 479/479 [00:07<00:00, 65.66it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/librispeech_noisy/audio --out ./results/asr_noisy_test/exp_0/asr_candidates.jsonl --algos beam,nucleus --beam_size 4 --limit 0 --ckpt openai/whisper-small --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_0/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_0/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_0/asr_final.jsonl
+
+🏆 Result for Exp 0 (map): WER = 10.02% | Time: 37714.98s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_0/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_1/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_1/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_1/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_1/asr_final.jsonl
+
+🏆 Result for Exp 1 (mbr): WER = 10.20% | Time: 7.25s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_0/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=fixed_rr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 25012.76it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_2/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_2/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_2/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_2/asr_final.jsonl
+
+🏆 Result for Exp 2 (fixed_rr): WER = 12.45% | Time: 43.21s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_0/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 15447.93it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_3/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_3/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_3/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_3/asr_final.jsonl
+
+🏆 Result for Exp 3 (two_stage_mbr): WER = 10.20% | Time: 47.37s
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=map | Metric=wer
+
+Loading weights:   0%|          | 0/479 [00:00<?, ?it/s]
+Loading weights:  27%|██▋       | 131/479 [00:00<00:00, 1287.31it/s]
+Loading weights:  54%|█████▍    | 260/479 [00:00<00:00, 1178.93it/s]
+Loading weights:  80%|███████▉  | 383/479 [00:00<00:00, 1178.39it/s]
+Loading weights: 100%|██████████| 479/479 [00:00<00:00, 1198.48it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/librispeech_noisy/audio --out ./results/asr_noisy_test/exp_4/asr_candidates.jsonl --algos beam,nucleus --beam_size 8 --limit 0 --ckpt openai/whisper-small --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_4/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_4/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_4/asr_final.jsonl
+
+🏆 Result for Exp 4 (map): WER = 10.12% | Time: 46208.69s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_4/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_5/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_5/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_5/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_5/asr_final.jsonl
+
+🏆 Result for Exp 5 (mbr): WER = 10.27% | Time: 4.58s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_4/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=fixed_rr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19817.94it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_6/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_6/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_6/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_6/asr_final.jsonl
+
+🏆 Result for Exp 6 (fixed_rr): WER = 12.49% | Time: 30.36s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_4/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 27973.16it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_7/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_7/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_7/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_7/asr_final.jsonl
+
+🏆 Result for Exp 7 (two_stage_mbr): WER = 10.26% | Time: 34.43s
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=map | Metric=wer
+
+Loading weights:   0%|          | 0/479 [00:00<?, ?it/s]
+Loading weights:  36%|███▋      | 174/479 [00:00<00:00, 1738.99it/s]
+Loading weights:  73%|███████▎  | 348/479 [00:00<00:00, 1735.05it/s]
+Loading weights: 100%|██████████| 479/479 [00:00<00:00, 1726.45it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/librispeech_noisy/audio --out ./results/asr_noisy_test/exp_8/asr_candidates.jsonl --algos beam,dbs --beam_size 4 --limit 0 --ckpt openai/whisper-small --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_8/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_8/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_8/asr_final.jsonl
+
+🏆 Result for Exp 8 (map): WER = 10.02% | Time: 5621.45s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_8/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_9/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_9/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_9/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_9/asr_final.jsonl
+
+🏆 Result for Exp 9 (mbr): WER = 10.12% | Time: 2.39s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_8/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=fixed_rr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 17741.06it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_10/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_10/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_10/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_10/asr_final.jsonl
+
+🏆 Result for Exp 10 (fixed_rr): WER = 12.23% | Time: 28.34s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_8/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 16686.23it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_11/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_11/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_11/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_11/asr_final.jsonl
+
+🏆 Result for Exp 11 (two_stage_mbr): WER = 10.12% | Time: 27.00s
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=map | Metric=wer
+
+Loading weights:   0%|          | 0/479 [00:00<?, ?it/s]
+Loading weights:  38%|███▊      | 183/479 [00:00<00:00, 1824.51it/s]
+Loading weights:  77%|███████▋  | 370/479 [00:00<00:00, 1837.05it/s]
+Loading weights: 100%|██████████| 479/479 [00:00<00:00, 1816.13it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/librispeech_noisy/audio --out ./results/asr_noisy_test/exp_12/asr_candidates.jsonl --algos beam,dbs --beam_size 8 --limit 0 --ckpt openai/whisper-small --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_12/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_12/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_12/asr_final.jsonl
+
+🏆 Result for Exp 12 (map): WER = 10.12% | Time: 13029.93s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_12/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_13/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_13/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_13/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_13/asr_final.jsonl
+
+🏆 Result for Exp 13 (mbr): WER = 10.24% | Time: 2.48s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_12/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=fixed_rr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 21057.43it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_14/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_14/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_14/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_14/asr_final.jsonl
+
+🏆 Result for Exp 14 (fixed_rr): WER = 79.28% | Time: 26.12s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_12/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19390.38it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_15/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_15/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_15/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_15/asr_final.jsonl
+
+🏆 Result for Exp 15 (two_stage_mbr): WER = 10.24% | Time: 36.69s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=map | Metric=wer
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:   1%|▏         | 17/1259 [00:00<00:08, 152.89it/s]
+Loading weights:   3%|▎         | 33/1259 [00:00<00:26, 47.14it/s] 
+Loading weights:   3%|▎         | 42/1259 [00:00<00:22, 53.75it/s]
+Loading weights:   4%|▍         | 50/1259 [00:01<00:27, 44.33it/s]
+Loading weights:   5%|▌         | 69/1259 [00:01<00:16, 71.20it/s]
+Loading weights:   6%|▋         | 81/1259 [00:01<00:15, 75.24it/s]
+Loading weights:   8%|▊         | 102/1259 [00:01<00:11, 104.35it/s]
+Loading weights:   9%|▉         | 116/1259 [00:01<00:15, 74.49it/s] 
+Loading weights:  10%|█         | 127/1259 [00:01<00:14, 79.15it/s]
+Loading weights:  11%|█         | 138/1259 [00:01<00:13, 84.30it/s]
+Loading weights:  12%|█▏        | 149/1259 [00:02<00:18, 58.63it/s]
+Loading weights:  13%|█▎        | 165/1259 [00:02<00:14, 74.23it/s]
+Loading weights:  14%|█▍        | 175/1259 [00:02<00:13, 79.07it/s]
+Loading weights:  15%|█▍        | 185/1259 [00:02<00:16, 63.46it/s]
+Loading weights:  17%|█▋        | 210/1259 [00:02<00:12, 81.74it/s]
+Loading weights:  18%|█▊        | 229/1259 [00:02<00:10, 100.23it/s]
+Loading weights:  19%|█▉        | 241/1259 [00:03<00:13, 74.38it/s] 
+Loading weights:  20%|██        | 255/1259 [00:03<00:15, 66.59it/s]
+Loading weights:  22%|██▏       | 273/1259 [00:03<00:12, 76.36it/s]
+Loading weights:  22%|██▏       | 282/1259 [00:03<00:13, 74.03it/s]
+Loading weights:  23%|██▎       | 292/1259 [00:03<00:12, 78.08it/s]
+Loading weights:  24%|██▍       | 303/1259 [00:04<00:11, 81.05it/s]
+Loading weights:  25%|██▍       | 312/1259 [00:04<00:15, 59.64it/s]
+Loading weights:  26%|██▌       | 322/1259 [00:04<00:14, 64.60it/s]
+Loading weights:  27%|██▋       | 341/1259 [00:04<00:10, 87.39it/s]
+Loading weights:  28%|██▊       | 352/1259 [00:04<00:14, 64.35it/s]
+Loading weights:  29%|██▊       | 361/1259 [00:05<00:13, 68.27it/s]
+Loading weights:  29%|██▉       | 370/1259 [00:05<00:12, 72.49it/s]
+Loading weights:  30%|███       | 379/1259 [00:05<00:14, 58.94it/s]
+Loading weights:  31%|███       | 387/1259 [00:05<00:15, 57.62it/s]
+Loading weights:  32%|███▏      | 405/1259 [00:05<00:10, 81.75it/s]
+Loading weights:  33%|███▎      | 415/1259 [00:05<00:10, 84.17it/s]
+Loading weights:  34%|███▍      | 425/1259 [00:06<00:17, 48.45it/s]
+Loading weights:  34%|███▍      | 434/1259 [00:06<00:15, 53.88it/s]
+Loading weights:  35%|███▌      | 442/1259 [00:06<00:19, 42.68it/s]
+Loading weights:  36%|███▌      | 454/1259 [00:06<00:14, 54.59it/s]
+Loading weights:  37%|███▋      | 462/1259 [00:06<00:17, 45.83it/s]
+Loading weights:  37%|███▋      | 469/1259 [00:07<00:16, 48.67it/s]
+Loading weights:  38%|███▊      | 476/1259 [00:07<00:14, 52.21it/s]
+Loading weights:  38%|███▊      | 483/1259 [00:07<00:15, 50.52it/s]
+Loading weights:  39%|███▉      | 489/1259 [00:07<00:15, 49.60it/s]
+Loading weights:  39%|███▉      | 495/1259 [00:07<00:15, 48.45it/s]
+Loading weights:  40%|████      | 509/1259 [00:07<00:15, 49.48it/s]
+Loading weights:  41%|████      | 515/1259 [00:07<00:15, 46.85it/s]
+Loading weights:  41%|████▏     | 520/1259 [00:08<00:15, 46.33it/s]
+Loading weights:  42%|████▏     | 526/1259 [00:08<00:15, 48.57it/s]
+Loading weights:  42%|████▏     | 532/1259 [00:08<00:17, 42.25it/s]
+Loading weights:  43%|████▎     | 539/1259 [00:08<00:16, 43.61it/s]
+Loading weights:  44%|████▎     | 548/1259 [00:08<00:13, 52.15it/s]
+Loading weights:  44%|████▍     | 554/1259 [00:08<00:13, 52.84it/s]
+Loading weights:  44%|████▍     | 560/1259 [00:09<00:19, 36.74it/s]
+Loading weights:  45%|████▌     | 570/1259 [00:09<00:14, 47.32it/s]
+Loading weights:  46%|████▌     | 577/1259 [00:09<00:13, 51.44it/s]
+Loading weights:  46%|████▋     | 583/1259 [00:09<00:18, 35.75it/s]
+Loading weights:  47%|████▋     | 597/1259 [00:09<00:12, 53.28it/s]
+Loading weights:  48%|████▊     | 605/1259 [00:10<00:15, 41.23it/s]
+Loading weights:  49%|████▊     | 611/1259 [00:10<00:15, 42.68it/s]
+Loading weights:  50%|████▉     | 624/1259 [00:10<00:10, 57.95it/s]
+Loading weights:  50%|█████     | 632/1259 [00:10<00:13, 45.32it/s]
+Loading weights:  51%|█████     | 639/1259 [00:10<00:15, 39.22it/s]
+Loading weights:  52%|█████▏    | 649/1259 [00:10<00:12, 48.16it/s]
+Loading weights:  52%|█████▏    | 659/1259 [00:11<00:13, 42.92it/s]
+Loading weights:  53%|█████▎    | 669/1259 [00:11<00:14, 41.93it/s]
+Loading weights:  54%|█████▍    | 677/1259 [00:11<00:13, 43.47it/s]
+Loading weights:  54%|█████▍    | 682/1259 [00:11<00:13, 41.79it/s]
+Loading weights:  55%|█████▍    | 687/1259 [00:11<00:13, 41.32it/s]
+Loading weights:  56%|█████▌    | 702/1259 [00:11<00:08, 61.98it/s]
+Loading weights:  56%|█████▋    | 710/1259 [00:12<00:11, 46.98it/s]
+Loading weights:  57%|█████▋    | 720/1259 [00:12<00:09, 56.49it/s]
+Loading weights:  58%|█████▊    | 728/1259 [00:12<00:09, 53.61it/s]
+Loading weights:  58%|█████▊    | 735/1259 [00:12<00:12, 41.48it/s]
+Loading weights:  59%|█████▉    | 741/1259 [00:12<00:11, 43.49it/s]
+Loading weights:  60%|█████▉    | 751/1259 [00:13<00:12, 41.10it/s]
+Loading weights:  61%|██████    | 765/1259 [00:13<00:09, 51.12it/s]
+Loading weights:  61%|██████    | 771/1259 [00:13<00:12, 37.70it/s]
+Loading weights:  62%|██████▏   | 779/1259 [00:13<00:11, 42.59it/s]
+Loading weights:  63%|██████▎   | 793/1259 [00:14<00:10, 45.02it/s]
+Loading weights:  64%|██████▎   | 801/1259 [00:14<00:09, 48.11it/s]
+Loading weights:  64%|██████▍   | 807/1259 [00:14<00:15, 29.72it/s]
+Loading weights:  65%|██████▍   | 813/1259 [00:14<00:13, 33.49it/s]
+Loading weights:  65%|██████▌   | 820/1259 [00:15<00:14, 30.67it/s]
+Loading weights:  65%|██████▌   | 824/1259 [00:15<00:13, 31.97it/s]
+Loading weights:  66%|██████▌   | 828/1259 [00:15<00:13, 31.91it/s]
+Loading weights:  66%|██████▋   | 835/1259 [00:15<00:13, 32.53it/s]
+Loading weights:  67%|██████▋   | 839/1259 [00:15<00:15, 26.71it/s]
+Loading weights:  67%|██████▋   | 848/1259 [00:15<00:11, 36.90it/s]
+Loading weights:  68%|██████▊   | 853/1259 [00:16<00:13, 29.82it/s]
+Loading weights:  68%|██████▊   | 862/1259 [00:16<00:12, 31.67it/s]
+Loading weights:  69%|██████▉   | 866/1259 [00:16<00:12, 31.17it/s]
+Loading weights:  69%|██████▉   | 872/1259 [00:16<00:13, 29.51it/s]
+Loading weights:  70%|██████▉   | 879/1259 [00:16<00:11, 33.07it/s]
+Loading weights:  70%|███████   | 883/1259 [00:17<00:11, 31.93it/s]
+Loading weights:  71%|███████   | 891/1259 [00:17<00:08, 41.24it/s]
+Loading weights:  71%|███████   | 897/1259 [00:17<00:11, 31.53it/s]
+Loading weights:  72%|███████▏  | 905/1259 [00:17<00:08, 40.15it/s]
+Loading weights:  72%|███████▏  | 911/1259 [00:17<00:08, 39.31it/s]
+Loading weights:  73%|███████▎  | 916/1259 [00:17<00:08, 38.35it/s]
+Loading weights:  73%|███████▎  | 924/1259 [00:18<00:10, 32.58it/s]
+Loading weights:  74%|███████▍  | 933/1259 [00:18<00:08, 38.50it/s]
+Loading weights:  75%|███████▍  | 938/1259 [00:18<00:10, 29.52it/s]
+Loading weights:  76%|███████▌  | 952/1259 [00:18<00:08, 38.18it/s]
+Loading weights:  76%|███████▌  | 957/1259 [00:19<00:07, 38.03it/s]
+Loading weights:  77%|███████▋  | 970/1259 [00:19<00:06, 41.97it/s]
+Loading weights:  77%|███████▋  | 975/1259 [00:19<00:06, 40.89it/s]
+Loading weights:  78%|███████▊  | 980/1259 [00:19<00:06, 41.28it/s]
+Loading weights:  78%|███████▊  | 985/1259 [00:19<00:07, 38.38it/s]
+Loading weights:  79%|███████▊  | 989/1259 [00:19<00:07, 35.76it/s]
+Loading weights:  79%|███████▉  | 1000/1259 [00:20<00:07, 36.52it/s]
+Loading weights:  80%|███████▉  | 1004/1259 [00:20<00:08, 29.65it/s]
+Loading weights:  80%|████████  | 1011/1259 [00:20<00:07, 33.52it/s]
+Loading weights:  81%|████████  | 1015/1259 [00:20<00:07, 34.07it/s]
+Loading weights:  81%|████████▏ | 1023/1259 [00:20<00:06, 35.74it/s]
+Loading weights:  82%|████████▏ | 1027/1259 [00:21<00:07, 32.65it/s]
+Loading weights:  82%|████████▏ | 1034/1259 [00:21<00:05, 37.95it/s]
+Loading weights:  82%|████████▏ | 1038/1259 [00:21<00:07, 28.63it/s]
+Loading weights:  83%|████████▎ | 1044/1259 [00:21<00:07, 30.59it/s]
+Loading weights:  84%|████████▍ | 1056/1259 [00:21<00:04, 45.73it/s]
+Loading weights:  84%|████████▍ | 1062/1259 [00:21<00:05, 36.72it/s]
+Loading weights:  85%|████████▌ | 1071/1259 [00:22<00:04, 42.11it/s]
+Loading weights:  85%|████████▌ | 1076/1259 [00:22<00:04, 42.23it/s]
+Loading weights:  86%|████████▌ | 1082/1259 [00:22<00:03, 45.20it/s]
+Loading weights:  86%|████████▋ | 1088/1259 [00:22<00:04, 42.46it/s]
+Loading weights:  87%|████████▋ | 1093/1259 [00:22<00:04, 40.68it/s]
+Loading weights:  88%|████████▊ | 1106/1259 [00:22<00:03, 44.92it/s]
+Loading weights:  88%|████████▊ | 1111/1259 [00:23<00:03, 45.85it/s]
+Loading weights:  89%|████████▊ | 1116/1259 [00:23<00:03, 43.74it/s]
+Loading weights:  89%|████████▉ | 1121/1259 [00:23<00:04, 30.65it/s]
+Loading weights:  90%|█████████ | 1136/1259 [00:23<00:03, 33.80it/s]
+Loading weights:  91%|█████████ | 1140/1259 [00:23<00:03, 34.63it/s]
+Loading weights:  91%|█████████ | 1146/1259 [00:24<00:03, 30.72it/s]
+Loading weights:  92%|█████████▏| 1157/1259 [00:24<00:02, 38.56it/s]
+Loading weights:  92%|█████████▏| 1164/1259 [00:24<00:02, 32.92it/s]
+Loading weights:  93%|█████████▎| 1171/1259 [00:24<00:02, 30.89it/s]
+Loading weights:  93%|█████████▎| 1175/1259 [00:25<00:02, 30.73it/s]
+Loading weights:  95%|█████████▍| 1194/1259 [00:25<00:01, 47.81it/s]
+Loading weights:  95%|█████████▌| 1199/1259 [00:25<00:01, 45.27it/s]
+Loading weights:  96%|█████████▌| 1208/1259 [00:25<00:00, 51.81it/s]
+Loading weights:  96%|█████████▋| 1214/1259 [00:25<00:01, 40.00it/s]
+Loading weights:  97%|█████████▋| 1219/1259 [00:25<00:01, 39.08it/s]
+Loading weights:  97%|█████████▋| 1224/1259 [00:26<00:00, 38.89it/s]
+Loading weights:  98%|█████████▊| 1235/1259 [00:26<00:00, 47.62it/s]
+Loading weights:  98%|█████████▊| 1240/1259 [00:26<00:00, 37.52it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:26<00:00, 47.42it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/librispeech_noisy/audio --out ./results/asr_noisy_test/exp_16/asr_candidates.jsonl --algos beam,nucleus --beam_size 4 --limit 0 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_16/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_16/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_16/asr_final.jsonl
+
+🏆 Result for Exp 16 (map): WER = 5.87% | Time: 9978.53s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_16/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_17/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_17/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_17/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_17/asr_final.jsonl
+
+🏆 Result for Exp 17 (mbr): WER = 5.91% | Time: 3.08s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_16/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=fixed_rr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 15704.32it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_18/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_18/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_18/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_18/asr_final.jsonl
+
+🏆 Result for Exp 18 (fixed_rr): WER = 6.29% | Time: 31.28s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_16/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19688.35it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_19/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_19/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_19/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_19/asr_final.jsonl
+
+🏆 Result for Exp 19 (two_stage_mbr): WER = 5.93% | Time: 28.65s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=map | Metric=wer
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:  39%|███▉      | 491/1259 [00:00<00:00, 4896.54it/s]
+Loading weights:  78%|███████▊  | 981/1259 [00:00<00:00, 3807.08it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:00<00:00, 3917.20it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/librispeech_noisy/audio --out ./results/asr_noisy_test/exp_20/asr_candidates.jsonl --algos beam,nucleus --beam_size 8 --limit 0 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_20/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_20/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_20/asr_final.jsonl
+
+🏆 Result for Exp 20 (map): WER = 5.89% | Time: 16433.45s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_20/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_21/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_21/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_21/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_21/asr_final.jsonl
+
+🏆 Result for Exp 21 (mbr): WER = 5.95% | Time: 2.97s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_20/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=fixed_rr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19471.89it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_22/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_22/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_22/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_22/asr_final.jsonl
+
+🏆 Result for Exp 22 (fixed_rr): WER = 6.28% | Time: 27.84s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_20/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 17784.10it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_23/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_23/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_23/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_23/asr_final.jsonl
+
+🏆 Result for Exp 23 (two_stage_mbr): WER = 5.95% | Time: 27.70s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=map | Metric=wer
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:  21%|██▏       | 270/1259 [00:00<00:00, 2671.07it/s]
+Loading weights:  43%|████▎     | 538/1259 [00:00<00:00, 2072.60it/s]
+Loading weights:  60%|█████▉    | 754/1259 [00:00<00:00, 1959.93it/s]
+Loading weights:  79%|███████▊  | 991/1259 [00:00<00:00, 2097.64it/s]
+Loading weights:  96%|█████████▌| 1209/1259 [00:00<00:00, 2120.53it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:00<00:00, 2148.44it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/librispeech_noisy/audio --out ./results/asr_noisy_test/exp_24/asr_candidates.jsonl --algos beam,dbs --beam_size 4 --limit 0 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_24/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_24/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_24/asr_final.jsonl
+
+🏆 Result for Exp 24 (map): WER = 5.87% | Time: 12389.01s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_24/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_25/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_25/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_25/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_25/asr_final.jsonl
+
+🏆 Result for Exp 25 (mbr): WER = 5.92% | Time: 2.53s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_24/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=fixed_rr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 17857.55it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_26/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_26/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_26/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_26/asr_final.jsonl
+
+🏆 Result for Exp 26 (fixed_rr): WER = 5.95% | Time: 25.88s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_24/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 18364.01it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_27/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_27/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_27/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_27/asr_final.jsonl
+
+🏆 Result for Exp 27 (two_stage_mbr): WER = 5.92% | Time: 29.84s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=map | Metric=wer
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:  36%|███▋      | 458/1259 [00:00<00:00, 4575.01it/s]
+Loading weights:  73%|███████▎  | 916/1259 [00:00<00:00, 3474.46it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:00<00:00, 3366.78it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/librispeech_noisy/audio --out ./results/asr_noisy_test/exp_28/asr_candidates.jsonl --algos beam,dbs --beam_size 8 --limit 0 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_28/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_28/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_28/asr_final.jsonl
+
+🏆 Result for Exp 28 (map): WER = 5.89% | Time: 49236.12s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_28/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_29/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_29/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_29/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_29/asr_final.jsonl
+
+🏆 Result for Exp 29 (mbr): WER = 5.93% | Time: 2.82s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_28/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=fixed_rr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 18627.76it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_30/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_30/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_30/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_30/asr_final.jsonl
+
+🏆 Result for Exp 30 (fixed_rr): WER = 77.29% | Time: 36.21s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/asr_noisy_test/exp_28/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 22390.71it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/asr_noisy_test/exp_31/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/asr_noisy_test/exp_31/asr_candidates.jsonl --out ./results/asr_noisy_test/exp_31/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/asr_noisy_test/exp_31/asr_final.jsonl
+
+🏆 Result for Exp 31 (two_stage_mbr): WER = 5.93% | Time: 32.30s
+
+✅ All sweeps complete. Summary saved to ./results/asr_noisy_test/asr_sweep_summary.json

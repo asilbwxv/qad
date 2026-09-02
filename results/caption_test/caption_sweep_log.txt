@@ -1,0 +1,326 @@
+🚀 Started logging to ./results/caption_test/caption_sweep_log.txt
+
+=> Running Sweep Config: Model=Salesforce/blip-image-captioning-large | Beam=5 | Rerank=map | Metric=cider
+
+Loading weights:   0%|          | 0/616 [00:00<?, ?it/s]
+Loading weights:   2%|▏         | 10/616 [00:00<00:07, 85.43it/s]
+Loading weights:   3%|▎         | 19/616 [00:00<00:13, 44.72it/s]
+Loading weights:   4%|▍         | 25/616 [00:00<00:15, 38.24it/s]
+Loading weights:   5%|▍         | 30/616 [00:01<00:24, 23.44it/s]
+Loading weights:  18%|█▊        | 113/616 [00:01<00:03, 132.34it/s]
+Loading weights:  21%|██        | 130/616 [00:01<00:05, 87.43it/s] 
+Loading weights:  23%|██▎       | 143/616 [00:02<00:06, 69.95it/s]
+Loading weights:  25%|██▍       | 153/616 [00:02<00:07, 60.28it/s]
+Loading weights:  26%|██▌       | 161/616 [00:02<00:08, 51.00it/s]
+Loading weights:  27%|██▋       | 168/616 [00:03<00:11, 37.73it/s]
+Loading weights:  36%|███▋      | 224/616 [00:03<00:04, 91.63it/s]
+Loading weights:  39%|███▉      | 239/616 [00:03<00:04, 94.06it/s]
+Loading weights:  41%|████▏     | 255/616 [00:03<00:03, 93.15it/s]
+Loading weights:  43%|████▎     | 267/616 [00:03<00:05, 60.09it/s]
+Loading weights:  45%|████▍     | 277/616 [00:04<00:05, 59.35it/s]
+Loading weights:  46%|████▋     | 286/616 [00:04<00:05, 58.75it/s]
+Loading weights:  53%|█████▎    | 329/616 [00:04<00:04, 70.80it/s]
+Loading weights:  55%|█████▍    | 337/616 [00:05<00:07, 39.82it/s]
+Loading weights:  56%|█████▌    | 343/616 [00:06<00:10, 25.30it/s]
+Loading weights:  61%|██████    | 373/616 [00:06<00:05, 43.10it/s]
+Loading weights:  62%|██████▏   | 383/616 [00:06<00:05, 39.48it/s]
+Loading weights:  63%|██████▎   | 391/616 [00:07<00:06, 35.94it/s]
+Loading weights:  64%|██████▍   | 397/616 [00:07<00:06, 31.50it/s]
+Loading weights:  65%|██████▌   | 402/616 [00:08<00:09, 23.22it/s]
+Loading weights:  67%|██████▋   | 411/616 [00:08<00:08, 25.06it/s]
+Loading weights:  67%|██████▋   | 415/616 [00:09<00:18, 11.05it/s]
+Loading weights:  68%|██████▊   | 418/616 [00:09<00:16, 11.94it/s]
+Loading weights:  68%|██████▊   | 421/616 [00:10<00:17, 11.27it/s]
+Loading weights:  69%|██████▉   | 426/616 [00:10<00:13, 14.13it/s]
+Loading weights:  70%|██████▉   | 429/616 [00:10<00:14, 12.52it/s]
+Loading weights:  70%|███████   | 432/616 [00:10<00:13, 13.82it/s]
+Loading weights:  72%|███████▏  | 445/616 [00:11<00:09, 18.88it/s]
+Loading weights:  78%|███████▊  | 479/616 [00:11<00:03, 41.02it/s]
+Loading weights:  81%|████████  | 496/616 [00:12<00:02, 43.96it/s]
+Loading weights:  81%|████████▏ | 501/616 [00:12<00:03, 31.34it/s]
+Loading weights:  85%|████████▍ | 521/616 [00:13<00:03, 28.54it/s]
+Loading weights:  85%|████████▌ | 525/616 [00:14<00:05, 17.27it/s]
+Loading weights:  86%|████████▌ | 531/616 [00:14<00:04, 17.35it/s]
+Loading weights:  87%|████████▋ | 534/616 [00:15<00:05, 15.63it/s]
+Loading weights:  93%|█████████▎| 570/616 [00:15<00:01, 31.53it/s]
+Loading weights:  93%|█████████▎| 574/616 [00:15<00:01, 30.63it/s]
+Loading weights:  94%|█████████▎| 577/616 [00:15<00:01, 29.74it/s]
+Loading weights:  94%|█████████▍| 580/616 [00:16<00:01, 23.43it/s]
+Loading weights:  95%|█████████▍| 583/616 [00:16<00:01, 22.47it/s]
+Loading weights:  95%|█████████▌| 586/616 [00:16<00:01, 21.43it/s]
+Loading weights:  95%|█████████▌| 588/616 [00:16<00:01, 19.32it/s]
+Loading weights:  96%|█████████▌| 590/616 [00:16<00:01, 19.30it/s]
+Loading weights: 100%|██████████| 616/616 [00:16<00:00, 36.43it/s]
+[1mBlipForConditionalGeneration LOAD REPORT[0m from: Salesforce/blip-image-captioning-large
+Key                                       | Status     |  | 
+------------------------------------------+------------+--+-
+text_decoder.bert.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for CAPTION ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_gen.py --dir ./data/coco/images --out ./results/caption_test/exp_0/caption_candidates.jsonl --algos beam,sample --beam_size 5 --limit 0 --ckpt Salesforce/blip-image-captioning-large
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_rerank.py --inp ./results/caption_test/exp_0/caption_candidates.jsonl --out ./results/caption_test/exp_0/caption_final.jsonl --algo map --mbr_metric cider
+
+✅ Pipeline Complete! Final outputs saved to: ./results/caption_test/exp_0/caption_final.jsonl
+
+📊 Computing Captioning Metrics...
+{'testlen': 1308, 'reflen': 1181, 'guess': [1308, 1208, 1108, 1008], 'correct': [807, 397, 184, 87]}
+ratio: 1.1075359864512213
+   - Bleu_1: 0.6170
+   - Bleu_2: 0.4503
+   - Bleu_3: 0.3229
+   - Bleu_4: 0.2322
+   - METEOR: 0.2879
+   - CIDEr: 0.8337
+   - SPICE: 0.2328
+
+🏆 Result for Exp 0 (map): CIDEr = 0.8337 | Time: 234.96s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/caption_test/exp_0/caption_candidates.jsonl
+
+=> Running Sweep Config: Model=Salesforce/blip-image-captioning-large | Beam=5 | Rerank=mbr | Metric=cider
+
+--- STAGE 1: Generating Diverse Candidates for CAPTION ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/caption_test/exp_1/caption_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_rerank.py --inp ./results/caption_test/exp_1/caption_candidates.jsonl --out ./results/caption_test/exp_1/caption_final.jsonl --algo mbr --mbr_metric cider
+
+✅ Pipeline Complete! Final outputs saved to: ./results/caption_test/exp_1/caption_final.jsonl
+
+📊 Computing Captioning Metrics...
+{'testlen': 1308, 'reflen': 1181, 'guess': [1308, 1208, 1108, 1008], 'correct': [807, 397, 184, 87]}
+ratio: 1.1075359864512213
+   - Bleu_1: 0.6170
+   - Bleu_2: 0.4503
+   - Bleu_3: 0.3229
+   - Bleu_4: 0.2322
+   - METEOR: 0.2879
+   - CIDEr: 0.8337
+   - SPICE: 0.2328
+
+🏆 Result for Exp 1 (mbr): CIDEr = 0.8337 | Time: 13.44s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/caption_test/exp_0/caption_candidates.jsonl
+
+=> Running Sweep Config: Model=Salesforce/blip-image-captioning-large | Beam=5 | Rerank=fixed_rr | Metric=cider
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 398/398 [00:00<00:00, 16622.02it/s]
+[1mCLIPModel LOAD REPORT[0m from: openai/clip-vit-base-patch16
+Key                                  | Status     |  | 
+-------------------------------------+------------+--+-
+text_model.embeddings.position_ids   | UNEXPECTED |  | 
+vision_model.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for CAPTION ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/caption_test/exp_2/caption_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_rerank.py --inp ./results/caption_test/exp_2/caption_candidates.jsonl --out ./results/caption_test/exp_2/caption_final.jsonl --algo fixed_rr --mbr_metric cider
+
+✅ Pipeline Complete! Final outputs saved to: ./results/caption_test/exp_2/caption_final.jsonl
+
+📊 Computing Captioning Metrics...
+{'testlen': 1209, 'reflen': 1131, 'guess': [1209, 1109, 1009, 909], 'correct': [636, 219, 86, 33]}
+ratio: 1.0689655172404342
+   - Bleu_1: 0.5261
+   - Bleu_2: 0.3223
+   - Bleu_3: 0.2069
+   - Bleu_4: 0.1339
+   - METEOR: 0.2232
+   - CIDEr: 0.6311
+   - SPICE: 0.1913
+
+🏆 Result for Exp 2 (fixed_rr): CIDEr = 0.6311 | Time: 36.02s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/caption_test/exp_0/caption_candidates.jsonl
+
+=> Running Sweep Config: Model=Salesforce/blip-image-captioning-large | Beam=5 | Rerank=two_stage_mbr | Metric=cider
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 398/398 [00:00<00:00, 26663.68it/s]
+[1mCLIPModel LOAD REPORT[0m from: openai/clip-vit-base-patch16
+Key                                  | Status     |  | 
+-------------------------------------+------------+--+-
+text_model.embeddings.position_ids   | UNEXPECTED |  | 
+vision_model.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for CAPTION ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/caption_test/exp_3/caption_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_rerank.py --inp ./results/caption_test/exp_3/caption_candidates.jsonl --out ./results/caption_test/exp_3/caption_final.jsonl --algo two_stage_mbr --mbr_metric cider
+
+✅ Pipeline Complete! Final outputs saved to: ./results/caption_test/exp_3/caption_final.jsonl
+
+📊 Computing Captioning Metrics...
+{'testlen': 1222, 'reflen': 1136, 'guess': [1222, 1122, 1022, 922], 'correct': [689, 264, 105, 48]}
+ratio: 1.0757042253511657
+   - Bleu_1: 0.5638
+   - Bleu_2: 0.3642
+   - Bleu_3: 0.2389
+   - Bleu_4: 0.1632
+   - METEOR: 0.2394
+   - CIDEr: 0.6735
+   - SPICE: 0.2016
+
+🏆 Result for Exp 3 (two_stage_mbr): CIDEr = 0.6735 | Time: 30.00s
+
+=> Running Sweep Config: Model=Salesforce/blip-image-captioning-large | Beam=10 | Rerank=map | Metric=cider
+
+Loading weights:   0%|          | 0/616 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 616/616 [00:00<00:00, 12582.93it/s]
+[1mBlipForConditionalGeneration LOAD REPORT[0m from: Salesforce/blip-image-captioning-large
+Key                                       | Status     |  | 
+------------------------------------------+------------+--+-
+text_decoder.bert.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for CAPTION ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_gen.py --dir ./data/coco/images --out ./results/caption_test/exp_4/caption_candidates.jsonl --algos beam,sample --beam_size 10 --limit 0 --ckpt Salesforce/blip-image-captioning-large
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_rerank.py --inp ./results/caption_test/exp_4/caption_candidates.jsonl --out ./results/caption_test/exp_4/caption_final.jsonl --algo map --mbr_metric cider
+
+✅ Pipeline Complete! Final outputs saved to: ./results/caption_test/exp_4/caption_final.jsonl
+
+📊 Computing Captioning Metrics...
+{'testlen': 1363, 'reflen': 1210, 'guess': [1363, 1263, 1163, 1063], 'correct': [811, 397, 182, 85]}
+ratio: 1.1264462809908047
+   - Bleu_1: 0.5950
+   - Bleu_2: 0.4325
+   - Bleu_3: 0.3082
+   - Bleu_4: 0.2199
+   - METEOR: 0.2915
+   - CIDEr: 0.7961
+   - SPICE: 0.2357
+
+🏆 Result for Exp 4 (map): CIDEr = 0.7961 | Time: 201.55s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/caption_test/exp_4/caption_candidates.jsonl
+
+=> Running Sweep Config: Model=Salesforce/blip-image-captioning-large | Beam=10 | Rerank=mbr | Metric=cider
+
+--- STAGE 1: Generating Diverse Candidates for CAPTION ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/caption_test/exp_5/caption_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_rerank.py --inp ./results/caption_test/exp_5/caption_candidates.jsonl --out ./results/caption_test/exp_5/caption_final.jsonl --algo mbr --mbr_metric cider
+
+✅ Pipeline Complete! Final outputs saved to: ./results/caption_test/exp_5/caption_final.jsonl
+
+📊 Computing Captioning Metrics...
+{'testlen': 1363, 'reflen': 1210, 'guess': [1363, 1263, 1163, 1063], 'correct': [811, 397, 182, 85]}
+ratio: 1.1264462809908047
+   - Bleu_1: 0.5950
+   - Bleu_2: 0.4325
+   - Bleu_3: 0.3082
+   - Bleu_4: 0.2199
+   - METEOR: 0.2915
+   - CIDEr: 0.7961
+   - SPICE: 0.2357
+
+🏆 Result for Exp 5 (mbr): CIDEr = 0.7961 | Time: 22.80s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/caption_test/exp_4/caption_candidates.jsonl
+
+=> Running Sweep Config: Model=Salesforce/blip-image-captioning-large | Beam=10 | Rerank=fixed_rr | Metric=cider
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 398/398 [00:00<00:00, 23177.78it/s]
+[1mCLIPModel LOAD REPORT[0m from: openai/clip-vit-base-patch16
+Key                                  | Status     |  | 
+-------------------------------------+------------+--+-
+text_model.embeddings.position_ids   | UNEXPECTED |  | 
+vision_model.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for CAPTION ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/caption_test/exp_6/caption_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_rerank.py --inp ./results/caption_test/exp_6/caption_candidates.jsonl --out ./results/caption_test/exp_6/caption_final.jsonl --algo fixed_rr --mbr_metric cider
+
+✅ Pipeline Complete! Final outputs saved to: ./results/caption_test/exp_6/caption_final.jsonl
+
+📊 Computing Captioning Metrics...
+{'testlen': 1276, 'reflen': 1162, 'guess': [1276, 1176, 1076, 976], 'correct': [660, 232, 77, 26]}
+ratio: 1.0981067125635988
+   - Bleu_1: 0.5172
+   - Bleu_2: 0.3194
+   - Bleu_3: 0.1940
+   - Bleu_4: 0.1181
+   - METEOR: 0.2250
+   - CIDEr: 0.5430
+   - SPICE: 0.1879
+
+🏆 Result for Exp 6 (fixed_rr): CIDEr = 0.5430 | Time: 28.35s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/caption_test/exp_4/caption_candidates.jsonl
+
+=> Running Sweep Config: Model=Salesforce/blip-image-captioning-large | Beam=10 | Rerank=two_stage_mbr | Metric=cider
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 398/398 [00:00<00:00, 15276.72it/s]
+[1mCLIPModel LOAD REPORT[0m from: openai/clip-vit-base-patch16
+Key                                  | Status     |  | 
+-------------------------------------+------------+--+-
+text_model.embeddings.position_ids   | UNEXPECTED |  | 
+vision_model.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for CAPTION ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/caption_test/exp_7/caption_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_rerank.py --inp ./results/caption_test/exp_7/caption_candidates.jsonl --out ./results/caption_test/exp_7/caption_final.jsonl --algo two_stage_mbr --mbr_metric cider
+
+✅ Pipeline Complete! Final outputs saved to: ./results/caption_test/exp_7/caption_final.jsonl
+
+📊 Computing Captioning Metrics...
+{'testlen': 1214, 'reflen': 1129, 'guess': [1214, 1114, 1014, 914], 'correct': [673, 273, 105, 43]}
+ratio: 1.0752878653666296
+   - Bleu_1: 0.5544
+   - Bleu_2: 0.3686
+   - Bleu_3: 0.2414
+   - Bleu_4: 0.1604
+   - METEOR: 0.2429
+   - CIDEr: 0.6893
+   - SPICE: 0.2009
+
+🏆 Result for Exp 7 (two_stage_mbr): CIDEr = 0.6893 | Time: 27.16s
+
+✅ All sweeps complete. Summary saved to ./results/caption_test/caption_sweep_summary.json

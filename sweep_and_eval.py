@@ -3,9 +3,25 @@ import json
 import subprocess
 import argparse
 import itertools
-from metrics import compute_wer # Assuming this is in your metrics.py
+from metrics import compute_wer
+import sys
+import time 
 
-def run_pipeline_step(task, input_dir, output_dir, gen_algos, beam_size, rerank_algo, mbr_metric, limit): 
+class Logger(object):
+    def __init__(self, filename="log.txt"):
+        self.terminal = sys.stdout
+        self.log = open(filename, "a", encoding="utf-8")
+        
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+        self.log.flush()
+        
+    def flush(self):
+        self.terminal.flush()
+        self.log.flush()
+
+def run_pipeline_step(task, input_dir, output_dir, gen_algos, beam_size, rerank_algo, mbr_metric, limit, model_ckpt=None): 
     """Calls the run_pipeline.py master script with specific parameters."""
     cmd = [
         "python", "run_pipeline.py",
@@ -18,8 +34,21 @@ def run_pipeline_step(task, input_dir, output_dir, gen_algos, beam_size, rerank_
         "--mbr_metric", mbr_metric,
         "--limit", str(limit)
     ]
-    print(f"\n=> Running Sweep Configuration: Beam={beam_size}, Rerank={rerank_algo}, Metric={mbr_metric}")
-    subprocess.run(cmd, check=True)
+    if model_ckpt:
+        cmd.extend(["--model", "whisper"])
+        os.environ["WHISPER_CKPT"] = model_ckpt
+
+    print(f"\n=> Running Sweep Config: Model={model_ckpt} | Beam={beam_size} | Rerank={rerank_algo} | Metric={mbr_metric}")
+    
+    # Run the subprocess and stream its output in real-time to our custom logger
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8")
+    for line in process.stdout:
+        print(line, end="")
+    process.wait()
+    
+    if process.returncode != 0:
+        raise subprocess.CalledProcessError(process.returncode, cmd)
+
 
 def evaluate_asr(final_jsonl, refs_jsonl):
     """Computes corpus-level WER by comparing pipeline output to references."""
@@ -125,41 +154,62 @@ def evaluate_caption(final_jsonl, refs_jsonl):
     return metrics_results.get("CIDEr", 0.0)
 
 def main():
-    parser = argparse.ArgumentParser(description="Sweep parameters and evaluate corpus metrics.")
+    parser = argparse.ArgumentParser()
     parser.add_argument("--task", required=True, choices=["asr", "caption"])
-    parser.add_argument("--input_dir", required=True, help="Path to audio or image files")
-    parser.add_argument("--refs", required=True, help="Path to references.jsonl")
-    parser.add_argument("--results_dir", default="./sweep_results", help="Where to save sweep data")
-    parser.add_argument("--limit", type=int, default=0, help="Limit number of files for quick sweep testing") 
+    parser.add_argument("--input_dir", required=True)
+    parser.add_argument("--refs", required=True)
+    parser.add_argument("--results_dir", default="./sweep_results")
+    parser.add_argument("--limit", type=int, default=0)
     args = parser.parse_args()
 
     os.makedirs(args.results_dir, exist_ok=True)
+    
+    # Initialize the custom logger to save all outputs to a text file
+    log_file = os.path.join(args.results_dir, f"{args.task}_sweep_log.txt")
+    sys.stdout = Logger(log_file)
+    print(f"🚀 Started logging to {log_file}")
 
-    # Define the parameter grid based on the task
+    # THE UNCOMPROMISED THESIS GRID
     if args.task == "asr":
         grid = {
-            "gen_algos": ["beam,nucleus"],
+            "model_ckpts": ["openai/whisper-small", "openai/whisper-large-v3"],
+            "gen_algos": ["beam,nucleus", "beam,dbs"], # Restoring full diversity testing
             "beam_sizes": [4, 8],
-            "rerank_algos": ["map", "mbr"],
+            "rerank_algos": ["map", "mbr", "fixed_rr", "two_stage_mbr"],
             "mbr_metrics": ["wer"]
         }
     else:
         grid = {
-            "gen_algos": ["beam,sample"],
-            "beam_sizes": [5],
-            "rerank_algos": ["map", "mbr", "fixed_rr"],
+            "model_ckpts": ["Salesforce/blip-image-captioning-large"],
+            "gen_algos": ["beam,sample"], # Restoring temperature sampling
+            "beam_sizes": [5, 10],
+            "rerank_algos": ["map", "mbr", "fixed_rr", "two_stage_mbr"],
             "mbr_metrics": ["cider"]
         }
-    
+
     keys, values = zip(*grid.items())
     experiments = [dict(zip(keys, v)) for v in itertools.product(*values)]
     
     results = []
 
+    # Cache candidate JSONL files
+    cand_cache = {}
+
     for i, exp in enumerate(experiments):
         exp_out_dir = os.path.join(args.results_dir, f"exp_{i}")
+        os.makedirs(exp_out_dir, exist_ok=True)
         
-        # 1. Run the pipeline for this configuration
+        cand_file = os.path.join(exp_out_dir, f"{args.task}_candidates.jsonl")
+        cache_key = (exp["model_ckpts"], exp["gen_algos"], exp["beam_sizes"])
+        
+        if cache_key in cand_cache and os.path.exists(cand_cache[cache_key]):
+            import shutil
+            print(f"\n=> [CACHE HIT] Copying pre-generated candidates from {cand_cache[cache_key]}")
+            shutil.copy(cand_cache[cache_key], cand_file)
+        
+        # --- TIMING STARTS HERE ---
+        start_time = time.time()
+        
         run_pipeline_step(
             task=args.task,
             input_dir=args.input_dir,
@@ -168,28 +218,36 @@ def main():
             beam_size=exp["beam_sizes"],
             rerank_algo=exp["rerank_algos"],
             mbr_metric=exp["mbr_metrics"],
-            limit=args.limit
+            limit=args.limit,
+            model_ckpt=exp["model_ckpts"]
         )
         
-        # 2. Evaluate the output
+        end_time = time.time()
+        execution_time = end_time - start_time
+        exp["exec_time_seconds"] = round(execution_time, 2) # Save time to JSON
+        # --- TIMING ENDS HERE ---
+        
+        if cache_key not in cand_cache and os.path.exists(cand_file):
+            cand_cache[cache_key] = cand_file
+
         final_file = os.path.join(exp_out_dir, f"{args.task}_final.jsonl")
         
         if args.task == "asr":
             primary_score = evaluate_asr(final_file, args.refs)
-            print(f"\n🏆 Result for Exp {i} (Algo={exp['rerank_algos']}): WER = {primary_score:.2f}%")
+            print(f"\n🏆 Result for Exp {i} ({exp['rerank_algos']}): WER = {primary_score:.2f}% | Time: {execution_time:.2f}s")
             exp["wer"] = primary_score
         else:
             primary_score = evaluate_caption(final_file, args.refs)
-            print(f"\n🏆 Result for Exp {i} (Algo={exp['rerank_algos']}): CIDEr = {primary_score:.4f}")
+            print(f"\n🏆 Result for Exp {i} ({exp['rerank_algos']}): CIDEr = {primary_score:.4f} | Time: {execution_time:.2f}s")
             exp["cider"] = primary_score
             
         results.append(exp)
 
-    # 3. Save Summary
     summary_path = os.path.join(args.results_dir, f"{args.task}_sweep_summary.json")
     with open(summary_path, "w") as f:
         json.dump(results, f, indent=4)
     print(f"\n✅ All sweeps complete. Summary saved to {summary_path}")
+
 
 if __name__ == "__main__":
     main()

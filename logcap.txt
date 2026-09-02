@@ -1,0 +1,86 @@
+
+--- STAGE 1: Generating Diverse Candidates for CAPTION ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_gen.py --dir ./data/coco/images --out ./results/caption_test/exp_0/caption_candidates.jsonl --algos beam,sample --beam_size 5 --limit 0 --ckpt Salesforce/blip-image-captioning-large
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_rerank.py --inp ./results/caption_test/exp_0/caption_candidates.jsonl --out ./results/caption_test/exp_0/caption_final.jsonl --algo map --mbr_metric cider
+
+✅ Pipeline Complete! Final outputs saved to: ./results/caption_test/exp_0/caption_final.jsonl
+SPICE evaluation took: 951.2 ms
+
+--- STAGE 1: Generating Diverse Candidates for CAPTION ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_gen.py --dir ./data/coco/images --out ./results/caption_test/exp_1/caption_candidates.jsonl --algos beam,sample --beam_size 5 --limit 0 --ckpt Salesforce/blip-image-captioning-large
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_rerank.py --inp ./results/caption_test/exp_1/caption_candidates.jsonl --out ./results/caption_test/exp_1/caption_final.jsonl --algo mbr --mbr_metric cider
+
+✅ Pipeline Complete! Final outputs saved to: ./results/caption_test/exp_1/caption_final.jsonl
+SPICE evaluation took: 938.8 ms
+
+--- STAGE 1: Generating Diverse Candidates for CAPTION ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_gen.py --dir ./data/coco/images --out ./results/caption_test/exp_2/caption_candidates.jsonl --algos beam,sample --beam_size 5 --limit 0 --ckpt Salesforce/blip-image-captioning-large
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python caption_rerank.py --inp ./results/caption_test/exp_2/caption_candidates.jsonl --out ./results/caption_test/exp_2/caption_final.jsonl --algo fixed_rr --mbr_metric cider
+
+✅ Pipeline Complete! Final outputs saved to: ./results/caption_test/exp_2/caption_final.jsonl
+SPICE evaluation took: 9.142 s
+
+=> Running Sweep Config: Model=Salesforce/blip-image-captioning-large | Beam=5 | Rerank=map | Metric=cider
+
+📊 Computing Captioning Metrics...
+{'testlen': 1308, 'reflen': 1181, 'guess': [1308, 1208, 1108, 1008], 'correct': [807, 397, 184, 87]}
+ratio: 1.1075359864512213
+   - Bleu_1: 0.6170
+   - Bleu_2: 0.4503
+   - Bleu_3: 0.3229
+   - Bleu_4: 0.2322
+   - METEOR: 0.2879
+   - CIDEr: 0.8337
+   - SPICE: 0.2328
+
+🏆 Result for Exp 0 (Algo=map): CIDEr = 0.8337
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/caption_test/exp_0/caption_candidates.jsonl
+
+=> Running Sweep Config: Model=Salesforce/blip-image-captioning-large | Beam=5 | Rerank=mbr | Metric=cider
+
+📊 Computing Captioning Metrics...
+{'testlen': 1308, 'reflen': 1181, 'guess': [1308, 1208, 1108, 1008], 'correct': [807, 397, 184, 87]}
+ratio: 1.1075359864512213
+   - Bleu_1: 0.6170
+   - Bleu_2: 0.4503
+   - Bleu_3: 0.3229
+   - Bleu_4: 0.2322
+   - METEOR: 0.2879
+   - CIDEr: 0.8337
+   - SPICE: 0.2328
+
+🏆 Result for Exp 1 (Algo=mbr): CIDEr = 0.8337
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/caption_test/exp_0/caption_candidates.jsonl
+
+=> Running Sweep Config: Model=Salesforce/blip-image-captioning-large | Beam=5 | Rerank=fixed_rr | Metric=cider
+
+📊 Computing Captioning Metrics...
+{'testlen': 1208, 'reflen': 1132, 'guess': [1208, 1108, 1008, 908], 'correct': [669, 265, 107, 46]}
+ratio: 1.0671378091863364
+   - Bleu_1: 0.5538
+   - Bleu_2: 0.3639
+   - Bleu_3: 0.2414
+   - Bleu_4: 0.1634
+   - METEOR: 0.2381
+   - CIDEr: 0.6851
+   - SPICE: 0.1936
+
+🏆 Result for Exp 2 (Algo=fixed_rr): CIDEr = 0.6851
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/caption_test/exp_0/caption_candidates.jsonl
+
+=> Running Sweep Config: Model=Salesforce/blip-image-captioning-large | Beam=5 | Rerank=two_stage_mbr | Metric=cider

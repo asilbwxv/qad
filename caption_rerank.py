@@ -47,42 +47,30 @@ def main():
                 chosen_idx = 0 
                 
             elif args.algo == "fixed_rr":
-                # Rank purely by visual grounding (CLIPScore)
                 try:
                     img = Image.open(img_path).convert("RGB")
-                    # Note: CLIPScoreWrapper expects a tensor. You might need torchvision.transforms here 
-                    # depending on the exact PyTorchMetrics implementation details. 
-                    # Assuming clip_scorer.metric handles PIL natively or via a transform pipeline.
-                    import torchvision.transforms as transforms
-                    tensor_img = transforms.ToTensor()(img)
-                    
-                    clip_scores = clip_scorer.score(tensor_img, texts)
+                    clip_scores = clip_scorer.score(img, texts)
                     chosen_idx = int(np.argmax(clip_scores))
                 except Exception as e:
                     print(f"Error computing CLIP for {img_path}: {e}")
                     chosen_idx = 0
                 
             elif args.algo == "mbr":
-                # Multi-reference consensus MBR using pycocoevalcap
                 mbr_scores = caption_mbr_multiref(texts, metric_name=args.mbr_metric)
                 chosen_idx = int(np.argmax(mbr_scores))
                     
             elif args.algo == "two_stage_mbr":
-                # 1. Prune with visual grounding (CLIP)
                 try:
                     img = Image.open(img_path).convert("RGB")
-                    import torchvision.transforms as transforms
-                    tensor_img = transforms.ToTensor()(img)
+                    clip_scores = clip_scorer.score(img, texts)
                     
-                    clip_scores = clip_scorer.score(tensor_img, texts)
-                    top_k_indices = np.argsort(clip_scores)[-args.prune_k:]
-                    
+                    # Prevent pruning more candidates than exist
+                    k = min(args.prune_k, len(texts))
+                    top_k_indices = np.argsort(clip_scores)[-k:]
                     pruned_texts = [texts[i] for i in top_k_indices]
                     
-                    # 2. Multi-ref MBR on the visually grounded subset
                     mbr_scores = caption_mbr_multiref(pruned_texts, metric_name=args.mbr_metric)
                     best_in_pruned = int(np.argmax(mbr_scores))
-                    
                     chosen_idx = int(top_k_indices[best_in_pruned])
                 except Exception as e:
                     print(f"Error in two-stage MBR for {img_path}: {e}")

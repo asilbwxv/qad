@@ -1,0 +1,55 @@
+\chapter{Methodology: Quality-Aware Decoding and Reranking}
+\label{chapter:methodology}
+
+The methodology adopted in this thesis reframes sequence decoding as a two-stage, quality-first process. Traditional autoregressive generation relies heavily on Maximum A Posteriori (MAP) approximations, which strictly seek the sequence with the highest internal model likelihood[cite: 10]. However, likelihood is an imperfect surrogate for human-aligned quality, often falling victim to the ``beam search curse,'' characterized by severe diversity collapse and a bias toward generic, short sequences[cite: 10]. To circumvent these pathologies, this work employs a generate-then-choose paradigm: a diverse candidate pool is first generated, and a secondary decision rule selects the optimal sequence by maximizing expected utility under task-specific metrics.
+
+\section{Candidate Generation and Diversity Mechanics}
+\label{sec:candidate_generation}
+
+The efficacy of any post-hoc reranking algorithm is strictly bound by the diversity and quality of the underlying candidate pool. Generating candidates using a positive sampling temperature injects stochasticity, aiming to uncover highly accurate sequences that may be suppressed with a lower probability mass compared to generic responses[cite: 10]. However, this introduces a ``Diversity-Fidelity Trade-off Principle'': excessive stochasticity degrades the semantic fidelity of the generated sequence, causing the model to lose focus on the core instruction[cite: 10]. 
+
+To navigate this trade-off across automatic speech recognition (ASR) and image captioning, three distinct generation algorithms are utilized:
+\begin{enumerate}
+    \item \textbf{Standard Beam Search:} Expands the search tree by strictly maintaining the top-$B$ most probable partial hypotheses. While computationally efficient, it produces highly homogeneous candidate pools representing minor variations of the mode[cite: 10].
+    \item \textbf{Diverse Beam Search (DBS):} Partitions the standard beam into discrete groups and applies a deterministic diversity penalty to tokens utilized by preceding groups. This forces the model to explore mathematically distinct, yet highly probable, semantic trajectories without relying on random sampling noise.
+    \item \textbf{Nucleus (Top-$p$) Sampling:} Truncates the vocabulary distribution to the smallest set of tokens whose cumulative probability exceeds a threshold $p$, followed by temperature-scaled sampling. While offering maximum exploration, it risks introducing structural hallucinations if the temperature is not carefully bounded[cite: 8].
+\end{enumerate}
+
+\section{Evaluation Metrics and the Modality Gap}
+\label{sec:metrics_and_modality_gap}
+
+The utilities utilized for candidate selection are divided into reference-based metrics (requiring ground-truth alignment) and referenceless Quality Estimation (QE) metrics.
+
+\subsection{Speech Metrics and the Hallucination Trap}
+For ASR, Word Error Rate (WER) remains the foundational reference-based metric, computing the strict Levenshtein distance between hypotheses. To capture semantic preservation beyond exact string matching, SeMaScore is utilized as a secondary reference-based utility.
+
+In referenceless ASR settings, text-centric evaluators such as NoRefER leverage pre-trained language models to map a hypothesis to a predicted quality score based on syntactic coherence and perplexity[cite: 8]. However, modern end-to-end ASR models, heavily reliant on internal language priors, are susceptible to ``distributional exclusion'' when exposed to noisy acoustic environments[cite: 8]. This triggers ASR hallucinations: fluent, grammatically immaculate transcriptions that possess zero phonetic relationship to the underlying acoustic signal[cite: 8]. Because text-only QE metrics lack acoustic grounding, they fall victim to the ``fluency bias,'' assigning high quality scores to these severe, fabricated errors purely because they adhere to linguistic rules[cite: 8].
+
+\subsection{Captioning Metrics and Semantic Divergence}
+Image captioning evaluation exhibits a profound divergence between reference-based consensus and continuous embedding metrics[cite: 9].
+CIDEr computes TF-IDF weighted $n$-gram similarities against human references, inherently enforcing a safe, abstract ``consensus'' style and strict structural stylometry[cite: 9]. In contrast, CLIPScore is a reference-free metric that measures cross-modal cosine similarity in a shared latent space, acting as a direct visual judge[cite: 9]. 
+
+However, VLMs like CLIP behave largely as ``bags-of-words,'' prioritizing highly discriminative nouns over structural syntax[cite: 9]. Direct optimization toward CLIPScore inevitably triggers ``reward hacking'' (the Cobra Effect), where models chain visually relevant keywords together, destroying grammatical coherence[cite: 9]. Consequently, maximizing reference-free visual specificity inherently requires breaking the stylistic constraints enforced by CIDEr, establishing a strict Pareto frontier between visual grounding and language priors[cite: 9].
+
+\section{Decision Rules and Test-Time Compute}
+\label{sec:decision_rules}
+
+Once the candidate set $\mathcal{Y} = \{y_1,\dots,y_N\}$ is generated, four distinct decision rules are evaluated to allocate Test-Time Compute (TTC) effectively. Scaling compute during the inference phase allows models to exhaustively explore solution spaces, shifting the generative paradigm from single-pass heuristics to deliberate deduction[cite: 10].
+
+\subsection{Maximum A Posteriori (MAP)}
+The standard baseline selects the candidate maximizing tokenwise log-likelihood:
+$$y_{\text{MAP}} = \arg\max_{y \in \mathcal{Y}} \log p_\theta(y \mid x)$$
+
+\subsection{Fixed Reranking (F-RR)}
+Candidates are ranked solely by a referenceless Quality Estimator (NoRefER for ASR, CLIPScore for Captioning):
+$$y_{\text{F-RR}} = \arg\max_{y \in \mathcal{Y}} f_{\text{QE}}(y, x)$$
+While computationally inexpensive, this method is highly vulnerable to the fluency bias in ASR[cite: 8] and structural degeneration in captioning[cite: 9].
+
+\subsection{Minimum Bayes Risk (MBR) Decoding}
+MBR completely abandons the pursuit of maximum likelihood, operating instead on the principle of minimizing expected risk across a distribution of possibilities[cite: 10]. The expected risk of each hypothesis is computed pairwise against all other candidates (pseudo-references) in the pool:
+$$y_{\text{MBR}} = \arg\min_{y \in \mathcal{Y}} \sum_{j=1}^N P(y_j \mid x) \cdot \text{Loss}(y, y_j)$$
+Where $P(y_j \mid x) = \text{softmax}(\log p(y_j) / \tau)$. By evaluating structural and semantic consensus, MBR identifies the solution most mathematically consistent with the center of mass of the candidate distribution[cite: 10]. While theoretically robust, the pairwise evaluation imposes an $O(N^2)$ computational bottleneck[cite: 10].
+
+\subsection{Two-Stage Quality-Aware Fusion}
+To circumvent the $O(N^2)$ complexity of full MBR while mitigating the hallucination vulnerabilities of pure QE, a Two-Stage Quality-Aware Decoding (QAD) fusion is implemented. 
+First, the full candidate pool $N$ is evaluated and aggressively pruned to a highly constrained subset $K$ ($K \ll N$) using the rapid, referenceless $f_{\text{QE}}$. Second, the rigorous $O(K^2)$ MBR consensus algorithm is executed exclusively on the pruned subset. This architectural hybrid leverages test-time scaling efficiently, relying on QE for rough visual/linguistic grounding and MBR for strict semantic verification.
