@@ -1,0 +1,290 @@
+[
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 1.94,
+        "wer": 99.41323465153675
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 2.4,
+        "wer": 101.4344355192759
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "fixed_rr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 10.84,
+        "wer": 100.19961776659846
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "two_stage_mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 11.5,
+        "wer": 101.71498438920462
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 2.04,
+        "wer": 96.86291700835044
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 2.21,
+        "wer": 100.7487419589348
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "fixed_rr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 10.74,
+        "wer": 98.5175093456815
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "two_stage_mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 11.73,
+        "wer": 100.52718925238207
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 4,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 1.88,
+        "wer": 99.41323465153675
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 4,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 1.9,
+        "wer": 97.91165533649568
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 4,
+        "rerank_algos": "fixed_rr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 10.4,
+        "wer": 98.93729021880107
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 4,
+        "rerank_algos": "two_stage_mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 10.96,
+        "wer": 97.91165533649568
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 8,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 1.74,
+        "wer": 96.86291700835044
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 8,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 2.32,
+        "wer": 94.91939142017645
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 8,
+        "rerank_algos": "fixed_rr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 11.11,
+        "wer": 96.38425767147129
+    },
+    {
+        "model_ckpts": "openai/whisper-small",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 8,
+        "rerank_algos": "two_stage_mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 11.0,
+        "wer": 94.91939142017645
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 1.83,
+        "wer": 101.6450714325427
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 2.09,
+        "wer": 101.27900544136799
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "fixed_rr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 10.58,
+        "wer": 101.29094929465236
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 4,
+        "rerank_algos": "two_stage_mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 11.48,
+        "wer": 101.3301441577241
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 2.16,
+        "wer": 96.73488475334896
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 2.28,
+        "wer": 101.42826540589769
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "fixed_rr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 11.58,
+        "wer": 98.19019186202094
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,nucleus",
+        "beam_sizes": 8,
+        "rerank_algos": "two_stage_mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 11.66,
+        "wer": 101.4714883826945
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 4,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 2.05,
+        "wer": 101.6450714325427
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 4,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 1.89,
+        "wer": 101.13419835571335
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 4,
+        "rerank_algos": "fixed_rr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 10.46,
+        "wer": 101.67930578164379
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 4,
+        "rerank_algos": "two_stage_mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 11.68,
+        "wer": 101.13419835571335
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 8,
+        "rerank_algos": "map",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 2768.77,
+        "wer": 96.73488475334896
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 8,
+        "rerank_algos": "mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 2.18,
+        "wer": 96.23363501102779
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 8,
+        "rerank_algos": "fixed_rr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 10.57,
+        "wer": 96.79351452937006
+    },
+    {
+        "model_ckpts": "openai/whisper-large-v3",
+        "gen_algos": "beam,dbs",
+        "beam_sizes": 8,
+        "rerank_algos": "two_stage_mbr",
+        "mbr_metrics": "wer",
+        "exec_time_seconds": 10.25,
+        "wer": 96.23363501102779
+    }
+]

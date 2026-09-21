@@ -1,0 +1,1475 @@
+🚀 Started logging to ./results/fleurs_pt_test/asr_sweep_log.txt
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/479 [00:00<?, ?it/s]
+Loading weights:   8%|▊         | 37/479 [00:00<00:01, 263.43it/s]
+Loading weights:  13%|█▎        | 64/479 [00:00<00:06, 61.59it/s] 
+Loading weights:  16%|█▌        | 77/479 [00:01<00:06, 59.76it/s]
+Loading weights:  19%|█▊        | 89/479 [00:01<00:06, 60.12it/s]
+Loading weights:  21%|██        | 101/479 [00:01<00:06, 61.96it/s]
+Loading weights:  24%|██▎       | 113/479 [00:01<00:06, 54.74it/s]
+Loading weights:  29%|██▉       | 139/479 [00:02<00:05, 67.53it/s]
+Loading weights:  32%|███▏      | 153/479 [00:02<00:04, 67.91it/s]
+Loading weights:  36%|███▌      | 172/479 [00:02<00:04, 65.84it/s]
+Loading weights:  39%|███▊      | 185/479 [00:02<00:04, 63.17it/s]
+Loading weights:  43%|████▎     | 204/479 [00:02<00:03, 81.38it/s]
+Loading weights:  45%|████▍     | 215/479 [00:03<00:03, 70.22it/s]
+Loading weights:  49%|████▊     | 233/479 [00:03<00:03, 64.21it/s]
+Loading weights:  53%|█████▎    | 255/479 [00:03<00:03, 62.99it/s]
+Loading weights:  62%|██████▏   | 297/479 [00:04<00:01, 99.04it/s]
+Loading weights:  65%|██████▍   | 309/479 [00:04<00:02, 79.61it/s]
+Loading weights:  67%|██████▋   | 319/479 [00:04<00:02, 63.09it/s]
+Loading weights:  68%|██████▊   | 327/479 [00:04<00:02, 59.19it/s]
+Loading weights:  70%|██████▉   | 334/479 [00:05<00:03, 46.74it/s]
+Loading weights:  75%|███████▍  | 357/479 [00:05<00:02, 54.08it/s]
+Loading weights:  76%|███████▋  | 366/479 [00:05<00:02, 46.14it/s]
+Loading weights:  81%|████████  | 387/479 [00:05<00:01, 57.97it/s]
+Loading weights:  84%|████████▎ | 400/479 [00:06<00:01, 61.63it/s]
+Loading weights:  86%|████████▌ | 413/479 [00:06<00:00, 66.16it/s]
+Loading weights:  88%|████████▊ | 421/479 [00:06<00:00, 60.49it/s]
+Loading weights:  89%|████████▉ | 428/479 [00:06<00:00, 56.67it/s]
+Loading weights:  94%|█████████▍| 451/479 [00:06<00:00, 69.84it/s]
+Loading weights: 100%|██████████| 479/479 [00:06<00:00, 68.86it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/fleurs_pt/audio --out ./results/fleurs_pt_test/exp_0/asr_candidates.jsonl --algos beam,nucleus --beam_size 4 --limit 100 --ckpt openai/whisper-small --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_0/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_0/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_0/asr_final.jsonl
+
+🏆 Result for Exp 0 (map): WER = 99.41% | Time: 153.61s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_0/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_1/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_1/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_1/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_1/asr_final.jsonl
+
+🏆 Result for Exp 1 (mbr): WER = 101.43% | Time: 2.43s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_0/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19912.96it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_2/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_2/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_2/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_2/asr_final.jsonl
+
+🏆 Result for Exp 2 (fixed_rr): WER = 100.20% | Time: 10.07s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_0/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 20265.26it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_3/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_3/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_3/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_3/asr_final.jsonl
+
+🏆 Result for Exp 3 (two_stage_mbr): WER = 101.71% | Time: 10.61s
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/479 [00:00<?, ?it/s]
+Loading weights:  23%|██▎       | 111/479 [00:00<00:00, 1075.61it/s]
+Loading weights:  52%|█████▏    | 247/479 [00:00<00:00, 1221.32it/s]
+Loading weights:  82%|████████▏ | 391/479 [00:00<00:00, 1300.37it/s]
+Loading weights: 100%|██████████| 479/479 [00:00<00:00, 1313.98it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/fleurs_pt/audio --out ./results/fleurs_pt_test/exp_4/asr_candidates.jsonl --algos beam,nucleus --beam_size 8 --limit 100 --ckpt openai/whisper-small --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_4/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_4/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_4/asr_final.jsonl
+
+🏆 Result for Exp 4 (map): WER = 96.86% | Time: 166.39s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_4/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_5/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_5/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_5/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_5/asr_final.jsonl
+
+🏆 Result for Exp 5 (mbr): WER = 100.75% | Time: 2.56s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_4/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 21384.31it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_6/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_6/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_6/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_6/asr_final.jsonl
+
+🏆 Result for Exp 6 (fixed_rr): WER = 98.52% | Time: 10.13s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_4/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 21559.86it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_7/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_7/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_7/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_7/asr_final.jsonl
+
+🏆 Result for Exp 7 (two_stage_mbr): WER = 100.53% | Time: 10.18s
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/479 [00:00<?, ?it/s]
+Loading weights:  42%|████▏     | 201/479 [00:00<00:00, 1950.18it/s]
+Loading weights:  83%|████████▎ | 397/479 [00:00<00:00, 1876.19it/s]
+Loading weights: 100%|██████████| 479/479 [00:00<00:00, 1868.37it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/fleurs_pt/audio --out ./results/fleurs_pt_test/exp_8/asr_candidates.jsonl --algos beam,dbs --beam_size 4 --limit 100 --ckpt openai/whisper-small --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_8/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_8/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_8/asr_final.jsonl
+
+🏆 Result for Exp 8 (map): WER = 99.41% | Time: 175.39s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_8/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_9/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_9/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_9/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_9/asr_final.jsonl
+
+🏆 Result for Exp 9 (mbr): WER = 97.91% | Time: 2.25s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_8/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 20295.51it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_10/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_10/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_10/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_10/asr_final.jsonl
+
+🏆 Result for Exp 10 (fixed_rr): WER = 98.94% | Time: 9.74s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_8/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 15616.18it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_11/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_11/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_11/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_11/asr_final.jsonl
+
+🏆 Result for Exp 11 (two_stage_mbr): WER = 97.91% | Time: 9.82s
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/479 [00:00<?, ?it/s]
+Loading weights:  33%|███▎      | 159/479 [00:00<00:00, 1574.82it/s]
+Loading weights:  71%|███████   | 338/479 [00:00<00:00, 1675.92it/s]
+Loading weights: 100%|██████████| 479/479 [00:00<00:00, 1689.82it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/fleurs_pt/audio --out ./results/fleurs_pt_test/exp_12/asr_candidates.jsonl --algos beam,dbs --beam_size 8 --limit 100 --ckpt openai/whisper-small --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_12/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_12/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_12/asr_final.jsonl
+
+🏆 Result for Exp 12 (map): WER = 96.86% | Time: 448.78s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_12/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_13/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_13/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_13/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_13/asr_final.jsonl
+
+🏆 Result for Exp 13 (mbr): WER = 94.92% | Time: 2.15s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_12/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 18011.30it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_14/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_14/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_14/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_14/asr_final.jsonl
+
+🏆 Result for Exp 14 (fixed_rr): WER = 96.38% | Time: 9.76s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_12/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 18724.16it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_15/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_15/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_15/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_15/asr_final.jsonl
+
+🏆 Result for Exp 15 (two_stage_mbr): WER = 94.92% | Time: 10.04s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:  39%|███▉      | 493/1259 [00:00<00:00, 4928.97it/s]
+Loading weights:  78%|███████▊  | 986/1259 [00:00<00:00, 3970.93it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:00<00:00, 3964.17it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/fleurs_pt/audio --out ./results/fleurs_pt_test/exp_16/asr_candidates.jsonl --algos beam,nucleus --beam_size 4 --limit 100 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_16/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_16/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_16/asr_final.jsonl
+
+🏆 Result for Exp 16 (map): WER = 101.65% | Time: 345.76s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_16/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_17/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_17/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_17/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_17/asr_final.jsonl
+
+🏆 Result for Exp 17 (mbr): WER = 101.28% | Time: 2.00s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_16/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19123.40it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_18/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_18/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_18/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_18/asr_final.jsonl
+
+🏆 Result for Exp 18 (fixed_rr): WER = 101.29% | Time: 9.74s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_16/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 21354.52it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_19/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_19/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_19/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_19/asr_final.jsonl
+
+🏆 Result for Exp 19 (two_stage_mbr): WER = 101.33% | Time: 10.22s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:  40%|███▉      | 503/1259 [00:00<00:00, 4977.18it/s]
+Loading weights:  80%|███████▉  | 1001/1259 [00:00<00:00, 3984.91it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:00<00:00, 4040.94it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/fleurs_pt/audio --out ./results/fleurs_pt_test/exp_20/asr_candidates.jsonl --algos beam,nucleus --beam_size 8 --limit 100 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_20/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_20/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_20/asr_final.jsonl
+
+🏆 Result for Exp 20 (map): WER = 96.73% | Time: 470.61s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_20/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_21/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_21/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_21/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_21/asr_final.jsonl
+
+🏆 Result for Exp 21 (mbr): WER = 101.43% | Time: 2.10s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_20/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 17424.97it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_22/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_22/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_22/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_22/asr_final.jsonl
+
+🏆 Result for Exp 22 (fixed_rr): WER = 98.19% | Time: 10.15s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_20/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 18814.83it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_23/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_23/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_23/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_23/asr_final.jsonl
+
+🏆 Result for Exp 23 (two_stage_mbr): WER = 101.47% | Time: 10.12s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:  39%|███▉      | 493/1259 [00:00<00:00, 4927.06it/s]
+Loading weights:  78%|███████▊  | 986/1259 [00:00<00:00, 3947.42it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:00<00:00, 4000.48it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/fleurs_pt/audio --out ./results/fleurs_pt_test/exp_24/asr_candidates.jsonl --algos beam,dbs --beam_size 4 --limit 100 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_24/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_24/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_24/asr_final.jsonl
+
+🏆 Result for Exp 24 (map): WER = 101.65% | Time: 410.23s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_24/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_25/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_25/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_25/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_25/asr_final.jsonl
+
+🏆 Result for Exp 25 (mbr): WER = 101.13% | Time: 1.85s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_24/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19510.20it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_26/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_26/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_26/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_26/asr_final.jsonl
+
+🏆 Result for Exp 26 (fixed_rr): WER = 101.68% | Time: 10.10s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_24/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 17840.55it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_27/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_27/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_27/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_27/asr_final.jsonl
+
+🏆 Result for Exp 27 (two_stage_mbr): WER = 101.13% | Time: 10.46s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:  41%|████▏     | 520/1259 [00:00<00:00, 5196.70it/s]
+Loading weights: 100%|█████████▉| 1257/1259 [00:00<00:00, 6467.70it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:00<00:00, 6274.62it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+🚀 Started logging to ./results/fleurs_pt_test/asr_sweep_log.txt
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=map | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_0/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_0/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_0/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_0/asr_final.jsonl
+
+🏆 Result for Exp 0 (map): WER = 99.41% | Time: 1.94s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_0/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_1/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_1/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_1/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_1/asr_final.jsonl
+
+🏆 Result for Exp 1 (mbr): WER = 101.43% | Time: 2.40s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_0/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 21028.01it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_2/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_2/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_2/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_2/asr_final.jsonl
+
+🏆 Result for Exp 2 (fixed_rr): WER = 100.20% | Time: 10.84s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_0/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19785.85it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_3/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_3/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_3/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_3/asr_final.jsonl
+
+🏆 Result for Exp 3 (two_stage_mbr): WER = 101.71% | Time: 11.50s
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=map | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_4/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_4/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_4/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_4/asr_final.jsonl
+
+🏆 Result for Exp 4 (map): WER = 96.86% | Time: 2.04s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_4/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_5/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_5/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_5/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_5/asr_final.jsonl
+
+🏆 Result for Exp 5 (mbr): WER = 100.75% | Time: 2.21s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_4/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 18307.39it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_6/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_6/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_6/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_6/asr_final.jsonl
+
+🏆 Result for Exp 6 (fixed_rr): WER = 98.52% | Time: 10.74s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_4/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19685.59it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_7/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_7/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_7/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_7/asr_final.jsonl
+
+🏆 Result for Exp 7 (two_stage_mbr): WER = 100.53% | Time: 11.73s
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=map | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_8/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_8/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_8/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_8/asr_final.jsonl
+
+🏆 Result for Exp 8 (map): WER = 99.41% | Time: 1.88s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_8/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_9/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_9/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_9/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_9/asr_final.jsonl
+
+🏆 Result for Exp 9 (mbr): WER = 97.91% | Time: 1.90s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_8/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19089.62it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_10/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_10/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_10/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_10/asr_final.jsonl
+
+🏆 Result for Exp 10 (fixed_rr): WER = 98.94% | Time: 10.40s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_8/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19272.91it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_11/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_11/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_11/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_11/asr_final.jsonl
+
+🏆 Result for Exp 11 (two_stage_mbr): WER = 97.91% | Time: 10.96s
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=map | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_12/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_12/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_12/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_12/asr_final.jsonl
+
+🏆 Result for Exp 12 (map): WER = 96.86% | Time: 1.74s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_12/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_13/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_13/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_13/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_13/asr_final.jsonl
+
+🏆 Result for Exp 13 (mbr): WER = 94.92% | Time: 2.32s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_12/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 22884.85it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_14/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_14/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_14/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_14/asr_final.jsonl
+
+🏆 Result for Exp 14 (fixed_rr): WER = 96.38% | Time: 11.11s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_12/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 14491.21it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_15/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_15/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_15/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_15/asr_final.jsonl
+
+🏆 Result for Exp 15 (two_stage_mbr): WER = 94.92% | Time: 11.00s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=map | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_16/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_16/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_16/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_16/asr_final.jsonl
+
+🏆 Result for Exp 16 (map): WER = 101.65% | Time: 1.83s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_16/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_17/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_17/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_17/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_17/asr_final.jsonl
+
+🏆 Result for Exp 17 (mbr): WER = 101.28% | Time: 2.09s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_16/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 27782.34it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_18/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_18/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_18/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_18/asr_final.jsonl
+
+🏆 Result for Exp 18 (fixed_rr): WER = 101.29% | Time: 10.58s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_16/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 22015.33it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_19/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_19/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_19/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_19/asr_final.jsonl
+
+🏆 Result for Exp 19 (two_stage_mbr): WER = 101.33% | Time: 11.48s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=map | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_20/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_20/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_20/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_20/asr_final.jsonl
+
+🏆 Result for Exp 20 (map): WER = 96.73% | Time: 2.16s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_20/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_21/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_21/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_21/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_21/asr_final.jsonl
+
+🏆 Result for Exp 21 (mbr): WER = 101.43% | Time: 2.28s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_20/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 24986.07it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_22/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_22/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_22/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_22/asr_final.jsonl
+
+🏆 Result for Exp 22 (fixed_rr): WER = 98.19% | Time: 11.58s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_20/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 17238.63it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_23/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_23/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_23/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_23/asr_final.jsonl
+
+🏆 Result for Exp 23 (two_stage_mbr): WER = 101.47% | Time: 11.66s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=map | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_24/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_24/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_24/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_24/asr_final.jsonl
+
+🏆 Result for Exp 24 (map): WER = 101.65% | Time: 2.05s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_24/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_25/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_25/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_25/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_25/asr_final.jsonl
+
+🏆 Result for Exp 25 (mbr): WER = 101.13% | Time: 1.89s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_24/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 21047.44it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_26/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_26/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_26/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_26/asr_final.jsonl
+
+🏆 Result for Exp 26 (fixed_rr): WER = 101.68% | Time: 10.46s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_24/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 20417.41it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_27/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_27/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_27/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_27/asr_final.jsonl
+
+🏆 Result for Exp 27 (two_stage_mbr): WER = 101.13% | Time: 11.68s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:  38%|███▊      | 481/1259 [00:00<00:00, 4788.21it/s]
+Loading weights:  76%|███████▋  | 960/1259 [00:00<00:00, 3894.34it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:00<00:00, 3903.90it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/fleurs_pt/audio --out ./results/fleurs_pt_test/exp_28/asr_candidates.jsonl --algos beam,dbs --beam_size 8 --limit 100 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_28/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_28/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_28/asr_final.jsonl
+
+🏆 Result for Exp 28 (map): WER = 96.73% | Time: 2778.71s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_28/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_29/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_29/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_29/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_29/asr_final.jsonl
+
+🏆 Result for Exp 29 (mbr): WER = 96.23% | Time: 2.07s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_28/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 31955.69it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_30/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_30/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_30/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_30/asr_final.jsonl
+
+🏆 Result for Exp 30 (fixed_rr): WER = 96.79% | Time: 10.69s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_28/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19080.55it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_31/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_31/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_31/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_31/asr_final.jsonl
+
+🏆 Result for Exp 31 (two_stage_mbr): WER = 96.23% | Time: 10.76s
+
+✅ All sweeps complete. Summary saved to ./results/fleurs_pt_test/asr_sweep_summary.json
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/fleurs_pt/audio --out ./results/fleurs_pt_test/exp_28/asr_candidates.jsonl --algos beam,dbs --beam_size 8 --limit 100 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_28/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_28/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_28/asr_final.jsonl
+
+🏆 Result for Exp 28 (map): WER = 96.73% | Time: 2768.77s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_28/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_29/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_29/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_29/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_29/asr_final.jsonl
+
+🏆 Result for Exp 29 (mbr): WER = 96.23% | Time: 2.18s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_28/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 27707.47it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_30/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_30/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_30/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_30/asr_final.jsonl
+
+🏆 Result for Exp 30 (fixed_rr): WER = 96.79% | Time: 10.57s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/fleurs_pt_test/exp_28/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 20663.62it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/fleurs_pt_test/exp_31/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/fleurs_pt_test/exp_31/asr_candidates.jsonl --out ./results/fleurs_pt_test/exp_31/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/fleurs_pt_test/exp_31/asr_final.jsonl
+
+🏆 Result for Exp 31 (two_stage_mbr): WER = 96.23% | Time: 10.25s
+
+✅ All sweeps complete. Summary saved to ./results/fleurs_pt_test/asr_sweep_summary.json

@@ -1,0 +1,919 @@
+🚀 Started logging to ./results/halas_full/asr_sweep_log.txt
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=map | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_0/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_0/asr_candidates.jsonl --out ./results/halas_full/exp_0/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_0/asr_final.jsonl
+
+🏆 Result for Exp 0 (map): WER = 91.83% | Time: 4.83s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_0/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_1/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_1/asr_candidates.jsonl --out ./results/halas_full/exp_1/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_1/asr_final.jsonl
+
+🏆 Result for Exp 1 (mbr): WER = 56.72% | Time: 3.94s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_0/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 13893.69it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_2/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_2/asr_candidates.jsonl --out ./results/halas_full/exp_2/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_2/asr_final.jsonl
+
+🏆 Result for Exp 2 (fixed_rr): WER = 106.11% | Time: 144.92s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_0/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 17578.66it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_3/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_3/asr_candidates.jsonl --out ./results/halas_full/exp_3/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_3/asr_final.jsonl
+
+🏆 Result for Exp 3 (two_stage_mbr): WER = 55.28% | Time: 20.23s
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=map | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_4/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_4/asr_candidates.jsonl --out ./results/halas_full/exp_4/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_4/asr_final.jsonl
+
+🏆 Result for Exp 4 (map): WER = 181.23% | Time: 2.41s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_4/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_5/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_5/asr_candidates.jsonl --out ./results/halas_full/exp_5/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_5/asr_final.jsonl
+
+🏆 Result for Exp 5 (mbr): WER = 55.53% | Time: 3.87s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_4/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 18950.17it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_6/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_6/asr_candidates.jsonl --out ./results/halas_full/exp_6/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_6/asr_final.jsonl
+
+🏆 Result for Exp 6 (fixed_rr): WER = 173.27% | Time: 18.24s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_4/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 15840.95it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_7/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_7/asr_candidates.jsonl --out ./results/halas_full/exp_7/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_7/asr_final.jsonl
+
+🏆 Result for Exp 7 (two_stage_mbr): WER = 54.96% | Time: 19.79s
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=map | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_8/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_8/asr_candidates.jsonl --out ./results/halas_full/exp_8/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_8/asr_final.jsonl
+
+🏆 Result for Exp 8 (map): WER = 91.83% | Time: 2.18s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_8/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_9/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_9/asr_candidates.jsonl --out ./results/halas_full/exp_9/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_9/asr_final.jsonl
+
+🏆 Result for Exp 9 (mbr): WER = 68.90% | Time: 2.67s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_8/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 18571.54it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_10/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_10/asr_candidates.jsonl --out ./results/halas_full/exp_10/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_10/asr_final.jsonl
+
+🏆 Result for Exp 10 (fixed_rr): WER = 295.60% | Time: 16.25s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_8/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 17476.63it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_11/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_11/asr_candidates.jsonl --out ./results/halas_full/exp_11/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_11/asr_final.jsonl
+
+🏆 Result for Exp 11 (two_stage_mbr): WER = 68.90% | Time: 16.38s
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/479 [00:00<?, ?it/s]
+Loading weights:   0%|          | 2/479 [00:00<01:10,  6.77it/s]
+Loading weights:   9%|▊         | 41/479 [00:00<00:05, 77.54it/s]
+Loading weights:  11%|█▏        | 55/479 [00:00<00:05, 74.47it/s]
+Loading weights:  13%|█▎        | 63/479 [00:00<00:05, 72.66it/s]
+Loading weights:  15%|█▍        | 71/479 [00:01<00:08, 49.48it/s]
+Loading weights:  21%|██        | 99/479 [00:01<00:04, 78.33it/s]
+Loading weights:  23%|██▎       | 108/479 [00:01<00:05, 72.23it/s]
+Loading weights:  25%|██▌       | 122/479 [00:01<00:05, 60.96it/s]
+Loading weights:  30%|██▉       | 143/479 [00:02<00:04, 70.18it/s]
+Loading weights:  32%|███▏      | 151/479 [00:02<00:05, 62.97it/s]
+Loading weights:  35%|███▍      | 166/479 [00:02<00:04, 72.65it/s]
+Loading weights:  36%|███▋      | 174/479 [00:02<00:04, 64.45it/s]
+Loading weights:  39%|███▉      | 188/479 [00:02<00:04, 70.54it/s]
+Loading weights:  41%|████      | 196/479 [00:03<00:04, 60.80it/s]
+Loading weights:  45%|████▍     | 214/479 [00:03<00:03, 74.60it/s]
+Loading weights:  46%|████▋     | 222/479 [00:03<00:03, 64.96it/s]
+Loading weights:  48%|████▊     | 231/479 [00:03<00:04, 54.06it/s]
+Loading weights:  51%|█████     | 245/479 [00:03<00:03, 58.77it/s]
+Loading weights:  53%|█████▎    | 255/479 [00:04<00:04, 50.28it/s]
+Loading weights:  62%|██████▏   | 296/479 [00:04<00:01, 102.05it/s]
+Loading weights:  65%|██████▍   | 309/479 [00:04<00:01, 86.27it/s] 
+Loading weights:  67%|██████▋   | 321/479 [00:04<00:01, 83.19it/s]
+Loading weights:  69%|██████▉   | 331/479 [00:05<00:03, 45.25it/s]
+Loading weights:  71%|███████▏  | 342/479 [00:05<00:03, 42.48it/s]
+Loading weights:  76%|███████▋  | 366/479 [00:05<00:02, 51.96it/s]
+Loading weights:  78%|███████▊  | 376/479 [00:06<00:02, 50.37it/s]
+Loading weights:  81%|████████  | 389/479 [00:06<00:01, 59.92it/s]
+Loading weights:  83%|████████▎ | 399/479 [00:06<00:01, 65.83it/s]
+Loading weights:  85%|████████▌ | 408/479 [00:06<00:01, 66.10it/s]
+Loading weights:  87%|████████▋ | 416/479 [00:06<00:01, 52.71it/s]
+Loading weights:  90%|█████████ | 432/479 [00:06<00:00, 62.11it/s]
+Loading weights:  96%|█████████▌| 458/479 [00:06<00:00, 97.49it/s]
+Loading weights:  98%|█████████▊| 471/479 [00:07<00:00, 95.02it/s]
+Loading weights: 100%|██████████| 479/479 [00:07<00:00, 67.23it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/halas/audio --out ./results/halas_full/exp_12/asr_candidates.jsonl --algos beam,dbs --beam_size 8 --limit 0 --ckpt openai/whisper-small --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_12/asr_candidates.jsonl --out ./results/halas_full/exp_12/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_12/asr_final.jsonl
+
+🏆 Result for Exp 12 (map): WER = 181.23% | Time: 18964.52s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_12/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_13/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_13/asr_candidates.jsonl --out ./results/halas_full/exp_13/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_13/asr_final.jsonl
+
+🏆 Result for Exp 13 (mbr): WER = 139.70% | Time: 3.22s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_12/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 10305.92it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_14/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_14/asr_candidates.jsonl --out ./results/halas_full/exp_14/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_14/asr_final.jsonl
+
+🏆 Result for Exp 14 (fixed_rr): WER = 2855.99% | Time: 126.36s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_12/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-small | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 25282.05it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_15/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_15/asr_candidates.jsonl --out ./results/halas_full/exp_15/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_15/asr_final.jsonl
+
+🏆 Result for Exp 15 (two_stage_mbr): WER = 139.70% | Time: 20.31s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:   2%|▏         | 25/1259 [00:00<00:14, 86.55it/s]
+Loading weights:   3%|▎         | 34/1259 [00:01<00:42, 28.68it/s]
+Loading weights:   4%|▎         | 46/1259 [00:01<00:31, 38.72it/s]
+Loading weights:   4%|▍         | 53/1259 [00:01<00:32, 37.42it/s]
+Loading weights:   5%|▌         | 64/1259 [00:01<00:28, 41.49it/s]
+Loading weights:   6%|▌         | 70/1259 [00:02<00:45, 25.96it/s]
+Loading weights:   7%|▋         | 85/1259 [00:02<00:28, 40.61it/s]
+Loading weights:   7%|▋         | 93/1259 [00:02<00:42, 27.76it/s]
+Loading weights:   8%|▊         | 100/1259 [00:03<00:41, 28.15it/s]
+Loading weights:   8%|▊         | 105/1259 [00:03<00:38, 29.70it/s]
+Loading weights:   9%|▊         | 110/1259 [00:03<00:40, 28.46it/s]
+Loading weights:  10%|▉         | 121/1259 [00:03<00:36, 31.02it/s]
+Loading weights:  10%|█         | 132/1259 [00:04<00:45, 24.88it/s]
+Loading weights:  11%|█         | 136/1259 [00:04<00:45, 24.55it/s]
+Loading weights:  11%|█         | 139/1259 [00:04<00:55, 20.06it/s]
+Loading weights:  11%|█▏        | 142/1259 [00:04<00:56, 19.69it/s]
+Loading weights:  12%|█▏        | 147/1259 [00:05<00:56, 19.78it/s]
+Loading weights:  12%|█▏        | 151/1259 [00:05<00:51, 21.63it/s]
+Loading weights:  14%|█▎        | 170/1259 [00:05<00:26, 41.35it/s]
+Loading weights:  14%|█▍        | 175/1259 [00:05<00:31, 34.33it/s]
+Loading weights:  15%|█▍        | 185/1259 [00:05<00:24, 43.57it/s]
+Loading weights:  15%|█▌        | 191/1259 [00:06<00:37, 28.53it/s]
+Loading weights:  16%|█▌        | 202/1259 [00:06<00:45, 23.28it/s]
+Loading weights:  16%|█▋        | 206/1259 [00:07<00:55, 18.83it/s]
+Loading weights:  18%|█▊        | 230/1259 [00:07<00:29, 34.95it/s]
+Loading weights:  19%|█▊        | 235/1259 [00:08<00:49, 20.53it/s]
+Loading weights:  20%|█▉        | 247/1259 [00:08<00:39, 25.55it/s]
+Loading weights:  20%|█▉        | 251/1259 [00:08<00:38, 25.99it/s]
+Loading weights:  20%|██        | 255/1259 [00:09<00:41, 24.35it/s]
+Loading weights:  21%|██        | 259/1259 [00:09<00:54, 18.50it/s]
+Loading weights:  22%|██▏       | 271/1259 [00:09<00:43, 22.86it/s]
+Loading weights:  22%|██▏       | 280/1259 [00:10<00:48, 20.08it/s]
+Loading weights:  22%|██▏       | 283/1259 [00:10<00:46, 20.99it/s]
+Loading weights:  24%|██▎       | 299/1259 [00:10<00:34, 27.74it/s]
+Loading weights:  24%|██▍       | 305/1259 [00:11<00:31, 30.76it/s]
+Loading weights:  25%|██▍       | 309/1259 [00:11<00:32, 28.99it/s]
+Loading weights:  25%|██▍       | 313/1259 [00:11<00:37, 25.07it/s]
+Loading weights:  25%|██▌       | 319/1259 [00:11<00:44, 21.12it/s]
+Loading weights:  26%|██▌       | 326/1259 [00:11<00:36, 25.74it/s]
+Loading weights:  27%|██▋       | 339/1259 [00:12<00:24, 37.98it/s]
+Loading weights:  27%|██▋       | 344/1259 [00:12<00:33, 27.00it/s]
+Loading weights:  28%|██▊       | 348/1259 [00:13<00:50, 18.06it/s]
+Loading weights:  28%|██▊       | 355/1259 [00:13<00:45, 19.73it/s]
+Loading weights:  28%|██▊       | 358/1259 [00:13<00:58, 15.30it/s]
+Loading weights:  29%|██▊       | 361/1259 [00:14<01:20, 11.12it/s]
+Loading weights:  29%|██▉       | 365/1259 [00:14<01:26, 10.36it/s]
+Loading weights:  30%|██▉       | 372/1259 [00:15<01:10, 12.59it/s]
+Loading weights:  30%|██▉       | 377/1259 [00:15<01:00, 14.62it/s]
+Loading weights:  30%|███       | 383/1259 [00:15<00:55, 15.90it/s]
+Loading weights:  31%|███       | 385/1259 [00:15<01:03, 13.83it/s]
+Loading weights:  31%|███       | 387/1259 [00:16<01:01, 14.19it/s]
+Loading weights:  32%|███▏      | 408/1259 [00:16<00:20, 41.86it/s]
+Loading weights:  33%|███▎      | 416/1259 [00:16<00:22, 36.70it/s]
+Loading weights:  34%|███▎      | 422/1259 [00:16<00:26, 31.99it/s]
+Loading weights:  34%|███▍      | 427/1259 [00:16<00:29, 28.65it/s]
+Loading weights:  34%|███▍      | 432/1259 [00:17<00:37, 22.05it/s]
+Loading weights:  35%|███▍      | 440/1259 [00:17<00:33, 24.48it/s]
+Loading weights:  36%|███▌      | 447/1259 [00:18<00:35, 22.71it/s]
+Loading weights:  36%|███▌      | 451/1259 [00:18<00:33, 24.41it/s]
+Loading weights:  36%|███▌      | 455/1259 [00:18<00:41, 19.38it/s]
+Loading weights:  37%|███▋      | 466/1259 [00:18<00:33, 23.66it/s]
+Loading weights:  37%|███▋      | 470/1259 [00:18<00:31, 25.38it/s]
+Loading weights:  38%|███▊      | 477/1259 [00:19<00:30, 25.71it/s]
+Loading weights:  39%|███▊      | 487/1259 [00:19<00:22, 34.86it/s]
+Loading weights:  40%|████      | 507/1259 [00:19<00:18, 40.83it/s]
+Loading weights:  41%|████      | 513/1259 [00:20<00:21, 33.99it/s]
+Loading weights:  41%|████      | 517/1259 [00:20<00:29, 25.41it/s]
+Loading weights:  42%|████▏     | 526/1259 [00:20<00:29, 24.75it/s]
+Loading weights:  43%|████▎     | 544/1259 [00:21<00:20, 34.17it/s]
+Loading weights:  44%|████▎     | 548/1259 [00:21<00:23, 30.13it/s]
+Loading weights:  44%|████▍     | 552/1259 [00:21<00:32, 21.72it/s]
+Loading weights:  44%|████▍     | 558/1259 [00:22<00:40, 17.40it/s]
+Loading weights:  46%|████▌     | 573/1259 [00:22<00:28, 24.09it/s]
+Loading weights:  47%|████▋     | 597/1259 [00:22<00:15, 43.51it/s]
+Loading weights:  48%|████▊     | 604/1259 [00:23<00:19, 33.62it/s]
+Loading weights:  48%|████▊     | 610/1259 [00:23<00:23, 28.13it/s]
+Loading weights:  50%|████▉     | 624/1259 [00:24<00:25, 24.88it/s]
+Loading weights:  50%|█████     | 631/1259 [00:24<00:22, 27.37it/s]
+Loading weights:  51%|█████     | 638/1259 [00:24<00:19, 31.32it/s]
+Loading weights:  51%|█████     | 643/1259 [00:25<00:24, 24.84it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:25<00:00, 50.21it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/halas/audio --out ./results/halas_full/exp_16/asr_candidates.jsonl --algos beam,nucleus --beam_size 4 --limit 0 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_16/asr_candidates.jsonl --out ./results/halas_full/exp_16/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_16/asr_final.jsonl
+
+🏆 Result for Exp 16 (map): WER = 55.36% | Time: 2073.50s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_16/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_17/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_17/asr_candidates.jsonl --out ./results/halas_full/exp_17/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_17/asr_final.jsonl
+
+🏆 Result for Exp 17 (mbr): WER = 40.01% | Time: 3.06s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_16/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 20326.83it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_18/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_18/asr_candidates.jsonl --out ./results/halas_full/exp_18/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_18/asr_final.jsonl
+
+🏆 Result for Exp 18 (fixed_rr): WER = 58.69% | Time: 17.76s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_16/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 19428.37it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_19/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_19/asr_candidates.jsonl --out ./results/halas_full/exp_19/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_19/asr_final.jsonl
+
+🏆 Result for Exp 19 (two_stage_mbr): WER = 39.87% | Time: 18.80s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:  37%|███▋      | 471/1259 [00:00<00:00, 4706.81it/s]
+Loading weights:  75%|███████▍  | 942/1259 [00:00<00:00, 3888.05it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:00<00:00, 3852.83it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/halas/audio --out ./results/halas_full/exp_20/asr_candidates.jsonl --algos beam,nucleus --beam_size 8 --limit 0 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_20/asr_candidates.jsonl --out ./results/halas_full/exp_20/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_20/asr_final.jsonl
+
+🏆 Result for Exp 20 (map): WER = 122.04% | Time: 3712.79s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_20/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_21/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_21/asr_candidates.jsonl --out ./results/halas_full/exp_21/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_21/asr_final.jsonl
+
+🏆 Result for Exp 21 (mbr): WER = 40.39% | Time: 3.45s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_20/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 13225.43it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_22/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_22/asr_candidates.jsonl --out ./results/halas_full/exp_22/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_22/asr_final.jsonl
+
+🏆 Result for Exp 22 (fixed_rr): WER = 127.14% | Time: 112.96s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_20/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 20456.54it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_23/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_23/asr_candidates.jsonl --out ./results/halas_full/exp_23/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_23/asr_final.jsonl
+
+🏆 Result for Exp 23 (two_stage_mbr): WER = 40.39% | Time: 17.48s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:   1%|          | 12/1259 [00:00<01:16, 16.32it/s]
+Loading weights:   1%|          | 14/1259 [00:00<01:23, 14.97it/s]
+Loading weights:   2%|▏         | 19/1259 [00:01<01:11, 17.44it/s]
+Loading weights:   3%|▎         | 37/1259 [00:01<00:34, 35.29it/s]
+Loading weights:   3%|▎         | 41/1259 [00:01<00:43, 28.23it/s]
+Loading weights:   5%|▍         | 57/1259 [00:01<00:28, 41.99it/s]
+Loading weights:   5%|▍         | 62/1259 [00:02<00:29, 40.21it/s]
+Loading weights:   6%|▌         | 70/1259 [00:02<00:53, 22.19it/s]
+Loading weights:   7%|▋         | 86/1259 [00:03<00:49, 23.63it/s]
+Loading weights:   7%|▋         | 91/1259 [00:03<00:46, 24.89it/s]
+Loading weights:  10%|▉         | 120/1259 [00:03<00:22, 50.57it/s]
+Loading weights:  10%|█         | 129/1259 [00:04<00:37, 30.51it/s]
+Loading weights:  11%|█         | 135/1259 [00:04<00:34, 32.50it/s]
+Loading weights:  12%|█▏        | 146/1259 [00:04<00:34, 31.88it/s]
+Loading weights:  12%|█▏        | 151/1259 [00:05<00:32, 33.69it/s]
+Loading weights:  13%|█▎        | 160/1259 [00:05<00:37, 28.96it/s]
+Loading weights:  14%|█▍        | 177/1259 [00:05<00:30, 35.29it/s]
+Loading weights:  15%|█▍        | 184/1259 [00:06<00:31, 34.07it/s]
+Loading weights:  15%|█▍        | 188/1259 [00:06<00:31, 34.45it/s]
+Loading weights:  15%|█▌        | 192/1259 [00:06<00:44, 23.97it/s]
+Loading weights:  16%|█▌        | 199/1259 [00:06<00:37, 28.19it/s]
+Loading weights:  16%|█▌        | 203/1259 [00:07<00:48, 21.79it/s]
+Loading weights:  17%|█▋        | 210/1259 [00:07<00:39, 26.70it/s]
+Loading weights:  17%|█▋        | 220/1259 [00:07<00:31, 32.92it/s]
+Loading weights:  18%|█▊        | 227/1259 [00:07<00:33, 30.47it/s]
+Loading weights:  19%|█▉        | 244/1259 [00:07<00:23, 42.31it/s]
+Loading weights:  20%|█▉        | 249/1259 [00:08<00:31, 32.02it/s]
+Loading weights:  20%|██        | 253/1259 [00:08<00:30, 32.97it/s]
+Loading weights:  21%|██        | 263/1259 [00:08<00:23, 42.06it/s]
+Loading weights:  21%|██▏       | 268/1259 [00:08<00:33, 29.34it/s]
+Loading weights:  22%|██▏       | 276/1259 [00:09<00:35, 27.34it/s]
+Loading weights:  22%|██▏       | 280/1259 [00:09<00:46, 20.93it/s]
+Loading weights:  22%|██▏       | 283/1259 [00:09<00:46, 21.01it/s]
+Loading weights:  23%|██▎       | 288/1259 [00:09<00:41, 23.64it/s]
+Loading weights:  23%|██▎       | 291/1259 [00:10<01:01, 15.87it/s]
+Loading weights:  24%|██▍       | 305/1259 [00:10<00:31, 30.45it/s]
+Loading weights:  25%|██▍       | 311/1259 [00:10<00:45, 20.95it/s]
+Loading weights:  25%|██▌       | 315/1259 [00:11<00:43, 21.52it/s]
+Loading weights:  25%|██▌       | 319/1259 [00:11<00:43, 21.47it/s]
+Loading weights:  26%|██▋       | 331/1259 [00:11<00:28, 32.98it/s]
+Loading weights:  28%|██▊       | 348/1259 [00:11<00:17, 50.87it/s]
+Loading weights:  28%|██▊       | 355/1259 [00:11<00:22, 39.90it/s]
+Loading weights:  29%|██▉       | 363/1259 [00:12<00:29, 30.09it/s]
+Loading weights:  29%|██▉       | 370/1259 [00:12<00:35, 24.96it/s]
+Loading weights:  30%|██▉       | 374/1259 [00:12<00:34, 25.81it/s]
+Loading weights:  30%|███       | 380/1259 [00:13<00:49, 17.88it/s]
+Loading weights:  31%|███       | 387/1259 [00:13<00:45, 19.30it/s]
+Loading weights:  31%|███       | 391/1259 [00:13<00:42, 20.21it/s]
+Loading weights:  31%|███▏      | 394/1259 [00:14<00:58, 14.66it/s]
+Loading weights:  33%|███▎      | 415/1259 [00:14<00:27, 30.16it/s]
+Loading weights:  33%|███▎      | 419/1259 [00:15<00:34, 24.09it/s]
+Loading weights:  34%|███▎      | 422/1259 [00:15<00:39, 21.26it/s]
+Loading weights:  34%|███▍      | 425/1259 [00:16<01:18, 10.64it/s]
+Loading weights:  34%|███▍      | 427/1259 [00:16<01:15, 10.99it/s]
+Loading weights:  35%|███▍      | 439/1259 [00:16<00:45, 18.00it/s]
+Loading weights:  35%|███▌      | 442/1259 [00:17<00:55, 14.83it/s]
+Loading weights:  36%|███▌      | 453/1259 [00:17<00:41, 19.19it/s]
+Loading weights:  37%|███▋      | 461/1259 [00:17<00:36, 21.73it/s]
+Loading weights:  37%|███▋      | 470/1259 [00:17<00:29, 27.17it/s]
+Loading weights:  38%|███▊      | 476/1259 [00:18<00:27, 28.09it/s]
+Loading weights:  38%|███▊      | 480/1259 [00:18<00:27, 28.08it/s]
+Loading weights:  38%|███▊      | 484/1259 [00:18<00:37, 20.40it/s]
+Loading weights:  39%|███▉      | 488/1259 [00:19<00:46, 16.67it/s]
+Loading weights:  40%|████      | 504/1259 [00:19<00:41, 18.28it/s]
+Loading weights:  41%|████      | 513/1259 [00:20<00:32, 23.16it/s]
+Loading weights:  41%|████      | 517/1259 [00:20<00:32, 22.90it/s]
+Loading weights:  42%|████▏     | 528/1259 [00:20<00:30, 24.26it/s]
+Loading weights:  43%|████▎     | 539/1259 [00:21<00:26, 26.68it/s]
+Loading weights:  43%|████▎     | 546/1259 [00:21<00:29, 24.32it/s]
+Loading weights:  44%|████▎     | 550/1259 [00:21<00:27, 25.96it/s]
+Loading weights:  44%|████▍     | 558/1259 [00:21<00:28, 24.29it/s]
+Loading weights:  45%|████▍     | 561/1259 [00:22<00:34, 20.06it/s]
+Loading weights:  45%|████▌     | 568/1259 [00:22<00:26, 25.95it/s]
+Loading weights:  47%|████▋     | 586/1259 [00:22<00:17, 38.46it/s]
+Loading weights:  47%|████▋     | 594/1259 [00:22<00:18, 35.36it/s]
+Loading weights:  47%|████▋     | 598/1259 [00:22<00:18, 34.99it/s]
+Loading weights:  49%|████▊     | 611/1259 [00:23<00:18, 34.86it/s]
+Loading weights:  49%|████▉     | 622/1259 [00:23<00:14, 45.07it/s]
+Loading weights:  51%|█████     | 637/1259 [00:23<00:13, 47.28it/s]
+Loading weights:  52%|█████▏    | 651/1259 [00:23<00:12, 48.46it/s]
+Loading weights:  53%|█████▎    | 670/1259 [00:24<00:09, 60.94it/s]
+Loading weights:  54%|█████▍    | 678/1259 [00:24<00:11, 51.07it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:24<00:00, 51.38it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/halas/audio --out ./results/halas_full/exp_24/asr_candidates.jsonl --algos beam,dbs --beam_size 4 --limit 0 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_24/asr_candidates.jsonl --out ./results/halas_full/exp_24/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_24/asr_final.jsonl
+
+🏆 Result for Exp 24 (map): WER = 55.36% | Time: 2931.30s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_24/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_25/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_25/asr_candidates.jsonl --out ./results/halas_full/exp_25/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_25/asr_final.jsonl
+
+🏆 Result for Exp 25 (mbr): WER = 42.81% | Time: 1.94s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_24/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 20409.50it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_26/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_26/asr_candidates.jsonl --out ./results/halas_full/exp_26/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_26/asr_final.jsonl
+
+🏆 Result for Exp 26 (fixed_rr): WER = 98.86% | Time: 13.34s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_24/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=4 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 18186.54it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_27/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_27/asr_candidates.jsonl --out ./results/halas_full/exp_27/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_27/asr_final.jsonl
+
+🏆 Result for Exp 27 (two_stage_mbr): WER = 42.81% | Time: 13.92s
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=map | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/1259 [00:00<?, ?it/s]
+Loading weights:  46%|████▌     | 579/1259 [00:00<00:00, 5773.02it/s]
+Loading weights:  92%|█████████▏| 1157/1259 [00:00<00:00, 4393.18it/s]
+Loading weights: 100%|██████████| 1259/1259 [00:00<00:00, 4493.36it/s]
+The following generation flags are not valid and may be ignored: ['output_scores']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_gen.py --dir ./data/halas/audio --out ./results/halas_full/exp_28/asr_candidates.jsonl --algos beam,dbs --beam_size 8 --limit 0 --ckpt openai/whisper-large-v3 --model_type whisper
+
+--- STAGE 3: Reranking using MAP ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_28/asr_candidates.jsonl --out ./results/halas_full/exp_28/asr_final.jsonl --algo map --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_28/asr_final.jsonl
+
+🏆 Result for Exp 28 (map): WER = 122.04% | Time: 10531.07s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_28/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=mbr | Metric=wer
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_29/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_29/asr_candidates.jsonl --out ./results/halas_full/exp_29/asr_final.jsonl --algo mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_29/asr_final.jsonl
+
+🏆 Result for Exp 29 (mbr): WER = 79.41% | Time: 2.40s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_28/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=fixed_rr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 35297.90it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_30/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using FIXED_RR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_30/asr_candidates.jsonl --out ./results/halas_full/exp_30/asr_final.jsonl --algo fixed_rr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_30/asr_final.jsonl
+
+🏆 Result for Exp 30 (fixed_rr): WER = 1426.83% | Time: 15.00s
+
+=> [CACHE HIT] Copying pre-generated candidates from ./results/halas_full/exp_28/asr_candidates.jsonl
+
+=> Running Sweep Config: Model=openai/whisper-large-v3 | Beam=8 | Rerank=two_stage_mbr | Metric=wer
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 201/201 [00:00<00:00, 23656.07it/s]
+[1mNoRefER LOAD REPORT[0m from: aixplain/NoRefER
+Key                             | Status     |  | 
+--------------------------------+------------+--+-
+roberta.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+--- STAGE 1: Generating Diverse Candidates for ASR ---
+
+--- STAGE 1: SKIPPED (Candidates already exist at ./results/halas_full/exp_31/asr_candidates.jsonl) ---
+
+--- STAGE 3: Reranking using TWO_STAGE_MBR ---
+
+🚀 Running: /cfs/home/u036675/.pyenv/versions/3.12.3/bin/python asr_rerank.py --inp ./results/halas_full/exp_31/asr_candidates.jsonl --out ./results/halas_full/exp_31/asr_final.jsonl --algo two_stage_mbr --mbr_metric wer
+
+✅ Pipeline Complete! Final outputs saved to: ./results/halas_full/exp_31/asr_final.jsonl
+
+🏆 Result for Exp 31 (two_stage_mbr): WER = 79.41% | Time: 15.48s
+
+✅ All sweeps complete. Summary saved to ./results/halas_full/asr_sweep_summary.json
